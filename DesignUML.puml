@@ -1,0 +1,109 @@
+@startuml
+
+class CreateInterestActivity{}
+class CreateInterestRequest{}
+class CreateInterestResult{}
+class InterestModel{}
+
+class GetInterestActivity{}
+class GetInterestRequest{}
+class GetInterestResult{}
+
+class UpdatedInterestActivity{}
+class UpdatedInterestRequest{}
+class UpdatedInterestResult{}
+
+class InterestDAO{}
+
+class Interest
+
+class GetInterestCommentsActivity{}
+class GetInterestCommentsRequest{}
+class GetInterestCommentsResult{}
+
+class AddCommentToInterestActivity{}
+class AddCommentToInterestRequest{}
+class AddCommentToInterestResult{}
+
+class CommentDAO{}
+class Comment{}
+
+class CommentModel{}
+
+class RemoveInterestCommentActivity{}
+class RemoveInterestCommentRequest{}
+class RemoveInterestCommentResult{}
+
+class UpdateInterestCommentActivity{}
+class UpdateInterestCommentRequest{}
+class UpdateInterestCommentResult{}
+
+
+class CreateUserProfileActivity{}
+class CreateUserProfileRequest{}
+class CreateUserProfileResponse{}
+
+class GetUserProfileActivity{}
+class GetUserProfileRequest{}
+class GetUserProfileResponse{}
+
+class UserProfileDAO{}
+
+class UserProfileModel{}
+
+
+CreateInterestActivity <--- CreateInterestRequest
+CreateInterestRequest <--- InterestDAO
+CreateInterestRequest <--- CreateInterestResult
+CreateInterestResult <--> InterestDAO
+
+GetInterestActivity <--- GetInterestRequest
+GetInterestRequest <--- GetInterestResult
+GetInterestRequest <-- InterestDAO
+GetInterestResult <--> InterestDAO
+
+InterestDAO <--> InterestModel
+
+GetInterestCommentsActivity <--- GetInterestCommentsRequest
+GetInterestCommentsRequest <--- GetInterestCommentsResult
+GetInterestCommentsRequest <--- CommentDAO
+GetInterestCommentsResult <--> CommentDAO
+CommentDAO <--- CommentModel
+
+UpdatedInterestActivity <--- UpdatedInterestRequest
+UpdatedInterestRequest <--- UpdatedInterestResult
+UpdatedInterestRequest <--- InterestDAO
+UpdatedInterestResult <--> InterestDAO
+
+AddCommentToInterestActivity <--- AddCommentToInterestRequest
+AddCommentToInterestRequest <--- AddCommentToInterestResult
+AddCommentToInterestRequest <--- InterestDAO
+AddCommentToInterestResult <---> InterestDAO
+AddCommentToInterestRequest <-- CommentDAO
+AddCommentToInterestResult <--> CommentDAO
+
+CreateUserProfileActivity <--- CreateUserProfileRequest
+CreateUserProfileRequest <--- CreateUserProfileResponse
+CreateUserProfileRequest <--- UserProfileDAO
+CreateUserProfileResponse <--> UserProfileDAO
+
+UserProfileDAO <--- UserProfileModel
+
+GetUserProfileActivity <--- GetUserProfileRequest
+GetUserProfileRequest <--- GetUserProfileResponse
+GetUserProfileRequest <-- UserProfileDAO
+GetUserProfileResponse <--> UserProfileDAO
+
+RemoveInterestCommentActivity <--- RemoveInterestCommentRequest
+RemoveInterestCommentRequest <--- RemoveInterestCommentResult
+RemoveInterestCommentRequest <--- CommentDAO
+RemoveInterestCommentRequest <--- InterestDAO
+RemoveInterestCommentResult <--> CommentDAO
+RemoveInterestCommentResult <--> InterestDAO
+
+UpdateInterestCommentActivity <--- UpdateInterestCommentRequest
+UpdatedInterestRequest <--- UpdateInterestCommentResult
+UpdatedInterestRequest <--- InterestDAO
+UpdatedInterestResult <--> InterestDAO
+
+@enduml
