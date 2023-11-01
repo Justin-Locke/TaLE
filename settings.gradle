@@ -8,4 +8,4 @@
  */
 
 rootProject.name = 'TaLE'
-include('app')
+include('TaLELambda')
