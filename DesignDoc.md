@@ -192,4 +192,4 @@ commentId // sort key, String
 ```
 
 ## 8. Page StoryBoard
-[WIP]
+https://jamboard.google.com/d/1prLky1BS2srtXpiuCZ2VfMakW7GIuqDa_St4iXmk0Hc/viewer?f=0
