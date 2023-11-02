@@ -47,17 +47,18 @@ TaLE is an application to provide travelers with information on activities in a 
 I will use API Gateway and AWS Lambda to create the following endpoints:
 - CreateActivity
 - GetActivity
-- GetActivities
+- GetAllUserActivities
 - UpdateActivity
+- DeleteActivity
 - AddActivityComment
+- GetActivityComment
+- GetAllUserComments
 - UpdateActivityComment
-- RemoveActivityComment
-- GetUserProfile
-- UpdateUserProfile
+- DeleteActivityComment
 
 Stretch Goal:
 
-I will store Activity and Profile data in separate DynamoDB tables.
+I will store Activity and Comment data in separate DynamoDB tables.
 I will store Cities and Activity Data in separate tables.
 
 ## 6. API
@@ -66,8 +67,13 @@ I will store Cities and Activity Data in separate tables.
 // ActivityModel
 
 String activityId
+String userId
 String activityName
+String description
 String website
+String Location
+LocalDate postedDate
+
 List<Comments> comments
 
 ```
@@ -82,21 +88,13 @@ List<ActivityId> String
 ```
 
 ```
-// UserModel
-
-String userId
-String userName
-List<ActivityId>
-List<Comments>
-
-```
-
-```
 // CommentModel
 
-String posterId
-String posterUserName
+String userId
+String commentId
+String title
 String message
+LocalDate datePosted
 
 ```
 
@@ -105,7 +103,7 @@ Optional Model:
 // StateModel
 
 Enum State
-List<City>
+List<CityIds>
 
 ```
 
@@ -113,48 +111,48 @@ List<City>
 
 #### 6.2.0 Create Activity Endpoint
 - Accepts ```POST``` requests to ```
-  /cityId/activities```
-- Accepts data to create a new Activity with a provided UserId, Activity Name, and an Overview. Returns the new Activity, including an ActivityId assigned by the service.
+  /cities/{cityId}/activities```
+- UserId from Cognito.
+- Accepts data to create a new Activity with a provided UserId, Activity Name, and an Overview. 
+- Returns the new Activity, including an ActivityId assigned by the service.
 
 #### 6.2.1 Get Single Activity Endpoint
-- Accepts ```GET``` requests to ```/cityId/activities/:activityId```
-- Take the ```activityId``` from the request
+- Accepts ```GET``` requests to ```/activities/{activityId}```
 - Accepts an activityId and returns the corresponding ActivityModel.
 
 #### 6.2.2 Get All Activities by Poster Endpoint
-- Accepts ```GET``` requests to ```/profile/:```
+- Accepts ```GET``` requests to ```/activites```
 - Take the userId from cognito.
 - Accepts a userId and return the corresponding list of ActivityModels.
 
 #### 6.2.3 Delete Activity Endpoint
-- Accepts a ```DELETE``` request to ```/cityId/activities/:activityId```
+- Accepts a ```DELETE``` request to ```/activities/{activityId}```
 - Take the userId from cognito
 - Accepts an ActivityID and returns the corresponding Deleted ActivityModel.
 
 #### 6.2.4 Update Activity Endpoint
-- Accepts a ```PUT``` requests to ```/cityId/activities/:activityId```
+- Accepts a ```PUT``` requests to ```/activities/{activityId}```
 - Take the userId from cognito
 - Accepts data to update an Activity including an updated Overview, WebsiteAddress, etc... returns the updated Activity.
 - Throws ```UnaughorizedUserException``` if attempted to be updated by an unauthorized User.
 
 #### 6.2.5 Add Comment Endpoint
-- Accepts ```POST``` request to ```/:cityId/activities/:activityId```
+- Accepts ```POST``` request to ```/activities/{activityId}/comments```
 - Takes ```UserId``` from cognito
 - Accepts data to add a comment on an Activity. Returns the Comment.
 
 #### 6.2.6 Update Comment Endpoint
-- Accepts ```PUT``` request to ```/:cityId/activities/:activityId```
+- Accepts ```PUT``` request to ```/comments/{commentId}```
 - Takes ```UserId``` from cognito
-- Takes commentId from comment?
+- Takes commentId.
 - Accepts data to update comment. Returns updated Comment.
 - Throws ```UnauthorizedUserException``` if attempted to be updated by an unauthorized user.
 
-#### 6.2.7 Get User Profile Endpoint
-- Accepts ```GET``` request to ```/profiles/:userId```
-- Accepts a ```UserId``` and return the corresponding UserModel.
+#### 6.2.7 Get All Poster Comments Endpoint
+- Accepts ```GET``` request to ```/comments```
+- Takes userId from Cognito.
+- Returns list of Comments associated with User.
 
-#### 6.2.8 Create User Profile Endpoint
-- Accepts ```GET``` request to /profiles```
 ## 7.  Tables
 
 ### 7.1 `activities`
@@ -162,6 +160,12 @@ List<City>
 activityId // partition key, string
 userId // String
 commentIds // List of Strings of commentIds
+Description // String
+Website // String
+Location // String
+Date Posted // LocalDate
+Poster Experience // String
+
 
 ```
 
@@ -175,20 +179,25 @@ cityName // String
 ### 7.3 `comments`
 ```
 commentId // partition key, String
+title // String
 message // String
 userId // String
+DatePosted // LocalDate
 ```
 
 ### 7.4 `ActivitiesByUser` GSI Table
 ```
 userId // partition key, String
 activityId // sort key, String
+activityName // String
 ```
 
 ### 7.5 `CommentsByUser` GSI Table
 ```
 userId // partition key, String
 commentId // sort key, String
+title // String
+message // String
 ```
 
 ## 8. Page StoryBoard
