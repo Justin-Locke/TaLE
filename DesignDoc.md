@@ -92,6 +92,7 @@ List<ActivityId> String
 ```
 // CommentModel
 
+String activityId
 String userId
 String commentId
 String title
@@ -144,7 +145,7 @@ List<CityIds>
 - Accepts data to add a comment on an Activity. Returns the Comment.
 
 #### 6.2.6 Update Comment Endpoint
-- Accepts ```PUT``` request to ```/comments/{commentId}```
+- Accepts ```PUT``` request to ```/activities/{activityId}/comments/{commentId}```
 - Takes ```UserId``` from cognito
 - Takes commentId.
 - Accepts data to update comment. Returns updated Comment.
@@ -156,16 +157,16 @@ List<CityIds>
 - Returns list of Comments associated with User.
 
 #### 6.2.8 Get A Single Comment Endpoint
-- Accepts ```GET``` request to ```/comments/{commentId}```
+- Accepts ```GET``` request to ```/activities/{activityId}/comments/{commentId}```
 - Returns associated comment with commentId
 - Throws ```InvalidCommentIdException``` if comment does not exist.
 
 #### 6.2.9 Delete a Single Comment Endpoint
-- Accepts ```DELETE``` request to ```/comments/{commentId}```
+- Accepts ```DELETE``` request to ```/activities/{activityId}/comments/{commentId}```
 - Deletes associated comment with commentID
 
 ### 6.2.10 Get All Activities For City Endpoint
--Accepts ```GET``` request to ```/cities/{cityId]```
+-Accepts ```GET``` request to ```/cities/{cityId}```
 - Accepts the cityId and returns all Associated Activity Names with City.
 - Throw ```InvalidActivityIdException``` if the called activity Id does not exist.
 
@@ -175,11 +176,11 @@ List<CityIds>
 ```
 activityId // partition key, string
 userId // String
-commentIds // List of Strings of commentIds
 Description // String
 Website // String
 Location // String
 Date Posted // LocalDate
+edited // Bool
 Poster Experience // String
 
 
@@ -194,7 +195,8 @@ cityName // String
 
 ### 7.3 `comments`
 ```
-commentId // partition key, String
+activityId // partition key, String
+commentId // Sort key, String
 title // String
 message // String
 userId // String
