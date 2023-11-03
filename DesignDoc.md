@@ -3,7 +3,9 @@
 
 ## 1. Problem Statement
 
-TaLE is an application to provide travelers with information on activities in a given city.
+TaLE, or "Travel a Local Experience," is an innovative app that empowers users to share and discover unique activities in various cities. 
+With TaLE, individuals can post their favorite experiences, providing others with a glimpse of the fun and exciting things to do in a particular location.
+Additionally, the app fosters interaction and engagement by allowing users to leave comments on shared activities, making it a dynamic platform for exploring and connecting with local experiences.
 
 ## 2. Top Questions to Resolve in Review
 
@@ -11,16 +13,16 @@ TaLE is an application to provide travelers with information on activities in a 
 2. Should users be able to delete an activity they posted or just their comments on the activity?
 
 ## 3. Use Cases
-1. As a [user], I want to create(POST) a new activity in a city.
-2.  As a [user], I want to view(GET) a list of activities in a city.
-3. As a [user], I want to view(GET) a single activity.
-4.  As a [user], I want to add(PUT) comments in an Activity.
-5. As a [user], I want to delete(DEL) a personal comments on an Activity.
-6.  As a [user], I want to view(GET) my posted Activities.
-7. As a [user], I want to update(POST) my Activity (Website, Hours etc...).
-8. As a [user], I want to view a list of my Comments.
-9. As a [user], I want to view my profile.
-10. As a [user], I want to view another user profile.
+1. As a [user], I want to create a new activity in a city.
+2. As a [user], I want to view a list of activities in a city.
+3. As a [user], I want to view a single activity.
+4. As a [user], I want to add comments to an Activity.
+5. As a [user], I want to delete a personal comment on an Activity.
+6. As a [user], I want to view a single comment.
+7. As a [user], I want to edit a personal comment.
+8. As a [user], I want to view my posted Activities.
+9. As a [user], I want to update my Activity (Website, Description).
+10. As a [user], I want to view a list of my Comments.
 
 ### 3.1 Stretch Use Cases:
 1. Add[Admin] functionality.
@@ -198,6 +200,7 @@ userId // partition key, String
 commentId // sort key, String
 title // String
 message // String
+edited // Boolean
 ```
 
 ## 8. Page StoryBoard
