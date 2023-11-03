@@ -123,7 +123,7 @@ List<CityIds>
 - Accepts an activityId and returns the corresponding ActivityModel.
 
 #### 6.2.2 Get All Activities by Poster Endpoint
-- Accepts ```GET``` requests to ```/activites```
+- Accepts ```GET``` requests to ```/activities```
 - Take the userId from cognito.
 - Accepts a userId and return the corresponding list of ActivityModels.
 
@@ -136,7 +136,7 @@ List<CityIds>
 - Accepts a ```PUT``` requests to ```/activities/{activityId}```
 - Take the userId from cognito
 - Accepts data to update an Activity including an updated Overview, WebsiteAddress, etc... returns the updated Activity.
-- Throws ```UnaughorizedUserException``` if attempted to be updated by an unauthorized User.
+- Throws ```UnauthorizedUserException``` if attempted to be updated by an unauthorized User.
 
 #### 6.2.5 Add Comment Endpoint
 - Accepts ```POST``` request to ```/activities/{activityId}/comments```
@@ -154,6 +154,20 @@ List<CityIds>
 - Accepts ```GET``` request to ```/comments```
 - Takes userId from Cognito.
 - Returns list of Comments associated with User.
+
+#### 6.2.8 Get A Single Comment Endpoint
+- Accepts ```GET``` request to ```/comments/{commentId}```
+- Returns associated comment with commentId
+- Throws ```InvalidCommentIdException``` if comment does not exist.
+
+#### 6.2.9 Delete a Single Comment Endpoint
+- Accepts ```DELETE``` request to ```/comments/{commentId}```
+- Deletes associated comment with commentID
+
+### 6.2.10 Get All Activities For City Endpoint
+-Accepts ```GET``` request to ```/cities/{cityId]```
+- Accepts the cityId and returns all Associated Activity Names with City.
+- Throw ```InvalidActivityIdException``` if the called activity Id does not exist.
 
 ## 7.  Tables
 
