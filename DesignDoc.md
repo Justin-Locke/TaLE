@@ -176,12 +176,12 @@ List<CityIds>
 ```
 activityId // partition key, string
 userId // String
-Description // String
-Website // String
-Location // String
-Date Posted // LocalDate
+description // String
+website // String
+location // String
+datePosted // LocalDate
 edited // Bool
-Poster Experience // String
+posterExperience // String
 
 
 ```
@@ -200,7 +200,8 @@ commentId // Sort key, String
 title // String
 message // String
 userId // String
-DatePosted // LocalDate
+datePosted // LocalDate
+edited // Boolean
 ```
 
 ### 7.4 `ActivitiesByUser` GSI Table
