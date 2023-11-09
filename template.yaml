@@ -200,54 +200,70 @@ Resources:
                 - logs:PutLogEvents
                 - cloudwatch:PutMetricData
               Resource: '*'
-        - PolicyName: 'AccessPetsTable'
+        - PolicyName: 'AccessActivitiesTable'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
             - Effect: Allow
               Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/pets"
-                
-        - PolicyName: 'AccessReservationsTable'
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-            - Effect: Allow
-              Action: dynamodb:*
-              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/reservations"
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/activities"
 
-        - PolicyName: 'AccessPetsIndexTable'
+        - PolicyName: 'AccessCommentsTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+            - Effect: Allow
+              Action: dynamodb:*
+              Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/comments"
+
+        - PolicyName: 'AccessActivitiesByUserIndexTable'
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
               - Effect: Allow
                 Action: dynamodb:*
-                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/pets/index/*"
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/activities/index/*"
+
+        - PolicyName: 'AccessCommentsByUserIndexTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/comments/index/*"
+
+        - PolicyName: 'AccessCitiesTable'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: dynamodb:*
+                Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/cities"
 
 
   #-----------------------------------------------------
   # Lambda Functions Configuration
   #-----------------------------------------------------
 
-#  CreatePetLambda:
-#    Type: AWS::Serverless::Function
-#    Properties:
-#      Role: !GetAtt AccessRole.Arn
-#      CodeUri: RiverPetSittingServiceLambda
-#      Handler: com.nashss.se.riverpetsittingservice.lambda.CreatePetLambda::handleRequest
-#      Runtime: java11
-#      Architectures:
-#        - x86_64
-#      MemorySize: 512
-#      Environment:
-#        Variables:
-#          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
-#      Events:
-#        RiverPetSittingService:
-#          Type: Api
-#          Properties:
-#            Path: /pets
-#            Method: post
+  CreateActivityLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: TaLELambda
+      Handler: com.nashss.se.TaLE.lambda.CreateActivityLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        TaLE:
+          Type: Api
+          Properties:
+            Path: /cities/{cityId}/activities
+            Method: post
 #
 #
 #  GetPetLambda:
@@ -410,42 +426,73 @@ Resources:
   # DynamoDB Configuration
   #-----------------------------------------------------
   
-#  PetsTable:
-#    Type: AWS::DynamoDB::Table
-#    Properties:
-#      TableName: pets
-#      AttributeDefinitions:
-#        - AttributeName: "petId"
-#          AttributeType: "S"
-#        - AttributeName: "ownerId"
-#          AttributeType: "S"
-#      KeySchema:
-#        - AttributeName: "petId"
-#          KeyType: "HASH"
-#      BillingMode: "PAY_PER_REQUEST"
-#      GlobalSecondaryIndexes:
-#        - IndexName: "PetsByOwnerIndex"
-#          KeySchema:
-#            - AttributeName: "ownerId"
-#              KeyType: "HASH"
-#          Projection:
-#            ProjectionType: "ALL"
-#
-#  ReservationsTable:
-#    Type: AWS::DynamoDB::Table
-#    Properties:
-#      TableName: reservations
-#      AttributeDefinitions:
-#        - AttributeName: "ownerId"
-#          AttributeType: "S"
-#        - AttributeName: "reservationId"
-#          AttributeType: "S"
-#      KeySchema:
-#        - AttributeName: "ownerId"
-#          KeyType: "HASH"
-#        - AttributeName: "reservationId"
-#          KeyType: "RANGE"
-#      BillingMode: PAY_PER_REQUEST
+  ActivitiesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: activities
+      AttributeDefinitions:
+        - AttributeName: "activityId"
+          AttributeType: "S"
+        - AttributeName: "userId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "activityId"
+          KeyType: "HASH"
+      BillingMode: "PAY_PER_REQUEST"
+      GlobalSecondaryIndexes:
+        - IndexName: "ActivitiesByUserIndex"
+          KeySchema:
+            - AttributeName: "userId"
+              KeyType: "HASH"
+            - AttributeName: "activityId"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "INCLUDE"
+            NonKeyAttributes:
+              - "activityName"
+
+  CommentsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: comments
+      AttributeDefinitions:
+        - AttributeName: "activityId"
+          AttributeType: "S"
+        - AttributeName: "commentId"
+          AttributeType: "S"
+        - AttributeName: "userId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "activityId"
+          KeyType: "HASH"
+        - AttributeName: "commentId"
+          KeyType: "RANGE"
+      BillingMode: PAY_PER_REQUEST
+      GlobalSecondaryIndexes:
+        - IndexName: "CommentsByUserIndex"
+          KeySchema:
+            - AttributeName: "userId"
+              KeyType: "HASH"
+            - AttributeName: "commentId"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "INCLUDE"
+            NonKeyAttributes:
+              - "title"
+              - "message"
+              - "edited"
+
+  CitiesTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: cities
+      AttributeDefinitions:
+        - AttributeName: "cityId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "cityId"
+          KeyType: "HASH"
+      BillingMode: PAY_PER_REQUEST
 
 #-----------------------------------------------------
 # The outputs defined below will be printed

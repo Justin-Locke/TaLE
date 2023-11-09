@@ -1,0 +1,73 @@
+{
+  "cities": [
+    {
+      "PutRequest": {
+        "Item": {
+          "cityId": {"S": "N012012V"},
+          "activityId": {"S": "[{\"AT1011\", \"AT40923\"}]" },
+          "cityName": {"S":  "Nashville"}
+        }
+      }
+    }
+  ],
+  "activities": [
+    {
+      "PutRequest": {
+        "Item": {
+          "activityId": {"S":  "AT1011"},
+          "userId": {"S": "JL2012"},
+          "activityName": {"S": "Kayne Prime"},
+          "description": {"S":  "Steak House"},
+          "website": {"S": ""},
+          "location": {"S": ""},
+          "datePosted": {"S": "11092023"},
+          "edited": {"N": "0"},
+          "posterExperience": {"S": "Had a great dinner with friends and family!"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "activityId": {"S":  "AT40923"},
+          "userId": {"S": "SG2345"},
+          "activityName": {"S": "Adventure Science Center"},
+          "description": {"S":  "Fun With Science"},
+          "website": {"S": ""},
+          "location": {"S": ""},
+          "datePosted": {"S": "09152023"},
+          "edited": {"N": "0"},
+          "posterExperience": {"S": "Brought the kids and they loved all the exhibits"}
+        }
+      }
+    }
+  ],
+  "comments": [
+    {
+      "PutRequest": {
+        "Item": {
+          "activityId": {"S": "AT1011"},
+          "commentId": {"S": "CM90210"},
+          "title": {"S": "Great Food"},
+          "message": {"S": "We had a great time here!"},
+          "userId": {"S": "SG2345"},
+          "datePosted": {"S": "11102023"},
+          "edited": {"N": "0"}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+      "Item": {
+        "activityId": {"S": "AT40923"},
+        "commentId": {"S": "CM80085"},
+        "title": {"S": "A Blast"},
+        "message": {"S": "We had a great time here!"},
+        "userId": {"S": "JL2012"},
+        "datePosted": {"S": "10102023"},
+        "edited": {"N": "1"}
+        }
+      }
+    }
+  ]
+}
