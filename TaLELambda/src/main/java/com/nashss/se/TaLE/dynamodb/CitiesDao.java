@@ -24,10 +24,6 @@ public class CitiesDao {
     public City getCityById(String id) {
         City city = this.dynamoDBMapper.load(City.class, id);
 
-        if (city == null) {
-
-        }
-
         return city;
     }
 
