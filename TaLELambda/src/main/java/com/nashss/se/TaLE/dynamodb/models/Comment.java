@@ -85,19 +85,13 @@ public class Comment {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Comment comment)) return false;
-        return Objects.equals(activityId, comment.activityId) &&
-                Objects.equals(commentId, comment.commentId) &&
-                Objects.equals(title, comment.title) &&
-                Objects.equals(message, comment.message) &&
-                Objects.equals(userId, comment.userId) &&
-                Objects.equals(datePosted, comment.datePosted) &&
-                Objects.equals(edited, comment.edited);
+        if (o == null || getClass() != o.getClass()) return false;
+        Comment comment = (Comment) o;
+        return Objects.equals(activityId, comment.activityId) && Objects.equals(commentId, comment.commentId) && Objects.equals(title, comment.title) && Objects.equals(message, comment.message) && Objects.equals(userId, comment.userId) && Objects.equals(datePosted, comment.datePosted) && Objects.equals(edited, comment.edited);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(activityId, commentId, title,
-                message, userId, datePosted, edited);
+        return Objects.hash(activityId, commentId, title, message, userId, datePosted, edited);
     }
 }

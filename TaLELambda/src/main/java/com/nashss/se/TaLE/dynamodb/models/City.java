@@ -10,7 +10,7 @@ import java.util.Objects;
 @DynamoDBTable(tableName = "cities")
 public class City {
     private String cityId;
-    private List<String> activityId;
+    private List<String> activityList;
     private String cityName;
 
     @DynamoDBHashKey(attributeName = "cityId")
@@ -22,13 +22,13 @@ public class City {
         this.cityId = cityId;
     }
 
-    @DynamoDBAttribute(attributeName = "activityIdList")
-    public List<String> getActivityId() {
-        return activityId;
+    @DynamoDBAttribute(attributeName = "activityList")
+    public List<String> getActivityList() {
+        return activityList;
     }
 
     public void setActivityId(List<String> activityId) {
-        this.activityId = activityId;
+        this.activityList = activityId;
     }
 
     @DynamoDBAttribute(attributeName = "cityName")
@@ -43,14 +43,13 @@ public class City {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof City city)) return false;
-        return Objects.equals(cityId, city.cityId) &&
-                Objects.equals(activityId, city.activityId) &&
-                Objects.equals(cityName, city.cityName);
+        if (o == null || getClass() != o.getClass()) return false;
+        City city = (City) o;
+        return Objects.equals(cityId, city.cityId) && Objects.equals(activityList, city.activityList) && Objects.equals(cityName, city.cityName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cityId, activityId, cityName);
+        return Objects.hash(cityId, activityList, cityName);
     }
 }

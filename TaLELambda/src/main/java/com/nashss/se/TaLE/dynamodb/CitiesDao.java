@@ -31,9 +31,14 @@ public class CitiesDao {
         return city;
     }
 
-    public City saveCity(City newCity) {
-        this.dynamoDBMapper.save(newCity);
-        return newCity;
+    /**
+     *
+     * @param city
+     * @return
+     */
+    public City saveCity(City city) {
+        this.dynamoDBMapper.save(city);
+        return city;
     }
 
 }

@@ -79,20 +79,14 @@ public class Activity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Activity activity)) return false;
-        return Objects.equals(activityId, activity.activityId) &&
-                Objects.equals(userId, activity.userId) &&
-                Objects.equals(activityName, activity.activityName) &&
-                Objects.equals(description, activity.description) &&
-                Objects.equals(datePosted, activity.datePosted) &&
-                Objects.equals(edited, activity.edited) &&
-                Objects.equals(posterExperience, activity.posterExperience);
+        if (o == null || getClass() != o.getClass()) return false;
+        Activity activity = (Activity) o;
+        return Objects.equals(activityId, activity.activityId) && Objects.equals(userId, activity.userId) && Objects.equals(activityName, activity.activityName) && Objects.equals(description, activity.description) && Objects.equals(datePosted, activity.datePosted) && Objects.equals(edited, activity.edited) && Objects.equals(posterExperience, activity.posterExperience);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(activityId, userId, activityName,
-                description, datePosted, edited, posterExperience);
+        return Objects.hash(activityId, userId, activityName, description, datePosted, edited, posterExperience);
     }
 }
 
