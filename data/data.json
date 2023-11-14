@@ -3,12 +3,26 @@
     {
       "PutRequest": {
         "Item": {
-          "cityId": {"S": "N012012V"},
-          "activityId": {"S": "[{\"AT1011\", \"AT40923\"}]" },
-          "cityName": {"S":  "Nashville"}
+          "cityId": {
+            "S": "N012012V"
+          },
+          "activityList": {
+            "L": [
+              {
+                "S": "AT1011"
+              },
+              {
+                "S": "AT40923"
+              }
+            ]
+          },
+          "cityName": {
+            "S":  "Nashville"
+          }
         }
       }
     }
+
   ],
   "activities": [
     {

@@ -27,8 +27,8 @@ public class City {
         return activityList;
     }
 
-    public void setActivityId(List<String> activityId) {
-        this.activityList = activityId;
+    public void setActivityList(List<String> activityList) {
+        this.activityList = activityList;
     }
 
     @DynamoDBAttribute(attributeName = "cityName")

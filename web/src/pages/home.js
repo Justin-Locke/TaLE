@@ -1,4 +1,4 @@
-import TaLEClient from '../api/TaLECLient';
+import TaLEClient from '../api/TaLEClient';
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 
@@ -15,7 +15,7 @@ class Homepage extends BindingClass {
 
     mount() {
         this.header.addHeaderToPage();
-        this.client = new TaLECLient();
+        this.client = new TaLEClient();
     }
 
 }

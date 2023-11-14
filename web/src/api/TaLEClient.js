@@ -8,7 +8,7 @@ export default class TaLEClient extends BindingClass {
     constructor(props = {}) {
     super();
 
-    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'getCity'];
+    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities'];
     this.bindClassMethods(methodsToBind, this);
 
     this.authenticator = new Authenticator();;
@@ -56,6 +56,24 @@ export default class TaLEClient extends BindingClass {
         }
 
         return await this.authenticator.getUserToken();
+    }
+
+    async viewCity(cityId, errorCallback) {
+        try {
+            const response = await this.axiosClient.get(`cities/${cityId}`);
+            return response.data.city;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    async viewCities(errorCallback) {
+        try {
+        const response = await this.axiosClient.get(`cities`);
+        return response.data.cityModelList;
+      } catch (error) {
+        this.handleError(error, errorCallback)
+      }
     }
 
     handleError(error, errorCallback) {
