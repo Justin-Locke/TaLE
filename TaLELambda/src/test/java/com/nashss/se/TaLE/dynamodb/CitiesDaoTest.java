@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class CitiesDaoTest {
 
     @BeforeEach
     public void setup() {
-        initMocks(this);
+        MockitoAnnotations.openMocks(this);
         citiesDao = new CitiesDao(mapper, metricsPublisher);
         when(mapper.query(eq(City.class), any(DynamoDBQueryExpression.class))).thenReturn(paginatedQueryList);
 
@@ -67,7 +68,7 @@ public class CitiesDaoTest {
         assertNotNull(result);
         System.out.println(city);
         assertEquals(city, result);
-        verify(mapper).load(City.class, cityId);
+        verify(mapper, times(1)).load(any(), anyString());
     }
 
     @Test

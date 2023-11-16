@@ -12,7 +12,10 @@ public class ActivityModel {
     private Boolean edited;
     private String posterExperience;
 
-    public ActivityModel(String activityId, String userId, String activityName, String description, LocalDate datePosted, Boolean edited, String posterExperience) {
+    public ActivityModel(String activityId, String userId,
+                         String activityName, String description,
+                         LocalDate datePosted, Boolean edited,
+                         String posterExperience) {
         this.activityId = activityId;
         this.userId = userId;
         this.activityName = activityName;
@@ -52,17 +55,30 @@ public class ActivityModel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ActivityModel that = (ActivityModel) o;
-        return Objects.equals(activityId, that.activityId) && Objects.equals(userId, that.userId) && Objects.equals(activityName, that.activityName) && Objects.equals(description, that.description) && Objects.equals(datePosted, that.datePosted) && Objects.equals(edited, that.edited) && Objects.equals(posterExperience, that.posterExperience);
+        return Objects.equals(activityId, that.activityId) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(activityName, that.activityName) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(datePosted, that.datePosted) &&
+                Objects.equals(edited, that.edited) &&
+                Objects.equals(posterExperience, that.posterExperience);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(activityId, userId, activityName, description, datePosted, edited, posterExperience);
+        return Objects.hash(activityId, userId, activityName,
+                description, datePosted, edited,
+                posterExperience);
     }
 
+    // CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
     }
@@ -111,7 +127,9 @@ public class ActivityModel {
         }
 
         public ActivityModel build() {
-            return new ActivityModel(activityId, userId, activityName, description, datePosted, edited, posterExperience);
+            return new ActivityModel(activityId, userId,
+                    activityName, description, datePosted,
+                    edited, posterExperience);
         }
 
     }

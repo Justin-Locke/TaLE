@@ -6,7 +6,7 @@ import DataStore from "../util/DataStore";
 class ViewActivity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clintLoaded', 'mount', 'addActivityToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
 
@@ -17,7 +17,7 @@ class ViewActivity extends BindingClass {
         const urlParams = new URLSearchParams(window.location.search);
         const activityId = urlParams.get('activityId');
 
-        const activity = await this.clientLoaded.viewActivity(activityId);
+        const activity = await this.client.viewActivity(activityId);
         this.dataStore.set('activity', activity);
     }
 

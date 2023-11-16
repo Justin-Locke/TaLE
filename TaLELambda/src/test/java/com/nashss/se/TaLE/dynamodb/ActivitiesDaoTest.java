@@ -1,16 +1,17 @@
 package com.nashss.se.TaLE.dynamodb;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.nashss.se.TaLE.dynamodb.models.Activity;
 import com.nashss.se.TaLE.metrics.MetricsPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.MockitoAnnotations.initMocks;
+import static org.mockito.Mockito.*;
 
 public class ActivitiesDaoTest {
     @Mock
@@ -18,12 +19,22 @@ public class ActivitiesDaoTest {
     @Mock
     MetricsPublisher metricsPublisher;
 
+    @Mock
+    PaginatedQueryList<Activity> paginatedQueryList;
+
+    @Captor
+    ArgumentCaptor<DynamoDBQueryExpression<Activity>> queryCaptor;
+
     ActivitiesDao activitiesDao;
 
     @BeforeEach
     public void setup() {
-        initMocks(this);
+        MockitoAnnotations.openMocks(this);
         activitiesDao = new ActivitiesDao(mapper, metricsPublisher);
+
+        when(mapper.query(eq(Activity.class), any(DynamoDBQueryExpression.class))).thenReturn(paginatedQueryList);
+
+        when(paginatedQueryList.toArray()).thenReturn(new Object[0]);
     }
 
     @Test
@@ -34,7 +45,7 @@ public class ActivitiesDaoTest {
 
         Activity result = activitiesDao.saveActivity(activity);
 
-        verify(mapper, times(1));
         assertEquals(activity, result);
+        verify(mapper, times(1)).save(any());
     }
 }

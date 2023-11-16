@@ -5,6 +5,7 @@ public class GetAllCitiesRequest {
 
     }
 
+    // CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
     }

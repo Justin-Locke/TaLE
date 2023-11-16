@@ -34,7 +34,7 @@
           "description": {"S":  "Steak House"},
           "website": {"S": ""},
           "location": {"S": ""},
-          "datePosted": {"S": "11092023"},
+          "datePosted": {"S": "2023-09-15"},
           "edited": {"N": "0"},
           "posterExperience": {"S": "Had a great dinner with friends and family!"}
         }
@@ -49,7 +49,7 @@
           "description": {"S":  "Fun With Science"},
           "website": {"S": ""},
           "location": {"S": ""},
-          "datePosted": {"S": "09152023"},
+          "datePosted": {"S": "2023-11-09"},
           "edited": {"N": "0"},
           "posterExperience": {"S": "Brought the kids and they loved all the exhibits"}
         }
@@ -65,7 +65,7 @@
           "title": {"S": "Great Food"},
           "message": {"S": "We had a great time here!"},
           "userId": {"S": "SG2345"},
-          "datePosted": {"S": "11102023"},
+          "datePosted": {"S": "2023-11-10"},
           "edited": {"N": "0"}
         }
       }
@@ -78,7 +78,7 @@
         "title": {"S": "A Blast"},
         "message": {"S": "We had a great time here!"},
         "userId": {"S": "JL2012"},
-        "datePosted": {"S": "10102023"},
+        "datePosted": {"S": "2023-10-10"},
         "edited": {"N": "1"}
         }
       }

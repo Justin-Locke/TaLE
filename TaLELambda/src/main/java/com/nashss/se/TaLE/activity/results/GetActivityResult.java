@@ -1,11 +1,11 @@
 package com.nashss.se.TaLE.activity.results;
 
+import com.nashss.se.TaLE.activity.requests.GetActivityRequest;
 import com.nashss.se.TaLE.models.ActivityModel;
 
-public class CreateNewActivityResult {
-    private final ActivityModel activityModel;
-
-    private CreateNewActivityResult(ActivityModel activityModel) {
+public class GetActivityResult {
+    private ActivityModel activityModel;
+    private GetActivityResult(ActivityModel activityModel) {
         this.activityModel = activityModel;
     }
 
@@ -15,7 +15,7 @@ public class CreateNewActivityResult {
 
     @Override
     public String toString() {
-        return "CreateNewActivityResult{" +
+        return "GetActivityResult{" +
                 "activityModel=" + activityModel +
                 '}';
     }
@@ -33,8 +33,8 @@ public class CreateNewActivityResult {
             return this;
         }
 
-        public CreateNewActivityResult build() {
-            return new CreateNewActivityResult(activityModel);
+        public GetActivityResult build() {
+            return new GetActivityResult(activityModel);
         }
     }
 }

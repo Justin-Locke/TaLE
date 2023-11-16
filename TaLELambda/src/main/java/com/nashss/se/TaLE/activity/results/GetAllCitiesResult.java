@@ -22,7 +22,7 @@ public class GetAllCitiesResult {
                 "cityModelList=" + cityModelList +
                 '}';
     }
-
+    // CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
     }
