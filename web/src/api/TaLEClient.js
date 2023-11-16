@@ -94,6 +94,15 @@ export default class TaLEClient extends BindingClass {
         }
     }
 
+    async viewActivity(activityId, errorCallback) {
+        try {
+            const response = await this.axiosClient.get(`activities/${activityId}`);
+            return response.data.activity;
+          } catch (error) {
+            this.handleError(error, errorCallback)
+          }
+    }
+
     handleError(error, errorCallback) {
         console.error(error);
 
