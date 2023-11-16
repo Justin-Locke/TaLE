@@ -4,11 +4,12 @@ import com.nashss.se.TaLE.activity.requests.GetCityRequest;
 import com.nashss.se.TaLE.activity.results.GetCityResult;
 import com.nashss.se.TaLE.converters.ModelConverter;
 import com.nashss.se.TaLE.dynamodb.CitiesDao;
+import com.nashss.se.TaLE.dynamodb.models.City;
+import com.nashss.se.TaLE.models.CityModel;
 
 import javax.inject.Inject;
 
-import com.nashss.se.TaLE.dynamodb.models.City;
-import com.nashss.se.TaLE.models.CityModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

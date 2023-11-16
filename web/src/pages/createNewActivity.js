@@ -6,9 +6,11 @@ import DataStore from "../util/DataStore";
 class CreateNewActivity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'submit'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'submit', 'redirectToViewActivity'], this);
         this.dataStore = new DataStore();
+        this.dataStore.addChangeListener(this.redirectToViewActivity);
         this.header = new Header(this.dataStore);
+
     }
 
     async clientLoaded() {
@@ -18,7 +20,7 @@ class CreateNewActivity extends BindingClass {
     }
 
     mount() {
-        document.getElementById('create').addEventListener('click', this.submit.bind(this));
+        document.getElementById('create').addEventListener('click', this.submit);
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
@@ -45,7 +47,21 @@ class CreateNewActivity extends BindingClass {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
+        console.log(activity + "is the Activity");
         this.dataStore.set('activity', activity);
+        
+    }
+
+    redirectToViewActivity() {
+        console.log("redirecting now");
+        const activity = this.dataStore.get('activity');
+        if (activity != null) {
+            console.log("activiy is not null");
+            window.location.href = `/viewActivity.html?activityId=${activity.activityId}`;
+        }
+        console.log("redirect finished");
+        
+
     }
 }
 

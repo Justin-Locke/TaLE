@@ -8,7 +8,7 @@ export default class TaLEClient extends BindingClass {
     constructor(props = {}) {
     super();
 
-    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity'];
+    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity', 'viewActivity'];
     this.bindClassMethods(methodsToBind, this);
 
     this.authenticator = new Authenticator();;
@@ -88,10 +88,19 @@ export default class TaLEClient extends BindingClass {
                     Authorization: `Bearer ${token}`
                 }
             });
-            return response.data.activity;
+            return response.data.activityModel;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
+    }
+
+    async viewActivity(activityId, errorCallback) {
+        try {
+            const response = await this.axiosClient.get(`activities/${activityId}`);
+            return response.data.activityModel;
+          } catch (error) {
+            this.handleError(error, errorCallback)
+          }
     }
 
     handleError(error, errorCallback) {

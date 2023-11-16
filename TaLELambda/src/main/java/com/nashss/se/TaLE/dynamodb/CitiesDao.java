@@ -10,8 +10,8 @@ import javax.inject.Inject;
 import java.util.List;
 
 public class CitiesDao {
-    private final DynamoDBMapper dynamoDBMapper;
-    private final MetricsPublisher metricsPublisher;
+    private DynamoDBMapper dynamoDBMapper;
+    private MetricsPublisher metricsPublisher;
 
     /**
      * Instantiates a CitiesDao object.

@@ -8,6 +8,12 @@ public class CityModel {
     private final String cityName;
     private final List<String> activityList;
 
+    /**
+     * Constructor for CityModel.
+     * @param cityId Id of the City.
+     * @param cityName name of the City.
+     * @param activityList List of activity Id's associated with city.
+     */
     public CityModel(String cityId, String cityName, List<String> activityList) {
         this.cityId = cityId;
         this.cityName = cityName;
@@ -28,10 +34,16 @@ public class CityModel {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         CityModel cityModel = (CityModel) o;
-        return Objects.equals(cityId, cityModel.cityId) && Objects.equals(cityName, cityModel.cityName) && Objects.equals(activityList, cityModel.activityList);
+        return Objects.equals(cityId, cityModel.cityId) &&
+                Objects.equals(cityName, cityModel.cityName) &&
+                Objects.equals(activityList, cityModel.activityList);
     }
 
     @Override
@@ -39,7 +51,7 @@ public class CityModel {
         return Objects.hash(cityId, cityName, activityList);
     }
 
-    //Builder
+    // CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
     }
