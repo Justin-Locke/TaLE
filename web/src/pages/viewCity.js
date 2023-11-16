@@ -6,7 +6,7 @@ import DataStore from "../util/DataStore";
 class ViewCity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'redirectToCreateNewActivity'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCityToPage);
 
@@ -26,6 +26,7 @@ class ViewCity extends BindingClass {
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
+        document.getElementById('createNewActivityButton').addEventListener('click', this.redirectToCreateNewActivity);
 
     }
 
@@ -43,6 +44,13 @@ class ViewCity extends BindingClass {
             activityListHtml += '<div class="activity">' + activityList + '</div>';
         }
         document.getElementById('activityList').innerHTML = activityListHtml;
+    }
+
+     redirectToCreateNewActivity() {
+        const city = this.dataStore.get('city');
+        if (city != null) {
+            window.location.href = `/createNewActivity.html?cityId=${city.cityId}`;
+        }
     }
 }
 

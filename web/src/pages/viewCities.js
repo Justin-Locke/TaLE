@@ -17,7 +17,6 @@ class ViewCities extends BindingClass {
     async clientLoaded() {
         const cityList = await this.client.viewCities();
         this.dataStore.set('cityList', cityList);
-        console.log("CityLIST = " + cityList.cityName);
     }
 
 
@@ -50,6 +49,9 @@ class ViewCities extends BindingClass {
         }
         document.getElementById('citiesList').innerHTML = cityHtml;
     }
+
+
+
 
 
 

@@ -1,9 +1,10 @@
 package com.nashss.se.TaLE.activity.requests;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 import java.time.LocalDate;
-
+@JsonDeserialize(builder = CreateNewActivityRequest.Builder.class)
 public class CreateNewActivityRequest {
 
     private String cityId;

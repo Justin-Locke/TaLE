@@ -76,10 +76,10 @@ export default class TaLEClient extends BindingClass {
       }
     }
 
-    async createNewActivity(activityName, description, posterExperience, errorCallback) {
+    async createNewActivity(cityId, activityName, description, posterExperience, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can create an Activity Post.");
-            const response = await this.axiosClient.post(`cities/{cityId}/activities`, {
+            const response = await this.axiosClient.post(`cities/${cityId}/activities`, {
                 activityName: activityName,
                 description: description,
                 posterExperience: posterExperience

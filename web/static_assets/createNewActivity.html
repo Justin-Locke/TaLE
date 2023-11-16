@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="assets/createNewActivity.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Title</title>
+</head>
+<bodyclass = "background">
+    <header class="header" id="header"></header>
+    <div class="card">
+        <h2>New Activity/Event</h2>
+        <form class="cardContent" id="createNewActivityForm">
+            <p class="hidden error" id="error-message"></p>
+            <p class="formField">
+                <label for="activityName"><b>Name of place/activity:</b></label>
+                <input type="text" placeholder="Enter Name of Activity"
+                       name="activityName" id="activityName" required>
+
+                <label for="description"> Description </label>
+                <input type="text" placeholder="A small overview of the activity"
+                       name="description" id="description">
+
+                <label for="posterExperience">Your Experience</label>
+                <input type="text" placeholder="Tell us about your experience"
+                       name="posterExperience" id="posterExperience">
+                <hr>
+            </p>
+            <p><button type="submit" class="button" id="create">Create Activity</button></p>
+        </form>
+    </div>
+
+</bodyclass>
+</html>

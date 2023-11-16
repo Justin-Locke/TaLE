@@ -6,13 +6,15 @@ import DataStore from "../util/DataStore";
 class CreateNewActivity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'submit', 'addActivitiesToPage', 'redirectoToViewActivity'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'submit'], this);
         this.dataStore = new DataStore();
-        this.dataStore.addChangeListener(this.redirectoToViewActivity);
         this.header = new Header(this.dataStore);
     }
 
-    async clientLoaded() {        
+    async clientLoaded() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const cityId = urlParams.get('cityId');
+        this.dataStore.set('cityId', cityId);
     }
 
     mount() {
@@ -23,6 +25,7 @@ class CreateNewActivity extends BindingClass {
     }
 
     async submit(evt) {
+        const cityId = this.dataStore.get('cityId');
         evt.preventDefault();
 
         const errorMessageDisplay = document.getElementById('error-message');
@@ -37,7 +40,7 @@ class CreateNewActivity extends BindingClass {
         const description = document.getElementById('description').value;
         const posterExperience = document.getElementById('posterExperience').value;
 
-        const activity = await this.client.createNewActivity(activityName, description, posterExperience, (error) => {
+        const activity = await this.client.createNewActivity(cityId, activityName, description, posterExperience, (error) => {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');

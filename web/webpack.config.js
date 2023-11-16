@@ -26,6 +26,7 @@ module.exports = {
     createPlaylist: path.resolve(__dirname, 'src', 'pages', 'createPlaylist.js'),
     viewCities: path.resolve(__dirname, 'src', 'pages', 'viewCities.js'),
     viewCity: path.resolve(__dirname, 'src', 'pages', 'viewCity.js'),
+    createNewActivity: path.resolve(__dirname, 'src', 'pages', 'createNewActivity.js'),
     searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js'),
     home: path.resolve(__dirname, 'src', 'pages', 'home.js'),
   },
