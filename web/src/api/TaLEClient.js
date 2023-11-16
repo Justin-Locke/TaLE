@@ -8,7 +8,7 @@ export default class TaLEClient extends BindingClass {
     constructor(props = {}) {
     super();
 
-    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities'];
+    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity'];
     this.bindClassMethods(methodsToBind, this);
 
     this.authenticator = new Authenticator();;
@@ -74,6 +74,24 @@ export default class TaLEClient extends BindingClass {
       } catch (error) {
         this.handleError(error, errorCallback)
       }
+    }
+
+    async createNewActivity(activityName, description, posterExperience, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can create an Activity Post.");
+            const response = await this.axiosClient.post(`cities/{cityId}/activities`, {
+                activityName: activityName,
+                description: description,
+                posterExperience: posterExperience
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.activity;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
     }
 
     handleError(error, errorCallback) {

@@ -245,12 +245,12 @@ Resources:
   # Lambda Functions Configuration
   #-----------------------------------------------------
 
-  CreateActivityLambda:
+  CreateNewActivityLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: TaLELambda
-      Handler: com.nashss.se.TaLE.lambda.CreateActivityLambda::handleRequest
+      Handler: com.nashss.se.TaLE.lambda.CreateNewActivityLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
