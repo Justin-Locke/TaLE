@@ -245,12 +245,12 @@ Resources:
   # Lambda Functions Configuration
   #-----------------------------------------------------
 
-  CreateActivityLambda:
+  CreateNewActivityLambda:
     Type: AWS::Serverless::Function
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: TaLELambda
-      Handler: com.nashss.se.TaLE.lambda.CreateActivityLambda::handleRequest
+      Handler: com.nashss.se.TaLE.lambda.CreateNewActivityLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -264,7 +264,50 @@ Resources:
           Properties:
             Path: /cities/{cityId}/activities
             Method: post
-#
+  
+  GetCityLambda:
+   Type: AWS::Serverless::Function
+   Properties:
+     Role: !GetAtt AccessRole.Arn
+     CodeUri: TaLELambda
+     Handler: com.nashss.se.TaLE.lambda.GetCityLambda::handleRequest
+     Runtime: java11
+     Architectures:
+       - x86_64
+     MemorySize: 512
+     Environment:
+       Variables:
+         JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+     Events:
+       TaLE:
+         Type: Api
+         Properties:
+           Path: /cities/{cityId}
+           Method: get
+           Auth:
+             Authorizer: 'NONE'
+
+  GetAllCitiesLambda:
+   Type: AWS::Serverless::Function
+   Properties:
+     Role: !GetAtt AccessRole.Arn
+     CodeUri: TaLELambda
+     Handler: com.nashss.se.TaLE.lambda.GetAllCitiesLambda::handleRequest
+     Runtime: java11
+     Architectures:
+       - x86_64
+     MemorySize: 512
+     Environment:
+       Variables:
+         JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+     Events:
+       TaLE:
+         Type: Api
+         Properties:
+           Path: /cities
+           Method: get
+           Auth:
+             Authorizer: 'NONE'
 #
 #  GetPetLambda:
 #    Type: AWS::Serverless::Function
