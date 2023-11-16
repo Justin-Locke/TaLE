@@ -6,9 +6,10 @@ import DataStore from "../util/DataStore";
 class CreateNewActivity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'submit'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'submit', 'redirectToViewActivity'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
+        this.dataStore.addChangeListener(this.redirectToViewActivity);
     }
 
     async clientLoaded() {
@@ -46,6 +47,13 @@ class CreateNewActivity extends BindingClass {
             errorMessageDisplay.classList.remove('hidden');
         });
         this.dataStore.set('activity', activity);
+    }
+
+    redirectToViewActivity() {
+        const activity = this.dataStore.get('activity');
+        if (activity != null) {
+            window.location.href = `/viewActivity.html?activityId=${activity.activityId}`;
+        }
     }
 }
 
