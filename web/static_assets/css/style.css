@@ -135,3 +135,18 @@ a {
     color: var(--tertiary-color);
     text-decoration: none;
 }
+
+.comment {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 18px;
+    margin-bottome: 8px;
+}
+
+p {
+    font-size: 14px;
+}

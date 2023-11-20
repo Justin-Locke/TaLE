@@ -8,7 +8,7 @@ export default class TaLEClient extends BindingClass {
     constructor(props = {}) {
     super();
 
-    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity', 'viewActivity'];
+    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity', 'viewActivity', 'viewCommentsForActivity'];
     this.bindClassMethods(methodsToBind, this);
 
     this.authenticator = new Authenticator();;
@@ -103,10 +103,10 @@ export default class TaLEClient extends BindingClass {
           }
     }
 
-    async createComment(acitivityId, commentTitle, commentMessage, errorCallback) {
+    async createComment(activityId, commentTitle, commentMessage, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can post a Comment.");
-            const response = await this.axiosClient.post(`activities/${acitivityId}/comments`, {
+            const response = await this.axiosClient.post(`activities/${activityId}/comments`, {
                 title: commentTitle,
                 message: commentMessage
             }, {
@@ -115,6 +115,15 @@ export default class TaLEClient extends BindingClass {
                 }
             });
             return response.data.commentModel;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    async viewCommentsForActivity(activityId, errorCallback) {
+        try {
+            const response = await this.axiosClient.get(`activities/${activityId}/comments`);
+            return response.data.commentModelList;
         } catch (error) {
             this.handleError(error, errorCallback)
         }
