@@ -19,4 +19,8 @@ public class IdUtils {
     public static String generateActivityId() {
         return "NV" + RandomStringUtils.randomAlphanumeric(MAX_ID_LENGTH);
     }
+
+    public static String generateCommentId() {
+        return "CM" + RandomStringUtils.randomAlphanumeric(MAX_ID_LENGTH) + "T";
+    }
 }

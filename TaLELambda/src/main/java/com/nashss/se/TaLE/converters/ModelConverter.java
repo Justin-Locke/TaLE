@@ -2,8 +2,10 @@ package com.nashss.se.TaLE.converters;
 
 import com.nashss.se.TaLE.dynamodb.models.Activity;
 import com.nashss.se.TaLE.dynamodb.models.City;
+import com.nashss.se.TaLE.dynamodb.models.Comment;
 import com.nashss.se.TaLE.models.ActivityModel;
 import com.nashss.se.TaLE.models.CityModel;
+import com.nashss.se.TaLE.models.CommentModel;
 
 public class ModelConverter {
 
@@ -24,6 +26,18 @@ public class ModelConverter {
                 .withDatePosted(activity.getDatePosted())
                 .withEdited(activity.getEdited())
                 .withPosterExperience(activity.getPosterExperience())
+                .build();
+    }
+
+    public CommentModel toCommentModel(Comment comment) {
+        return CommentModel.builder()
+                .withActivityId(comment.getActivityId())
+                .withCommentId(comment.getCommentId())
+                .withDatePosted(comment.getDatePosted())
+                .withEdited(comment.getEdited())
+                .withMessage(comment.getMessage())
+                .withTitle(comment.getTitle())
+                .withUserId(comment.getUserId())
                 .build();
     }
 }
