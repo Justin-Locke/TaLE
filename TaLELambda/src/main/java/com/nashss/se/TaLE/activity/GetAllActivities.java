@@ -51,6 +51,7 @@ public class GetAllActivities {
                 e.getCause();
             }
         }
+        executor.shutdown();
 
         return GetAllActivitiesResult.builder()
                 .withActivityModelList(activityModelList)
