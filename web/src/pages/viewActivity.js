@@ -6,7 +6,7 @@ import DataStore from "../util/DataStore";
 class ViewActivity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage', 'redirectToCreateComment'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
 
@@ -21,7 +21,9 @@ class ViewActivity extends BindingClass {
         this.dataStore.set('activity', activity);
     }
 
-    mount() {
+    mount() {  
+        document.getElementById('createCommentButton').addEventListener('click', this.redirectToCreateComment);
+
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
@@ -37,6 +39,14 @@ class ViewActivity extends BindingClass {
         document.getElementById('description').innerText = activity.description;
         document.getElementById('posterExperience').innerText = activity.posterExperience;
 
+    }
+
+    redirectToCreateComment() {
+        const activity = this.dataStore.get('activity');
+        console.log("redirecting");
+        if (activity != null) {
+            window.location.href = `/createComment.html?activityId=${activity.activityId}`;
+        }
     }
 
 }
