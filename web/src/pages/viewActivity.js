@@ -19,6 +19,8 @@ class ViewActivity extends BindingClass {
 
         const activity = await this.client.viewActivity(activityId);
         this.dataStore.set('activity', activity);
+        const comments = await this.client.viewComments(activityId);
+        this.dataStore.set('comments', comments);
     }
 
     mount() {  
@@ -39,6 +41,10 @@ class ViewActivity extends BindingClass {
         document.getElementById('description').innerText = activity.description;
         document.getElementById('posterExperience').innerText = activity.posterExperience;
 
+    }
+
+    addCommentsToPage() {
+        const comments = 
     }
 
     redirectToCreateComment() {
