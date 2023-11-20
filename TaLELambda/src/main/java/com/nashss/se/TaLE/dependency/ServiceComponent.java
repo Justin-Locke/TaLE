@@ -1,9 +1,6 @@
 package com.nashss.se.TaLE.dependency;
 
-import com.nashss.se.TaLE.activity.CreateNewActivity;
-import com.nashss.se.TaLE.activity.GetActivity;
-import com.nashss.se.TaLE.activity.GetAllCities;
-import com.nashss.se.TaLE.activity.GetCity;
+import com.nashss.se.TaLE.activity.*;
 import dagger.Component;
 
 import javax.inject.Singleton;
@@ -16,4 +13,5 @@ public interface ServiceComponent {
     GetAllCities provideGetAllCities();
     CreateNewActivity provideCreateNewActivity();
     GetActivity provideGetActivity();
+    GetAllActivities provideGetAllActivities();
 }
