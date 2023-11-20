@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GetCommentsForActivity {
     private Logger log = LogManager.getLogger();
@@ -29,7 +30,7 @@ public class GetCommentsForActivity {
         List<CommentModel> commentModelList =
                 commentList.stream()
                 .map(comment -> new ModelConverter().toCommentModel(comment))
-                .toList();
+                .collect(Collectors.toList());
 
         return GetCommentsForActivityResult.builder()
                 .withCommentModelList(commentModelList)

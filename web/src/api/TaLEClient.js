@@ -8,7 +8,7 @@ export default class TaLEClient extends BindingClass {
     constructor(props = {}) {
     super();
 
-    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity', 'viewActivity'];
+    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity', 'viewActivity', 'viewCommentsForActivity'];
     this.bindClassMethods(methodsToBind, this);
 
     this.authenticator = new Authenticator();;
@@ -120,7 +120,7 @@ export default class TaLEClient extends BindingClass {
         }
     }
 
-    async viewComments(activityId, errorCallback) {
+    async viewCommentsForActivity(activityId, errorCallback) {
         try {
             const response = await this.axiosClient.get(`activities/${activityId}/comments`);
             return response.data.commentModelList;
