@@ -11,7 +11,6 @@ class ViewActivity extends BindingClass {
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.dataStore.addChangeListener(this.addCommentsToPage);
-        this.authenticator = new Authenticator();
 
         this.header = new Header(this.dataStore);
     }
@@ -25,6 +24,9 @@ class ViewActivity extends BindingClass {
         const comments = await this.client.viewCommentsForActivity(activityId);
         console.log(JSON.stringify(comments + " = comments "));
         this.dataStore.set('comments', comments);
+
+        const currentUser = await this.client.getIdentity();
+        this.dataStore.set('currentUser', currentUser);
 
     }
 
@@ -48,13 +50,15 @@ class ViewActivity extends BindingClass {
 
     }
 
-    addCommentsToPage() {
+    async addCommentsToPage() {
         const comments = this.dataStore.get('comments');
         if (comments == null) {
             console.log("Comments are null");
             return;
         }
-        const currentUser = this.client.getIdentity;
+        
+        const currentUser = await this.client.getIdentity();
+        console.log(currentUser);
         console.log(JSON.stringify(currentUser));
 
 
@@ -73,9 +77,9 @@ class ViewActivity extends BindingClass {
             commentDiv.appendChild(messageElement);
             
             // Check if the current user is the author of the comment
-            if (currentUser && currentUser.email === comment.commentId) {
+            if (currentUser && currentUser.email === comment.userId) {
                 const updateButton = document.createElement('button');
-                updateButton.textContent - 'Update';
+                updateButton.textContent = 'Update';
 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
