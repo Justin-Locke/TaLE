@@ -103,6 +103,23 @@ export default class TaLEClient extends BindingClass {
           }
     }
 
+    async createComment(acitivityId, commentTitle, commentMessage, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can post a Comment.");
+            const response = await this.axiosClient.post(`activities/${acitivityId}/comments`, {
+                title: commentTitle,
+                message: commentMessage
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.commentModel;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
     handleError(error, errorCallback) {
         console.error(error);
 
