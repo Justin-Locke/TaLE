@@ -81,7 +81,8 @@ class ViewActivity extends BindingClass {
             // Check if the current user is the author of the comment
             if (currentUser && currentUser.email === comment.userId) {
                 const updateButton = document.createElement('button');
-                updateButton.textContent = 'Update';
+                updateButton.textContent = 'Edit';
+                updateButton.addEventListener('click', )
 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
@@ -118,6 +119,10 @@ class ViewActivity extends BindingClass {
         if (activity != null) {
             window.location.href = `/createComment.html?activityId=${activity.activityId}`;
         }
+    }
+
+    redirectToEditComment() {
+        
     }
 
 }
