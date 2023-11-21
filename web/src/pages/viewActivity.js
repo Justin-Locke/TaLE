@@ -32,6 +32,7 @@ class ViewActivity extends BindingClass {
 
     mount() {  
         document.getElementById('createCommentButton').addEventListener('click', this.redirectToCreateComment);
+        document.getElementById('')
 
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
@@ -83,6 +84,7 @@ class ViewActivity extends BindingClass {
 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
+                deleteButton.addEventListener('click', this.client.deleteComment(comment.commentId))
 
                 commentDiv.appendChild(updateButton);
                 commentDiv.appendChild(deleteButton);
