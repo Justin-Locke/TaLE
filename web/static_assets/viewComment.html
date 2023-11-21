@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script type="text/javascript" src="assets/editComment.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <title>Edit Comment</title>
+</head>
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+    <form id="editCommentForm">
+        <p class="hidden error" id="error-message"></p>
+        <label for="commentTitle">Title:</label>
+        <input type="text" id="commentTitle" name="commentTitle" required>
+        <label for="commentMessage">Comment:</label>
+        <textarea id="commentMessage" name="commentMessage" required></textarea>
+    </form>
+</div>
+<a class="button" id="submitUpdatedComment">UpdateComment</a>
+</body>
+</html>

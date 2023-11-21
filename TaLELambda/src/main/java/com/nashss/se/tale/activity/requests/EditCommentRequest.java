@@ -1,5 +1,9 @@
 package com.nashss.se.tale.activity.requests;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
+@JsonDeserialize(builder = EditCommentRequest.Builder.class)
 public class EditCommentRequest {
     private String activityId;
     private String title;
@@ -50,6 +54,7 @@ public class EditCommentRequest {
         return new Builder();
     }
 
+    @JsonPOJOBuilder
     public static class Builder {
         private String activityId;
         private String title;

@@ -135,6 +135,7 @@ export default class TaLEClient extends BindingClass {
     async viewComment(activityId, commentId, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only Authenticated users can see this comment.");
+            console.log(JSON.stringify("token =" + token));
             const response = await this.axiosClient.get(`/activities/${activityId}/comments/${commentId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
