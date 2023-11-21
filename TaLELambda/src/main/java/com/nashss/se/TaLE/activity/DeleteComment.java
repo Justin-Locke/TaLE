@@ -18,10 +18,10 @@ public class DeleteComment {
     }
 
     public DeleteCommentResult handleRequest(final DeleteCommentRequest request) {
-        String userId = request.getUserId();
         String commentId = request.getCommentId();
+        String activityId = request.getActivityId();
 
-        String result = commentsDao.deleteComment(userId, commentId);
+        String result = commentsDao.deleteComment(commentId, activityId);
         return new DeleteCommentResult.Builder()
                 .withDeleteResult(result)
                 .build();

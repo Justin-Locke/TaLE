@@ -388,7 +388,7 @@ Resources:
        TaLE:
          Type: Api
          Properties:
-           Path: /comments/{commentId}
+           Path: /activities/{activityId}/comments/{commentId}
            Method: delete
 #
 #  GetPetLambda:

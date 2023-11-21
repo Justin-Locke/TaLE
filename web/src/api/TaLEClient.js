@@ -129,12 +129,10 @@ export default class TaLEClient extends BindingClass {
         }
     }
 
-    async deleteComment(commentId, errorCallback) {
+    async deleteComment(activityId, commentId, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can delete a Comment");
-            const response = await this.axiosClient.delete(`/comments/${commentId}`, {
-                commentId: commentId
-            }, {
+            const response = await this.axiosClient.delete(`/activities/${activityId}/comments/${commentId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

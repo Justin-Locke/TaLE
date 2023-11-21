@@ -35,10 +35,10 @@ public class CommentsDao {
 
     }
 
-    public String deleteComment(String userId, String commentId) {
+    public String deleteComment(String commentId, String activityId) {
         Comment commentToDelete = new Comment();
-        commentToDelete.setUserId(userId);
         commentToDelete.setCommentId(commentId);
+        commentToDelete.setActivityId(activityId);
         mapper.delete(commentToDelete);
 
         return String.format("Comment %s successfully deleted.", commentId);

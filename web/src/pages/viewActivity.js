@@ -19,14 +19,12 @@ class ViewActivity extends BindingClass {
         const urlParams = new URLSearchParams(window.location.search);
         const activityId = urlParams.get('activityId');
 
+        this.dataStore.set('activityId', activityId);
         const activity = await this.client.viewActivity(activityId);
         this.dataStore.set('activity', activity);
         const comments = await this.client.viewCommentsForActivity(activityId);
         console.log(JSON.stringify(comments + " = comments "));
         this.dataStore.set('comments', comments);
-
-        const currentUser = await this.client.getIdentity();
-        this.dataStore.set('currentUser', currentUser);
 
     }
 
@@ -52,11 +50,14 @@ class ViewActivity extends BindingClass {
     }
 
     async addCommentsToPage() {
-        const comments = this.dataStore.get('comments');
+        const activityId = await this.dataStore.get('activityId');
+
+        const comments = await this.dataStore.get('comments');
         if (comments == null) {
             console.log("Comments are null");
             return;
         }
+        console.log(JSON.stringify("Comments =" + comments));
         
         const currentUser = await this.client.getIdentity();
         console.log(currentUser);
@@ -84,7 +85,7 @@ class ViewActivity extends BindingClass {
 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
-                deleteButton.addEventListener('click', this.client.deleteComment(comment.commentId))
+                deleteButton.addEventListener('click', () => this.client.deleteComment(activityId, comment.commentId).then(location.reload()));
 
                 commentDiv.appendChild(updateButton);
                 commentDiv.appendChild(deleteButton);
