@@ -5,12 +5,14 @@ public class EditCommentRequest {
     private String title;
     private String message;
     private String userId;
+    private String commentId;
 
-    public EditCommentRequest(String activityId, String title, String message, String userId) {
+    public EditCommentRequest(String activityId, String title, String message, String userId, String commentId) {
         this.activityId = activityId;
         this.title = title;
         this.message = message;
         this.userId = userId;
+        this.commentId = commentId;
     }
 
     public String getActivityId() {
@@ -27,6 +29,10 @@ public class EditCommentRequest {
 
     public String getUserId() {
         return userId;
+    }
+
+    public String getCommentId() {
+        return commentId;
     }
 
     @Override
@@ -49,6 +55,7 @@ public class EditCommentRequest {
         private String title;
         private String message;
         private String userId;
+        private String commentId;
 
         public Builder withActivityId(String activityId) {
             this.activityId = activityId;
@@ -70,8 +77,13 @@ public class EditCommentRequest {
             return this;
         }
 
+        public Builder withCommentId(String commentId) {
+            this.commentId = commentId;
+            return this;
+        }
+
         public EditCommentRequest build() {
-            return new EditCommentRequest(activityId, title, message, userId);
+            return new EditCommentRequest(activityId, title, message, userId, commentId);
         }
     }
 }

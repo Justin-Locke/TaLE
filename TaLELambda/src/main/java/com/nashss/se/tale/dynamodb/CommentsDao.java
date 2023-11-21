@@ -34,7 +34,12 @@ public class CommentsDao {
 
     }
 
-    public String deleteComment(String commentId, String activityId) {
+    public Comment getComment(String activityId, String commentId) {
+        Comment comment = mapper.load(Comment.class, activityId, commentId);
+        return comment;
+    }
+
+    public String deleteComment(String activityId, String commentId) {
         Comment commentToDelete = new Comment();
         commentToDelete.setCommentId(commentId);
         commentToDelete.setActivityId(activityId);
