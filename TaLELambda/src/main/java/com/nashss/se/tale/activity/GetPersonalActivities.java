@@ -9,13 +9,14 @@ import com.nashss.se.tale.models.ActivityModel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class GetPersonalActivities {
     private Logger log = LogManager.getLogger();
     private ActivitiesDao activitiesDao;
-
+    @Inject
     public GetPersonalActivities(ActivitiesDao activitiesDao) {
         this.activitiesDao = activitiesDao;
     }
