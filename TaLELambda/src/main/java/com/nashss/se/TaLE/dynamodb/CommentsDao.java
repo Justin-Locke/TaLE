@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.nashss.se.TaLE.dynamodb.models.Comment;
 import com.nashss.se.TaLE.metrics.MetricsPublisher;
+import org.checkerframework.checker.units.qual.C;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -32,5 +33,14 @@ public class CommentsDao {
         PaginatedQueryList<Comment> commentList = mapper.query(Comment.class, queryExpression);
         return commentList;
 
+    }
+
+    public String deleteComment(String commentId, String activityId) {
+        Comment commentToDelete = new Comment();
+        commentToDelete.setCommentId(commentId);
+        commentToDelete.setActivityId(activityId);
+        mapper.delete(commentToDelete);
+
+        return String.format("Comment %s successfully deleted.", commentId);
     }
 }

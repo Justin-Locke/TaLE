@@ -8,7 +8,7 @@ export default class TaLEClient extends BindingClass {
     constructor(props = {}) {
     super();
 
-    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity', 'viewActivity', 'viewCommentsForActivity'];
+    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity', 'viewActivity', 'viewCommentsForActivity', 'deleteComment'];
     this.bindClassMethods(methodsToBind, this);
 
     this.authenticator = new Authenticator();;
@@ -124,6 +124,24 @@ export default class TaLEClient extends BindingClass {
         try {
             const response = await this.axiosClient.get(`activities/${activityId}/comments`);
             return response.data.commentModelList;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    async deleteComment(activityId, commentId, errorCallback) {
+        try {
+            const userConfirmed = window.confirm('Are you sure you want to delete this comment?');
+            if (userConfirmed) {
+            const token = await this.getTokenOrThrow("Only authenticated users can delete a Comment");
+            const response = await this.axiosClient.delete(`/activities/${activityId}/comments/${commentId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            
+            });
+            return response.data.deleteResult;
+        }
         } catch (error) {
             this.handleError(error, errorCallback)
         }
