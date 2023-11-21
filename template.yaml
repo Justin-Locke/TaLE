@@ -250,7 +250,7 @@ Resources:
     Properties:
       Role: !GetAtt AccessRole.Arn
       CodeUri: TaLELambda
-      Handler: com.nashss.se.TaLE.lambda.CreateNewActivityLambda::handleRequest
+      Handler: com.nashss.se.tale.lambda.CreateNewActivityLambda::handleRequest
       Runtime: java11
       Architectures:
         - x86_64
@@ -270,7 +270,7 @@ Resources:
    Properties:
      Role: !GetAtt AccessRole.Arn
      CodeUri: TaLELambda
-     Handler: com.nashss.se.TaLE.lambda.GetCityLambda::handleRequest
+     Handler: com.nashss.se.tale.lambda.GetCityLambda::handleRequest
      Runtime: java11
      Architectures:
        - x86_64
@@ -292,7 +292,7 @@ Resources:
    Properties:
      Role: !GetAtt AccessRole.Arn
      CodeUri: TaLELambda
-     Handler: com.nashss.se.TaLE.lambda.GetAllCitiesLambda::handleRequest
+     Handler: com.nashss.se.tale.lambda.GetAllCitiesLambda::handleRequest
      Runtime: java11
      Architectures:
        - x86_64
@@ -314,7 +314,7 @@ Resources:
    Properties:
      Role: !GetAtt AccessRole.Arn
      CodeUri: TaLELambda
-     Handler: com.nashss.se.TaLE.lambda.GetActivityLambda::handleRequest
+     Handler: com.nashss.se.tale.lambda.GetActivityLambda::handleRequest
      Runtime: java11
      Architectures:
        - x86_64
@@ -336,7 +336,7 @@ Resources:
    Properties:
      Role: !GetAtt AccessRole.Arn
      CodeUri: TaLELambda
-     Handler: com.nashss.se.TaLE.lambda.CreateCommentLambda::handleRequest
+     Handler: com.nashss.se.tale.lambda.CreateCommentLambda::handleRequest
      Runtime: java11
      Architectures:
        - x86_64
@@ -356,7 +356,7 @@ Resources:
    Properties:
      Role: !GetAtt AccessRole.Arn
      CodeUri: TaLELambda
-     Handler: com.nashss.se.TaLE.lambda.GetCommentsForActivityLambda::handleRequest
+     Handler: com.nashss.se.tale.lambda.GetCommentsForActivityLambda::handleRequest
      Runtime: java11
      Architectures:
        - x86_64
@@ -376,7 +376,7 @@ Resources:
    Properties:
      Role: !GetAtt AccessRole.Arn
      CodeUri: TaLELambda
-     Handler: com.nashss.se.TaLE.lambda.DeleteCommentLambda::handleRequest
+     Handler: com.nashss.se.tale.lambda.DeleteCommentLambda::handleRequest
      Runtime: java11
      Architectures:
        - x86_64
