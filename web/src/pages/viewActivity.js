@@ -7,7 +7,9 @@ import DataStore from "../util/DataStore";
 class ViewActivity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage', 'redirectToCreateComment', 'addCommentsToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage',
+         'redirectToCreateComment', 'addCommentsToPage', 'deleteComment',
+        'redirectToEditComment'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.dataStore.addChangeListener(this.addCommentsToPage);
@@ -81,11 +83,12 @@ class ViewActivity extends BindingClass {
             // Check if the current user is the author of the comment
             if (currentUser && currentUser.email === comment.userId) {
                 const updateButton = document.createElement('button');
-                updateButton.textContent = 'Update';
+                updateButton.textContent = 'Edit';
+                updateButton.addEventListener('click', () => this.redirectToEditComment(activityId, comment.commentId));
 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
-                deleteButton.addEventListener('click', () => this.client.deleteComment(activityId, comment.commentId).then(location.reload()));
+                deleteButton.addEventListener('click', () => this.deleteComment(activityId, comment.commentId));
 
                 commentDiv.appendChild(updateButton);
                 commentDiv.appendChild(deleteButton);
@@ -111,12 +114,26 @@ class ViewActivity extends BindingClass {
         // }
         // document.getElementById('commentList').innerHTML = commentHtml;
     }
+    async deleteComment(acitivityId, commentId) {
+        const response = await this.client.deleteComment(acitivityId, commentId);
+        if (response != null) {
+            location.reload();
+        }
+    }
+
 
     redirectToCreateComment() {
         const activity = this.dataStore.get('activity');
         console.log("redirecting");
         if (activity != null) {
             window.location.href = `/createComment.html?activityId=${activity.activityId}`;
+        }
+    }
+
+    async redirectToEditComment(acitivityId, commentId) {
+        const comment = await this.client.viewComment(acitivityId, commentId);
+        if (comment != null) {
+             window.location.href = `/viewComment.html?activityId=${acitivityId}&commentId=${commentId}`;
         }
     }
 

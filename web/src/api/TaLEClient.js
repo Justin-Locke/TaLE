@@ -8,7 +8,10 @@ export default class TaLEClient extends BindingClass {
     constructor(props = {}) {
     super();
 
-    const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'viewCity', 'viewCities', 'createNewActivity', 'viewActivity', 'viewCommentsForActivity', 'deleteComment'];
+    const methodsToBind = ['clientLoaded', 'getIdentity', 'login',
+     'logout', 'viewCity', 'viewCities',
+      'createNewActivity', 'viewActivity', 'viewCommentsForActivity',
+      'viewComment', 'deleteComment', 'editComment'];
     this.bindClassMethods(methodsToBind, this);
 
     this.authenticator = new Authenticator();;
@@ -129,6 +132,21 @@ export default class TaLEClient extends BindingClass {
         }
     }
 
+    async viewComment(activityId, commentId, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only Authenticated users can see this comment.");
+            console.log(JSON.stringify("token =" + token));
+            const response = await this.axiosClient.get(`/activities/${activityId}/comments/${commentId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.commentModel;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
     async deleteComment(activityId, commentId, errorCallback) {
         try {
             const userConfirmed = window.confirm('Are you sure you want to delete this comment?');
@@ -142,6 +160,23 @@ export default class TaLEClient extends BindingClass {
             });
             return response.data.deleteResult;
         }
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
+    async editComment(activityId, commentId, commentTitle, commentMessage, errorCallback) {
+        try{
+            const token = await this.getTokenOrThrow("Only authenticated users cand update Comments");
+            const response = await this.axiosClient.put(`/activities/${activityId}/comments/${commentId}`, {
+                title: commentTitle,
+                message: commentMessage
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.commentModel;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

@@ -21,7 +21,7 @@ public class DeleteComment {
         String commentId = request.getCommentId();
         String activityId = request.getActivityId();
 
-        String result = commentsDao.deleteComment(commentId, activityId);
+        String result = commentsDao.deleteComment(activityId, commentId);
         return new DeleteCommentResult.Builder()
                 .withDeleteResult(result)
                 .build();
