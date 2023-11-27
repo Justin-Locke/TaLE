@@ -46,9 +46,17 @@ class PersonalPage extends BindingClass {
             
             activitiesContainer.appendChild(activityDiv);
             
+            
         })
+        document.getElementById('myActivityPosts').remove();
 
 
+    }
+
+    redirectToViewActivity(activityId) {
+        if (activityId != null) {
+            window.location.href = '/viewActivity.html?activityId=${activityId}';
+        }
     }
 
     
