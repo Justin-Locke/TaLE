@@ -7,7 +7,7 @@ import DataStore from "../util/DataStore";
 class PersonalPage extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addActivitiesToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addActivitiesToPage', 'addCommentsToPage'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
     }
@@ -15,6 +15,8 @@ class PersonalPage extends BindingClass {
     async clientLoaded() {
         const activities = await this.client.viewPersonalActivities();
         this.dataStore.set('activities', activities);
+        const comments = await this.client.viewPersonalComments();
+        this.dataStore.set('comments', comments);
 
         
     }
@@ -48,8 +50,30 @@ class PersonalPage extends BindingClass {
             
             
         })
-        document.getElementById('myActivityPosts').remove();
+        document.getElementById('myActivityPosts').hidden=true;
+        document.getElementById('myCommentPosts').hidden=false;
+    }
 
+    addCommentsToPage() {
+        const comments = this.dataStore.get('comments');
+        if (comments == null) {
+            return;
+        }
+
+        const commentsContainer = document.getElementById('commentsContainer');
+
+        comments.forEach(comment => {
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
+
+            const commentTitle = document.createElement('h3');
+            commentTitle.textContent = comment.title;
+            commentDiv.appendChild(commentTitle);
+
+            commentsContainer.appendChild(commentDiv);
+        })
+        document.getElementById('myCommentPosts').hidden=true;
+        document.getElementById('myActivityPosts').hidden=false;
 
     }
 
