@@ -11,7 +11,7 @@ export default class TaLEClient extends BindingClass {
     const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 
     'viewCity', 'viewCities',
       'createNewActivity', 'viewActivity', 'viewPersonalActivities',
-       'viewCommentsForActivity',
+       'viewCommentsForActivity', 'viewPersonalComments',
       'viewComment', 'deleteComment', 'editComment'];
     this.bindClassMethods(methodsToBind, this);
 
@@ -121,7 +121,19 @@ export default class TaLEClient extends BindingClass {
         }
     }
 
-    
+    async viewPersonalComments(errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only Authenticated users can view these Comments.");
+            const response = await this.axiosClient.get(`comments`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.commentModelList;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
 
     async createComment(activityId, commentTitle, commentMessage, errorCallback) {
         try {

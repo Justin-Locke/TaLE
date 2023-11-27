@@ -3,11 +3,14 @@ package com.nashss.se.tale.dynamodb;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
+import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.nashss.se.tale.dynamodb.models.Comment;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CommentsDao {
     private DynamoDBMapper mapper;
@@ -46,5 +49,18 @@ public class CommentsDao {
         mapper.delete(commentToDelete);
 
         return String.format("Comment %s successfully deleted.", commentId);
+    }
+
+    public List<Comment> getAllPersonalComments(String userId) {
+        Map<String, AttributeValue> valueMap = new HashMap<>();
+        valueMap.put(":userId", new AttributeValue().withS(userId));
+        DynamoDBQueryExpression<Comment> queryExpression = new DynamoDBQueryExpression<Comment>()
+                .withIndexName("CommentsByUserIndex")
+                .withConsistentRead(false)
+                .withKeyConditionExpression("userId = :userId")
+                .withExpressionAttributeValues(valueMap);
+
+        PaginatedQueryList<Comment> commentList = mapper.query(Comment.class, queryExpression);
+        return commentList;
     }
 }

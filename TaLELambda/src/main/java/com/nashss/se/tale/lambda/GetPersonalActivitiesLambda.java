@@ -11,12 +11,10 @@ public class GetPersonalActivitiesLambda
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<GetPersonalActivitiesRequest> input, Context context) {
         return super.runActivity(
-                () -> {
-                    return input.fromUserClaims(claims ->
-                            GetPersonalActivitiesRequest.builder()
-                                    .withUserId(claims.get("email"))
-                                    .build());
-                },
+                () -> input.fromUserClaims(claims ->
+                        GetPersonalActivitiesRequest.builder()
+                                .withUserId(claims.get("email"))
+                                .build()),
                 (request, serviceComponent) ->
                         serviceComponent.provideGetPersonalActivities().handleRequest(request)
         );
