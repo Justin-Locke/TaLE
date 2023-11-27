@@ -17,6 +17,7 @@ public interface ServiceComponent {
     GetPersonalActivities provideGetPersonalActivities();
     CreateComment provideCreateComment();
     GetCommentsForActivity provideGetCommentsForActivity();
+    GetPersonalComments provideGetPersonalComments();
     GetComment provideGetComment();
     DeleteComment provideDeleteComment();
     EditComment provideEditComment();

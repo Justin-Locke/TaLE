@@ -450,6 +450,26 @@ Resources:
          Properties:
            Path: /activities/{activityId}/comments/{commentId}
            Method: put
+
+  GetPersonalCommentsLambda:
+   Type: AWS::Serverless::Function
+   Properties:
+     Role: !GetAtt AccessRole.Arn
+     CodeUri: TaLELambda
+     Handler: com.nashss.se.tale.lambda.GetPersonalCommentsLambda::handleRequest
+     Runtime: java11
+     Architectures:
+       - x86_64
+     MemorySize: 512
+     Environment:
+       Variables:
+         JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+     Events:
+       TaLE:
+         Type: Api
+         Properties:
+           Path: /comments
+           Method: get
 #
 #  GetPetLambda:
 #    Type: AWS::Serverless::Function
