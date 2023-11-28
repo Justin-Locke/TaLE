@@ -65,7 +65,8 @@ export default class TaLEClient extends BindingClass {
     async viewCity(cityId, errorCallback) {
         try {
             const response = await this.axiosClient.get(`cities/${cityId}`);
-            return response.data.city;
+            console.log(JSON.stringify(response.data.cityModel))
+            return response.data.cityModel;
         } catch (error) {
             this.handleError(error, errorCallback)
         }

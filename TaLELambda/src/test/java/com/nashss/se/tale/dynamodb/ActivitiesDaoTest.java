@@ -10,7 +10,11 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 public class ActivitiesDaoTest {
@@ -27,6 +31,14 @@ public class ActivitiesDaoTest {
 
     ActivitiesDao activitiesDao;
 
+    Activity ACTIVITY_1;
+    Activity ACTIVITY_2;
+    Activity ACTIVITY_3;
+    String VALID_USER_ID = "1234";
+    String VALID_USER_ID2 = "2345";
+
+
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
@@ -35,10 +47,21 @@ public class ActivitiesDaoTest {
         when(mapper.query(eq(Activity.class), any(DynamoDBQueryExpression.class))).thenReturn(paginatedQueryList);
 
         when(paginatedQueryList.toArray()).thenReturn(new Object[0]);
+
+        ACTIVITY_1 = new Activity();
+        ACTIVITY_1.setActivityId("A1111CT");
+        ACTIVITY_1.setUserId(VALID_USER_ID);
+        ACTIVITY_2 = new Activity();
+        ACTIVITY_2.setActivityId("A234912tyY");
+        ACTIVITY_2.setUserId(VALID_USER_ID2);
+        ACTIVITY_3 = new Activity();
+        ACTIVITY_3.setActivityId("A850238");
+        ACTIVITY_3.setUserId(VALID_USER_ID);
+
     }
 
     @Test
-    void createNewActivity_withValidFields_createsAndSavesActivity() {
+    void saveActivity_withValidFields_createsAndSavesActivity() {
         //Given
         Activity activity = new Activity();
         activity.setActivityName("Justin's  Test");
@@ -48,4 +71,27 @@ public class ActivitiesDaoTest {
         assertEquals(activity, result);
         verify(mapper, times(1)).save(any());
     }
+
+    @Test
+    void getActivityById_withValidId_returnsActivity() {
+        //Given
+        // A Valid ActivityID
+        //When
+        when(mapper.load(any(), anyString())).thenReturn(ACTIVITY_1);
+        Activity result = activitiesDao.getActivityById("1234");
+         assertEquals(ACTIVITY_1, result);
+    }
+
+    @Test
+    void getAllPersonalActivities_withValidUserId_returnsAllActivitiesForUser() {
+        //Given
+        //When
+        when(mapper.query(any(), any(DynamoDBQueryExpression.class))).thenReturn(paginatedQueryList);
+        List<Activity> results = activitiesDao.getAllPersonalActivities(VALID_USER_ID);
+
+        //Then
+        assertNotNull(results);
+        assertEquals(paginatedQueryList, results);
+    }
+
 }
