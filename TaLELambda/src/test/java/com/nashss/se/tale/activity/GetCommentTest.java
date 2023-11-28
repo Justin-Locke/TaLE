@@ -4,12 +4,14 @@ import com.nashss.se.tale.activity.requests.GetCommentRequest;
 import com.nashss.se.tale.activity.results.GetCommentResult;
 import com.nashss.se.tale.dynamodb.CommentsDao;
 import com.nashss.se.tale.dynamodb.models.Comment;
+import com.nashss.se.tale.models.CommentModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +44,10 @@ class GetCommentTest {
         GetCommentResult result = getComment.handleRequest(request);
         //Then
         assertNotNull(result);
+        CommentModel model = result.getCommentModel();
+        assertEquals(comment.getCommentId(), model.getCommentId());
+        assertEquals(comment.getActivityId(), model.getActivityId());
+        assertEquals(comment.getUserId(), model.getUserId());
 
     }
 }

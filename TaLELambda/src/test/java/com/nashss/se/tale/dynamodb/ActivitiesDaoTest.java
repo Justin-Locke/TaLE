@@ -1,6 +1,8 @@
 package com.nashss.se.tale.dynamodb;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.nashss.se.tale.dynamodb.models.Activity;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +12,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

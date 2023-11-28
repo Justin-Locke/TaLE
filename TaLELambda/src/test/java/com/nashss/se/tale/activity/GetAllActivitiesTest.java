@@ -4,8 +4,6 @@ import com.nashss.se.tale.activity.requests.GetAllActivitiesRequest;
 import com.nashss.se.tale.activity.results.GetAllActivitiesResult;
 import com.nashss.se.tale.dynamodb.ActivitiesDao;
 import com.nashss.se.tale.dynamodb.models.Activity;
-import com.nashss.se.tale.models.ActivityModel;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -36,7 +34,7 @@ class GetAllActivitiesTest {
         GetAllActivitiesRequest request = new GetAllActivitiesRequest.Builder()
                 .withActivityIdList(activityIds)
                 .build();
-        List<Activity> activityList = new ArrayList<>();
+
         Activity activity1 = new Activity();
         activity1.setActivityId("1");
         Activity activity2 = new Activity();
@@ -52,7 +50,7 @@ class GetAllActivitiesTest {
         GetAllActivitiesResult result = getAllActivities.handleRequest(request);
         //Then
         assertNotNull(result);
-        assertTrue(result.getActivityModelList().size() == 3);
+        assertEquals(3, result.getActivityModelList().size());
 
     }
 }

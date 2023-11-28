@@ -1,9 +1,9 @@
 package com.nashss.se.tale.lambda;
-import com.nashss.se.tale.activity.requests.GetActivityRequest;
-import com.nashss.se.tale.activity.results.GetActivityResult;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.nashss.se.tale.activity.requests.GetActivityRequest;
+import com.nashss.se.tale.activity.results.GetActivityResult;
 
 public class GetActivityLambda
         extends LambdaActivityRunner<GetActivityRequest, GetActivityResult>

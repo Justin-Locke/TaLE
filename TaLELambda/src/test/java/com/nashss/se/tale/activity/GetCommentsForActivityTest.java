@@ -5,7 +5,6 @@ import com.nashss.se.tale.activity.results.GetCommentsForActivityResult;
 import com.nashss.se.tale.dynamodb.CommentsDao;
 import com.nashss.se.tale.dynamodb.models.Comment;
 import com.nashss.se.tale.models.CommentModel;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -14,7 +13,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -50,5 +50,6 @@ class GetCommentsForActivityTest {
         assertNotNull(result);
         List<CommentModel> modelList = result.getCommentModelList();
         assertEquals(comment1.getActivityId(), modelList.get(0).getActivityId());
+        assertEquals(comment2.getActivityId(), modelList.get(1).getActivityId());
     }
 }

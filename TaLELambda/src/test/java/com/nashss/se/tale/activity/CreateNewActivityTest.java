@@ -11,8 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import javax.inject.Singleton;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,6 +60,6 @@ class CreateNewActivityTest {
         assertEquals(request.getActivityName(), model.getActivityName());
         assertEquals(request.getDescription(), model.getDescription());
         assertEquals(request.getPosterExperience(), model.getPosterExperience());
-        assertTrue(cityToUpdate.getActivityList().size() == 2);
+        assertEquals(2, cityToUpdate.getActivityList().size());
     }
 }

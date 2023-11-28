@@ -6,17 +6,15 @@ import com.nashss.se.tale.dynamodb.models.Comment;
 import com.nashss.se.tale.models.ActivityModel;
 import com.nashss.se.tale.models.CityModel;
 import com.nashss.se.tale.models.CommentModel;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ModelConverterTest {
 

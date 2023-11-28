@@ -6,12 +6,10 @@ import com.nashss.se.tale.converters.ModelConverter;
 import com.nashss.se.tale.dynamodb.CitiesDao;
 import com.nashss.se.tale.dynamodb.models.City;
 import com.nashss.se.tale.models.CityModel;
-
-import javax.inject.Inject;
-
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import javax.inject.Inject;
 
 public class GetCity {
 

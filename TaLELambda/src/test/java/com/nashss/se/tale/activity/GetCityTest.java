@@ -5,7 +5,6 @@ import com.nashss.se.tale.activity.results.GetCityResult;
 import com.nashss.se.tale.dynamodb.CitiesDao;
 import com.nashss.se.tale.dynamodb.models.City;
 import com.nashss.se.tale.models.CityModel;
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -14,7 +13,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -50,7 +50,7 @@ class GetCityTest {
         //Then
         assertNotNull(result);
         CityModel model = result.getCityModel();
-
+        assertEquals(activityIds, model.getActivityList());
 
     }
 }
