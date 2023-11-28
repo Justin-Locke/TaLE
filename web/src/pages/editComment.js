@@ -41,6 +41,7 @@ class EditComment extends BindingClass {
         errorMessageDisplay.classList.add('hidden');
         
         const activityId = this.dataStore.get('activityId');
+        console.log(JSON.stringify(activityId + "= activityId"));
         const commentId = this.dataStore.get('commentId');
         
         const createButton = document.getElementById('submitUpdatedComment');
