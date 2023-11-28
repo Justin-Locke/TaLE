@@ -2,7 +2,6 @@ package com.nashss.se.tale.lambda;
 
 import com.nashss.se.tale.dependency.DaggerServiceComponent;
 import com.nashss.se.tale.dependency.ServiceComponent;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

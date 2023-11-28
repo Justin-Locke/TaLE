@@ -1,9 +1,8 @@
 package com.nashss.se.tale.dependency;
 
-import com.nashss.se.tale.dynamodb.DynamoDbClientProvider;
-
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.nashss.se.tale.dynamodb.DynamoDbClientProvider;
 import dagger.Module;
 import dagger.Provides;
 

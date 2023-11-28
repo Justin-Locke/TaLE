@@ -12,10 +12,6 @@ import org.apache.logging.log4j.Logger;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class GetAllActivities {
     private Logger log = LogManager.getLogger();
@@ -30,28 +26,30 @@ public class GetAllActivities {
         List<String> activityIdList = request.getActivityIdList();
         List<Activity> activityList = new ArrayList<>();
 
-        ExecutorService executor = Executors.newCachedThreadPool();
+//        ExecutorService executor = Executors.newCachedThreadPool();
 
         for (String id: activityIdList) {
-            try {
-                Future<Activity> activity = executor.submit(() -> activitiesDao.getActivityById(id));
-                activityList.add(activity.get());
-
-            } catch (InterruptedException | ExecutionException e) {
-                e.getCause();
-            }
+            activityList.add(activitiesDao.getActivityById(id));
+//            try {
+//                Future<Activity> activity = executor.submit(() -> activitiesDao.getActivityById(id));
+//                activityList.add(activity.get());
+//
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.getCause();
+//            }
         }
 
         List<ActivityModel> activityModelList = new ArrayList<>();
         for (Activity activity: activityList) {
-            try {
-                Future<ActivityModel> model = executor.submit(() -> new ModelConverter().toActivityModel(activity));
-                activityModelList.add(model.get());
-            } catch (InterruptedException | ExecutionException e) {
-                e.getCause();
-            }
+            activityModelList.add(new ModelConverter().toActivityModel(activity));
+//            try {
+//                Future<ActivityModel> model = executor.submit(() -> new ModelConverter().toActivityModel(activity));
+//                activityModelList.add(model.get());
+//            } catch (InterruptedException | ExecutionException e) {
+//                e.getCause();
+//            }
         }
-        executor.shutdown();
+//        executor.shutdown();
 
         return GetAllActivitiesResult.builder()
                 .withActivityModelList(activityModelList)

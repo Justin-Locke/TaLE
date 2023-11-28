@@ -1,7 +1,5 @@
 package com.nashss.se.tale.activity.requests;
 
-import com.nashss.se.tale.activity.results.GetCommentResult;
-
 public class GetCommentRequest {
     private String activityId;
     private String commentId;

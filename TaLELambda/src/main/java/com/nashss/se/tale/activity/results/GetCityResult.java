@@ -8,7 +8,7 @@ public class GetCityResult {
         this.city = city;
     }
 
-    public CityModel getCity() {
+    public CityModel getCityModel() {
         return city;
     }
 
