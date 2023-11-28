@@ -11,6 +11,7 @@ export default class TaLEClient extends BindingClass {
     const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 
     'viewCity', 'viewCities',
       'createNewActivity', 'viewActivity', 'viewPersonalActivities',
+      'editActivity',
        'viewCommentsForActivity', 'viewPersonalComments',
       'viewComment', 'deleteComment', 'editComment'];
     this.bindClassMethods(methodsToBind, this);
@@ -83,6 +84,7 @@ export default class TaLEClient extends BindingClass {
 
     async createNewActivity(cityId, activityName, description, posterExperience, errorCallback) {
         try {
+            console.log(JSON.stringify("city =" + cityId + "activityName =" + activityName + "description =" + description + "posterExperiene =" + posterExperience));
             const token = await this.getTokenOrThrow("Only authenticated users can create an Activity Post.");
             const response = await this.axiosClient.post(`cities/${cityId}/activities`, {
                 activityName: activityName,
@@ -106,6 +108,24 @@ export default class TaLEClient extends BindingClass {
           } catch (error) {
             this.handleError(error, errorCallback)
           }
+    }
+
+    async editActivity(activityId, activityName, description, posterExperience, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users cand update Comments");
+            const response = await this.axiosClient.put(`/activities/${activityId}`, {
+                updatedActivityName: activityName,
+                updatedDescription: description,
+                updatedPosterExperience: posterExperience
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.activityModel;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
     }
 
     async viewPersonalActivities(errorCallback) {

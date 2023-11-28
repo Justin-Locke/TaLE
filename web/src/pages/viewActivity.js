@@ -9,6 +9,7 @@ class ViewActivity extends BindingClass {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage',
          'redirectToCreateComment', 'addCommentsToPage', 'deleteComment',
+         'redirectToEditActivity',
         'redirectToEditComment'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
@@ -28,6 +29,7 @@ class ViewActivity extends BindingClass {
         console.log(JSON.stringify(comments + " = comments "));
         this.dataStore.set('comments', comments);
 
+        
     }
 
     mount() {  
@@ -39,15 +41,25 @@ class ViewActivity extends BindingClass {
         this.clientLoaded();
     }
 
-    addActivityToPage() {
+    async addActivityToPage() {
         const activity = this.dataStore.get('activity');
         if (activity == null) {
             return;
         }
+        const activityId = this.dataStore.get('activityId');
 
         document.getElementById('activityName').innerText = activity.activityName;
         document.getElementById('description').innerText = activity.description;
         document.getElementById('posterExperience').innerText = activity.posterExperience;
+
+        const user = await this.client.getIdentity();
+        // if (user && user.email != activity.userId) {
+        //     document.getElementById('editActivityButton').style.visibility='hidden';
+        // }
+        if (user && user.email === activity.userId) {
+            document.getElementById('editActivityButton').removeAttribute("hidden");
+            document.getElementById('editActivityButton').addEventListener('click', () => this.redirectToEditActivity(activityId));
+        }
 
     }
 
@@ -62,8 +74,6 @@ class ViewActivity extends BindingClass {
         console.log(JSON.stringify("Comments =" + comments));
         
         const currentUser = await this.client.getIdentity();
-        console.log(currentUser);
-        console.log(JSON.stringify(currentUser));
 
 
         const commentsContainer = document.getElementById('commentsContainer');
@@ -118,6 +128,13 @@ class ViewActivity extends BindingClass {
         const response = await this.client.deleteComment(acitivityId, commentId);
         if (response != null) {
             location.reload();
+        }
+    }
+
+    async redirectToEditActivity(acitivityId) {
+        const activity = await this.client.viewActivity(acitivityId);
+        if (activity != null) {
+            window.location.href = `/editActivity.html?activityId=${acitivityId}`;
         }
     }
 

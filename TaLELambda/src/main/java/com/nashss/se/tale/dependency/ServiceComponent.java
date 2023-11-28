@@ -15,6 +15,7 @@ public interface ServiceComponent {
     GetActivity provideGetActivity();
     GetAllActivities provideGetAllActivities();
     GetPersonalActivities provideGetPersonalActivities();
+    EditActivity provideEditActivity();
     CreateComment provideCreateComment();
     GetCommentsForActivity provideGetCommentsForActivity();
     GetPersonalComments provideGetPersonalComments();
