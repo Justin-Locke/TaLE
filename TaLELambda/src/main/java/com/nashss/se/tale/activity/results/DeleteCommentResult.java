@@ -2,6 +2,11 @@ package com.nashss.se.tale.activity.results;
 
 public class DeleteCommentResult {
     private final String deleteResult;
+
+    /**
+     * Constructor for DeleteCommentResult.
+     * @param deleteResult string with result message.
+     */
     public DeleteCommentResult(String deleteResult) {
         this.deleteResult = deleteResult;
     }

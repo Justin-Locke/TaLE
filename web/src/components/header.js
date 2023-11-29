@@ -1,4 +1,4 @@
-import MusicPlaylistClient from '../api/musicPlaylistClient';
+import TaLEClient from '../api/TaLEClient';
 import BindingClass from "../util/bindingClass";
 
 /**
@@ -14,7 +14,7 @@ export default class Header extends BindingClass {
         ];
         this.bindClassMethods(methodsToBind, this);
 
-        this.client = new MusicPlaylistClient();
+        this.client = new TaLEClient();
     }
 
     /**
@@ -34,7 +34,7 @@ export default class Header extends BindingClass {
     createSiteTitle() {
         const homeButton = document.createElement('a');
         homeButton.classList.add('header_home');
-        homeButton.href = 'home.html';
+        homeButton.href = '/';
         homeButton.innerText = 'TaLE \n  (Travel: a Local Experience)';
 
         const siteTitle = document.createElement('div');

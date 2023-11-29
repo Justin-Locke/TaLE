@@ -1,6 +1,9 @@
 package com.nashss.se.tale.activity.requests;
 
 public class GetAllCitiesRequest {
+    /**
+     * Constructor for GetAllCitiesRequest.
+     */
     public GetAllCitiesRequest() {
 
     }

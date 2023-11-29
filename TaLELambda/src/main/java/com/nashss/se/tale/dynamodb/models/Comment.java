@@ -1,7 +1,13 @@
 package com.nashss.se.tale.dynamodb.models;
-
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.nashss.se.tale.converters.LocalDateConverter;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -84,10 +90,20 @@ public class Comment {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Comment comment = (Comment) o;
-        return Objects.equals(activityId, comment.activityId) && Objects.equals(commentId, comment.commentId) && Objects.equals(title, comment.title) && Objects.equals(message, comment.message) && Objects.equals(userId, comment.userId) && Objects.equals(datePosted, comment.datePosted) && Objects.equals(edited, comment.edited);
+        return Objects.equals(activityId, comment.activityId) &&
+                Objects.equals(commentId, comment.commentId) &&
+                Objects.equals(title, comment.title) &&
+                Objects.equals(message, comment.message) &&
+                Objects.equals(userId, comment.userId) &&
+                Objects.equals(datePosted, comment.datePosted) &&
+                Objects.equals(edited, comment.edited);
     }
 
     @Override

@@ -5,6 +5,12 @@ public class GetCommentRequest {
     private String commentId;
     private String userId;
 
+    /**
+     * Constructor for GetCommentRequest.
+     * @param activityId for Hash Key.
+     * @param commentId for Range Key.
+     * @param userId to determine user.
+     */
     public GetCommentRequest(String activityId, String commentId, String userId) {
         this.activityId = activityId;
         this.commentId = commentId;
@@ -32,6 +38,7 @@ public class GetCommentRequest {
                 '}';
     }
 
+    //CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
     }

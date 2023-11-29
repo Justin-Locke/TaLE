@@ -3,6 +3,10 @@ package com.nashss.se.tale.activity.requests;
 public class GetPersonalActivitiesRequest {
     private final String userId;
 
+    /**
+     * Constructor for GetPersonalActivitiesRequest.
+     * @param userId to find users posted Activities.
+     */
     public GetPersonalActivitiesRequest(String userId) {
         this.userId = userId;
     }

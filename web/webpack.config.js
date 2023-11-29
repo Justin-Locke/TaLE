@@ -23,7 +23,7 @@ module.exports = {
     usedExports: true
   },
   entry: {
-    createPlaylist: path.resolve(__dirname, 'src', 'pages', 'createPlaylist.js'),
+//    createPlaylist: path.resolve(__dirname, 'src', 'pages', 'createPlaylist.js'),
     viewCities: path.resolve(__dirname, 'src', 'pages', 'viewCities.js'),
     viewCity: path.resolve(__dirname, 'src', 'pages', 'viewCity.js'),
     createNewActivity: path.resolve(__dirname, 'src', 'pages', 'createNewActivity.js'),
@@ -32,7 +32,7 @@ module.exports = {
     personalPage: path.resolve(__dirname, 'src', 'pages', 'personalPage.js'),
     editComment: path.resolve(__dirname, 'src', 'pages', 'editComment.js'),
     createComment: path.resolve(__dirname, 'src', 'pages', 'createComment.js'),
-    searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js'),
+//    searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js'),
     home: path.resolve(__dirname, 'src', 'pages', 'home.js'),
   },
   output: {

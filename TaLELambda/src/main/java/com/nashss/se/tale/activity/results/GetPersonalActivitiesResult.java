@@ -7,6 +7,10 @@ import java.util.List;
 public class GetPersonalActivitiesResult {
     private final List<ActivityModel> activityModelList;
 
+    /**
+     * Constructor for GetPersonalActivitiesResult.
+     * @param activityModelList list of ActivityModels to create Result.
+     */
     public GetPersonalActivitiesResult(List<ActivityModel> activityModelList) {
         this.activityModelList = activityModelList;
     }

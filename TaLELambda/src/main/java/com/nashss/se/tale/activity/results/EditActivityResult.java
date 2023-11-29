@@ -5,6 +5,10 @@ import com.nashss.se.tale.models.ActivityModel;
 public class EditActivityResult {
     private final ActivityModel activityModel;
 
+    /**
+     * Constructor for EditActivityResult.
+     * @param activityModel to create Result.
+     */
     public EditActivityResult(ActivityModel activityModel) {
         this.activityModel = activityModel;
     }

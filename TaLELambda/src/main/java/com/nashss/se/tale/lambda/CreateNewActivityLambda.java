@@ -1,9 +1,10 @@
 package com.nashss.se.tale.lambda;
+import com.nashss.se.tale.activity.requests.CreateNewActivityRequest;
+import com.nashss.se.tale.activity.results.CreateNewActivityResult;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.nashss.se.tale.activity.requests.CreateNewActivityRequest;
-import com.nashss.se.tale.activity.results.CreateNewActivityResult;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,26 +1,37 @@
 package com.nashss.se.tale.activity;
-
 import com.nashss.se.tale.activity.requests.GetPersonalActivitiesRequest;
 import com.nashss.se.tale.activity.results.GetPersonalActivitiesResult;
 import com.nashss.se.tale.converters.ModelConverter;
 import com.nashss.se.tale.dynamodb.ActivitiesDao;
 import com.nashss.se.tale.dynamodb.models.Activity;
 import com.nashss.se.tale.models.ActivityModel;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import javax.inject.Inject;
+
 
 public class GetPersonalActivities {
     private Logger log = LogManager.getLogger();
     private ActivitiesDao activitiesDao;
+
+    /**
+     * Constructor for GetPersonalActivities using Dagger.
+     * @param activitiesDao to instantiate ActivitiesDao for DDB methods.
+     */
     @Inject
     public GetPersonalActivities(ActivitiesDao activitiesDao) {
         this.activitiesDao = activitiesDao;
     }
 
+    /**
+     * Method to retrieve Personally Posted Activities.
+     * @param request from Lambda containing user Id.
+     * @return List of Activities from USER.
+     */
     public GetPersonalActivitiesResult handleRequest(final GetPersonalActivitiesRequest request) {
         List<Activity> activityList = activitiesDao.getAllPersonalActivities(request.getUserId());
 

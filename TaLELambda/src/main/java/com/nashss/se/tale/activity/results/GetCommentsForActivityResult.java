@@ -6,6 +6,11 @@ import java.util.List;
 
 public class GetCommentsForActivityResult {
     private final List<CommentModel> commentModelList;
+
+    /**
+     * Constructor for GetCommentsForActivityResult.
+     * @param commentModelList to create Result.
+     */
     public GetCommentsForActivityResult(List<CommentModel> commentModelList) {
         this.commentModelList = commentModelList;
     }

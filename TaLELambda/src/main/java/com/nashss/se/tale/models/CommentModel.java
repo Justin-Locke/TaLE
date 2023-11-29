@@ -12,6 +12,16 @@ public class CommentModel {
     private LocalDate datePosted;
     private Boolean edited;
 
+    /**
+     * Constructor for Comment Model.
+     * @param activityId from comment.
+     * @param commentId from comment.
+     * @param title from comment.
+     * @param message from comment.
+     * @param userId from comment.
+     * @param datePosted from comment.
+     * @param edited from comment.
+     */
     public CommentModel(String activityId, String commentId,
                         String title, String message,
                         String userId, LocalDate datePosted,
@@ -62,13 +72,13 @@ public class CommentModel {
             return false;
         }
         CommentModel that = (CommentModel) o;
-        return Objects.equals(activityId, that.activityId)
-                && Objects.equals(commentId, that.commentId)
-                && Objects.equals(title, that.title)
-                && Objects.equals(message, that.message)
-                && Objects.equals(userId, that.userId)
-                && Objects.equals(datePosted, that.datePosted)
-                && Objects.equals(edited, that.edited);
+        return Objects.equals(activityId, that.activityId) &&
+                Objects.equals(commentId, that.commentId) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(message, that.message) &&
+                Objects.equals(userId, that.userId) &&
+                Objects.equals(datePosted, that.datePosted) &&
+                Objects.equals(edited, that.edited);
     }
 
     @Override

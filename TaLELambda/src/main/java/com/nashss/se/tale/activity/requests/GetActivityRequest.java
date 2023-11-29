@@ -3,6 +3,10 @@ package com.nashss.se.tale.activity.requests;
 public class GetActivityRequest {
     private String activityId;
 
+    /**
+     * Constructor for GetActivityRequest.
+     * @param activityId to create Request.
+     */
     public GetActivityRequest(String activityId) {
         this.activityId = activityId;
     }

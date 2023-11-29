@@ -1,13 +1,19 @@
 package com.nashss.se.tale.dynamodb.models;
-
-import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.nashss.se.tale.converters.LocalDateConverter;
+
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "activities")
 public class Activity {
+    private static final String GSI_INDEX_NAME = "ActivitiesByUserIndex";
     private String activityId;
     private String userId;
     private String activityName;
@@ -16,7 +22,6 @@ public class Activity {
     private Boolean edited;
     private String posterExperience;
 
-    private static final String GSI_INDEX_NAME = "ActivitiesByUserIndex";
     @DynamoDBHashKey(attributeName = "activityId")
     public String getActivityId() {
         return activityId;
@@ -78,10 +83,20 @@ public class Activity {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Activity activity = (Activity) o;
-        return Objects.equals(activityId, activity.activityId) && Objects.equals(userId, activity.userId) && Objects.equals(activityName, activity.activityName) && Objects.equals(description, activity.description) && Objects.equals(datePosted, activity.datePosted) && Objects.equals(edited, activity.edited) && Objects.equals(posterExperience, activity.posterExperience);
+        return Objects.equals(activityId, activity.activityId) &&
+                Objects.equals(userId, activity.userId) &&
+                Objects.equals(activityName, activity.activityName) &&
+                Objects.equals(description, activity.description) &&
+                Objects.equals(datePosted, activity.datePosted) &&
+                Objects.equals(edited, activity.edited) &&
+                Objects.equals(posterExperience, activity.posterExperience);
     }
 
     @Override

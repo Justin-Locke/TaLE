@@ -4,6 +4,11 @@ import java.util.List;
 
 public class GetAllActivitiesRequest {
     private List<String> activityIdList;
+
+    /**
+     * Constructor for GetAllActivitiesRequest.
+     * @param activityIdList List of activityIds.
+     */
     public GetAllActivitiesRequest(List<String> activityIdList) {
         this.activityIdList = activityIdList;
     }

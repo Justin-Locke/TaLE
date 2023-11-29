@@ -42,10 +42,16 @@ public class City {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         City city = (City) o;
-        return Objects.equals(cityId, city.cityId) && Objects.equals(activityList, city.activityList) && Objects.equals(cityName, city.cityName);
+        return Objects.equals(cityId, city.cityId) &&
+                Objects.equals(activityList, city.activityList) &&
+                Objects.equals(cityName, city.cityName);
     }
 
     @Override

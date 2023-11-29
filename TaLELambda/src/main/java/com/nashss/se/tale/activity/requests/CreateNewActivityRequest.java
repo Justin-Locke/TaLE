@@ -12,7 +12,16 @@ public class CreateNewActivityRequest {
     private String description;
     private String posterExperience;
 
-    public CreateNewActivityRequest(String cityId, String userId, String activityName, String description, String posterExperience) {
+    /**
+     * Constructor for CreateNewActivityRequest.
+     * @param cityId City Activity is linked to.
+     * @param userId of user making request.
+     * @param activityName Name of new Activity.
+     * @param description for new Activity.
+     * @param posterExperience for new Activity.
+     */
+    public CreateNewActivityRequest(String cityId, String userId,
+                                    String activityName, String description, String posterExperience) {
         this.cityId = cityId;
         this.userId = userId;
         this.activityName = activityName;

@@ -5,6 +5,10 @@ import com.nashss.se.tale.models.CommentModel;
 public class EditCommentResult {
     private final CommentModel commentModel;
 
+    /**
+     * Constructor for EditCommentResult.
+     * @param commentModel to create updatedCommentResult.
+     */
     public EditCommentResult(CommentModel commentModel) {
         this.commentModel = commentModel;
     }
