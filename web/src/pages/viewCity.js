@@ -2,6 +2,7 @@ import TaLEClient from '../api/TaLEClient';
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
+import Authenticator from '../api/authenticator';
 
 class ViewCity extends BindingClass {
     constructor() {
@@ -10,6 +11,7 @@ class ViewCity extends BindingClass {
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCityToPage);
         this.dataStore.addChangeListener(this.addActivitiesToPage);
+        this.authenticator = new Authenticator();;
 
         this.header = new Header(this.dataStore);
         console.log("ViewCity constructor");
@@ -30,7 +32,15 @@ class ViewCity extends BindingClass {
             allActivities.push(activity);
         }
         this.dataStore.set('allActivities', allActivities);
+
+        const userLoggedIn = await this.client.getIdentity();
+
+        if (userLoggedIn != null) {
+            document.getElementById('createNewActivityButton').removeAttribute("hidden");
         }
+    }
+
+
 
         
        

@@ -5,6 +5,12 @@ public class DeleteCommentRequest {
     private final String userId;
     private final String activityId;
 
+    /**
+     * Constructor for DeleteCommentRequest.
+     * @param commentId for Sort Key.
+     * @param userId Verify User.
+     * @param activityId for Hash Key.
+     */
     public DeleteCommentRequest(String commentId, String userId, String activityId) {
         this.commentId = commentId;
         this.userId = userId;
@@ -23,9 +29,11 @@ public class DeleteCommentRequest {
         return activityId;
     }
 
+    //CHECKSTYLE:OFF:Builder
     public static Builder builder() {
         return new Builder();
     }
+
     public static class Builder {
         private String commentId;
         private String userId;

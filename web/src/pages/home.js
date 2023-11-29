@@ -6,17 +6,27 @@ class Homepage extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['mount'], this);
+        this.bindClassMethods(['clientLoaded', 'mount'], this);
 
         this.header = new Header(this.dataStore);
 
         console.log("Homepage constructor");
     }
 
+    async clientLoaded() {
+        const user = await this.client.getIdentity();
+        if (user != null) {
+            document.getElementById('personalPage').removeAttribute("hidden");
+        }
+    }
+
     mount() {
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
+        this.clientLoaded();
     }
+
+
 
 }
 

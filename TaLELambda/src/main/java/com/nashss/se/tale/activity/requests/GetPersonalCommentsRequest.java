@@ -3,6 +3,10 @@ package com.nashss.se.tale.activity.requests;
 public class GetPersonalCommentsRequest {
     private final String userId;
 
+    /**
+     * Constructor for GetPersonalCommentsRequest.
+     * @param userId to create Request.
+     */
     public GetPersonalCommentsRequest(String userId) {
         this.userId = userId;
     }

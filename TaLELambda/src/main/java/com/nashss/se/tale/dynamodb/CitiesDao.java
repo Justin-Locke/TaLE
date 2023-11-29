@@ -1,13 +1,14 @@
 package com.nashss.se.tale.dynamodb;
+import com.nashss.se.tale.dynamodb.models.City;
+import com.nashss.se.tale.metrics.MetricsPublisher;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
-import com.nashss.se.tale.dynamodb.models.City;
-import com.nashss.se.tale.metrics.MetricsPublisher;
 
-import javax.inject.Inject;
 import java.util.List;
+import javax.inject.Inject;
+
 
 public class CitiesDao {
     private DynamoDBMapper dynamoDBMapper;
@@ -24,6 +25,11 @@ public class CitiesDao {
         this.metricsPublisher = metricsPublisher;
     }
 
+    /**
+     * Method to get single city.
+     * @param id of City.
+     * @return single City.
+     */
     public City getCityById(String id) {
         City city = this.dynamoDBMapper.load(City.class, id);
 
@@ -31,15 +37,19 @@ public class CitiesDao {
     }
 
     /**
-     *
-     * @param city
-     * @return
+     * Method to save City to DDB.
+     * @param city to save.
+     * @return saved City.
      */
     public City saveCity(City city) {
         this.dynamoDBMapper.save(city);
         return city;
     }
 
+    /**
+     * Method to return all cities from cities table.
+     * @return List of City.
+     */
     public List<City> getAllCities() {
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         PaginatedScanList<City> cityList = dynamoDBMapper.scan(City.class, scanExpression);

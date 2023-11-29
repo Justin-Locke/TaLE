@@ -61,6 +61,10 @@ class ViewActivity extends BindingClass {
             document.getElementById('editActivityButton').addEventListener('click', () => this.redirectToEditActivity(activityId));
         }
 
+        if (user != null) {
+            document.getElementById('createCommentButton').removeAttribute("hidden");
+        }
+
     }
 
     async addCommentsToPage() {

@@ -11,6 +11,14 @@ public class EditActivityRequest {
     private String updatedDescription;
     private String updatedPosterExperience;
 
+    /**
+     * Constructor for EditActivityRequest.
+     * @param activityId of Activity.
+     * @param userId of User.
+     * @param updatedActivityName updated String.
+     * @param updatedDescription updated String.
+     * @param updatedPosterExperience updated String.
+     */
     public EditActivityRequest(String activityId, String userId,
                                String updatedActivityName, String updatedDescription,
                                String updatedPosterExperience) {

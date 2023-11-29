@@ -7,6 +7,11 @@ import java.util.List;
 
 public class GetAllCitiesResult {
     private final List<CityModel> cityModelList;
+
+    /**
+     * Constructor for GetAllCitiesResult.
+     * @param cityModelList list of City Models to create Result.
+     */
     public GetAllCitiesResult(List<CityModel> cityModelList) {
         this.cityModelList = cityModelList;
     }

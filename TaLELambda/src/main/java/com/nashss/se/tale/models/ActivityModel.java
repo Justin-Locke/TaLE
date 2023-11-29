@@ -12,6 +12,16 @@ public class ActivityModel {
     private Boolean edited;
     private String posterExperience;
 
+    /**
+     * Constructor for Activity Model.
+     * @param activityId from activity.
+     * @param userId from activity.
+     * @param activityName from activity.
+     * @param description from activity.
+     * @param datePosted from activity.
+     * @param edited from activity.
+     * @param posterExperience from activity.
+     */
     public ActivityModel(String activityId, String userId,
                          String activityName, String description,
                          LocalDate datePosted, Boolean edited,

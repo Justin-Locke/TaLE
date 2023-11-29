@@ -2,6 +2,11 @@ package com.nashss.se.tale.activity.requests;
 
 public class GetCommentsForActivityRequest {
     private String activityId;
+
+    /**
+     * Constructor for GetCommentsForActivityRequest.
+     * @param activityId to create Request.
+     */
     public GetCommentsForActivityRequest(String activityId) {
         this.activityId = activityId;
     }

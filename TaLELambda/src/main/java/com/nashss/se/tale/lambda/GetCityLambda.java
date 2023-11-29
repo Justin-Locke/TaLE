@@ -1,9 +1,9 @@
 package com.nashss.se.tale.lambda;
+import com.nashss.se.tale.activity.requests.GetCityRequest;
+import com.nashss.se.tale.activity.results.GetCityResult;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.nashss.se.tale.activity.requests.GetCityRequest;
-import com.nashss.se.tale.activity.results.GetCityResult;
 
 public class GetCityLambda
     extends LambdaActivityRunner<GetCityRequest, GetCityResult>

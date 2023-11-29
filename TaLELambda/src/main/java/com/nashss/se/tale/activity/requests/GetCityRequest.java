@@ -2,6 +2,11 @@ package com.nashss.se.tale.activity.requests;
 
 public class GetCityRequest {
     private final String cityId;
+
+    /**
+     * Constructor for GetCityRequest.
+     * @param cityId of City to retrieve.
+     */
     public GetCityRequest(String cityId) {
         this.cityId = cityId;
     }

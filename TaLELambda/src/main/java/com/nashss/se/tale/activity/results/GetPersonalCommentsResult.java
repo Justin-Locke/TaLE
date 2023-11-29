@@ -7,6 +7,10 @@ import java.util.List;
 public class GetPersonalCommentsResult {
     private final List<CommentModel> commentModelList;
 
+    /**
+     * Constructor for GetPersonalCommentsResult.
+     * @param commentModelList list of CommentModels to create Result.
+     */
     public GetPersonalCommentsResult(List<CommentModel> commentModelList) {
         this.commentModelList = commentModelList;
     }

@@ -11,6 +11,14 @@ public class EditCommentRequest {
     private String userId;
     private String commentId;
 
+    /**
+     * Constructor for EditCommentRequest.
+     * @param activityId for Hash Key.
+     * @param title Updated (or Not).
+     * @param message Updated (or Not).
+     * @param userId Verify User.
+     * @param commentId for Range Key.
+     */
     public EditCommentRequest(String activityId, String title, String message, String userId, String commentId) {
         this.activityId = activityId;
         this.title = title;

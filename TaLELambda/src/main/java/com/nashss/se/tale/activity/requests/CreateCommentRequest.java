@@ -9,6 +9,13 @@ public class CreateCommentRequest {
     private String message;
     private String userId;
 
+    /**
+     * Constructor for CreateCommentRequest.
+     * @param activityId associated with new Comment.
+     * @param title for new Comment.
+     * @param message for new Comment.
+     * @param userId to associate comment with User.
+     */
     public CreateCommentRequest(String activityId, String title, String message, String userId) {
         this.activityId = activityId;
         this.title = title;

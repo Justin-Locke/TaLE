@@ -32,6 +32,11 @@ export default class TaLEClient extends BindingClass {
         }
     }
 
+    /**
+    * Get the identity of the current user
+    * @param errorCallback (Optional) A function to execute if the call fails.
+    * @returns The user information for the current user.
+    */
     async getIdentity(errorCallback) {
     try {
         const isLoggedIn = await this.authenticator.isUserLoggedIn();

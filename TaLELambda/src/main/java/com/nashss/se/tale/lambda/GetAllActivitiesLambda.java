@@ -1,9 +1,9 @@
 package com.nashss.se.tale.lambda;
+import com.nashss.se.tale.activity.requests.GetAllActivitiesRequest;
+import com.nashss.se.tale.activity.results.GetAllActivitiesResult;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.nashss.se.tale.activity.requests.GetAllActivitiesRequest;
-import com.nashss.se.tale.activity.results.GetAllActivitiesResult;
 
 public class GetAllActivitiesLambda
         extends LambdaActivityRunner<GetAllActivitiesRequest, GetAllActivitiesResult>
@@ -13,12 +13,12 @@ public class GetAllActivitiesLambda
     public LambdaResponse handleRequest(LambdaRequest<GetAllActivitiesRequest> input, Context context) {
         return super.runActivity(() -> {
                 GetAllActivitiesRequest getAllActivitiesRequest = input.fromBody(GetAllActivitiesRequest.class);
-        return GetAllActivitiesRequest.builder()
+            return GetAllActivitiesRequest.builder()
                 .withActivityIdList(getAllActivitiesRequest.getActivityIdList())
                 .build();
         },
-                (request, serviceComponent) ->
-                        serviceComponent.provideGetAllActivities().handleRequest(request)
+            (request, serviceComponent) ->
+                    serviceComponent.provideGetAllActivities().handleRequest(request)
         );
     }
 }
