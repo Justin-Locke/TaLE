@@ -7,7 +7,7 @@ import Authenticator from '../api/authenticator';
 class ViewCity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'redirectToCreateNewActivity', 'addActivitiesToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'redirectToCreateNewActivity', 'addActivitiesToPage', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCityToPage);
         this.dataStore.addChangeListener(this.addActivitiesToPage);
@@ -18,6 +18,21 @@ class ViewCity extends BindingClass {
     }
 
     async clientLoaded() {
+        const userLoggedIn = await this.authenticator.isUserLoggedIn();
+        if (userLoggedIn) {
+            const user = await this.client.getIdentity();
+            const personalBttn = document.getElementById('personalPage');
+            personalBttn.classList.remove('subnavbtn.hidden');
+            personalBttn.classList.add('subnavbtn');
+            personalBttn.removeAttribute('hidden');
+            document.getElementById('loginButton').innerText = `Logout: ${user.name}`;
+            document.getElementById('loginButton').addEventListener('click', this.createLogoutButton(user));
+            document.getElementById('createNewActivityButton').removeAttribute("hidden");
+        }
+        if (!userLoggedIn) {
+            document.getElementById('loginButton').innerText = `Login`;
+            document.getElementById('loginButton').addEventListener('click', this.createLoginButton());
+        }
         const urlParams = new URLSearchParams(window.location.search);
         const cityId = urlParams.get('cityId');
 
@@ -33,11 +48,8 @@ class ViewCity extends BindingClass {
         }
         this.dataStore.set('allActivities', allActivities);
 
-        const userLoggedIn = await this.client.getIdentity();
+        
 
-        if (userLoggedIn != null) {
-            document.getElementById('createNewActivityButton').removeAttribute("hidden");
-        }
     }
 
 
@@ -52,7 +64,7 @@ class ViewCity extends BindingClass {
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
-        document.getElementById('createNewActivityButton').addEventListener('click', this.redirectToCreateNewActivity);
+        document.getElementById('createNewActivityButton').addEventListener('click', () => this.redirectToCreateNewActivity());
 
     }
 
@@ -110,6 +122,53 @@ class ViewCity extends BindingClass {
         if (city != null) {
             window.location.href = `/createNewActivity.html?cityId=${city.cityId}`;
         }
+    }
+
+    async loginOrOut() {
+        const user = await this.client.getIdentity();
+        if (user != null) {
+            return this.client.logout;
+        } else {
+            return this.client.login;
+        }
+
+    }
+
+    createLoginButton() {
+        return this.createButton('Login', this.client.login);
+    }
+
+    createLogoutButton(currentUser) {
+        return this.createButton(`Logout: ${currentUser.name}`, this.client.logout);
+    }
+
+    createButton(text, clickHandler) {
+        
+        const button = document.getElementById('loginButton');
+        button.href = '#';
+        button.innerText = text;
+
+        button.addEventListener('click', async () => {
+            if ('caches' in window) {
+                caches.open("my-cache").then(async (cache) => {
+                    cache
+                    .add(window.location.href)
+                    .then(() => console.log("Data added to cache."))
+                    .catch((error) => console.error("Error adding data to cache:", error));
+                })
+                caches.open("my-cache").then(async (cache) => {
+                    const cachedData = await cache.match(window.location.href);
+                    console.log(cachedData.url + "IS THE CACHED DATA");
+                })
+            } else {
+                console.log("Caches not supported");
+            }
+            
+            await clickHandler();
+        });
+
+        return button;
+
     }
 }
 

@@ -24,6 +24,7 @@ public class GetCommentLambda
                                 .withCommentId(pathRequest.getCommentId())
                                 .withUserId(claims.get("email"))
                                 .build());
+
             },
             (request, serviceComponent) ->
                     serviceComponent.provideGetComment().handleRequest(request)

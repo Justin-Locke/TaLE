@@ -4,26 +4,90 @@
     <meta charset="UTF-8">
     <script type="text/javascript" src="assets/viewActivity.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/x-icon" href="photos/TaLE (1).ico">
     <title>Activity</title>
 </head>
 <body class="background">
   <header class="header" id="header"></header>
-  <div class="card"></div>
+  </div>
+  <div class="navbar">
+      <a class="active" href="/"><i class="fa fa-fw fa-home"></i>
+      Home</a>
+      <a href="viewPlaces.html" id="places"><i class="fa fa-fw fa-road"></i> Places </a>
+      <div class="subnav">
+        <button class="subnavbtn.hidden" id="personalPage" hidden="hidden"><i class="fa fa-fw fa-caret-down"></i> My Stuff</button>
+        <div class="subnav-content">
+          <a href="personalActivities.html">My Activities</a>
+          <a href="personalComments.html">My Comments</a>
+        </div>
+    </div>
+    <a id="loginButton" class="split"><i class="fa fa-fw fa-user"></i></a>
+  </div>
 
-  <div class="card">
+  <div class="card && vl" style="float:left; width: 50%;">
     Activity Name: <h1 id="activityName">loading...</h1>
     <hr>
     <h2>Details</h2>
     Description: <h3 id="description">loading...</h3>
     Poster Experience: <h3 id="posterExperience">loading...</h3>
-
-
+      <a class="button" id="editActivityButton" hidden="hidden">Edit Activity</a>
   </div>
+
+  <div class="card" id="Modal-Container" style="float:right; width:50%; border-left: 6px solid; height: 500px;">
+    <a class="button" id="createCommentButton" hidden="hidden">Add Comment </a>
   <div class="card" id="commentsContainer">
+    <div id="commentModal" class="modal">
+
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Share your experience!</p>
+      <div class="modal-body">
+          <p class="hidden error" id="error-message"></p>
+          <p class="formField">
+              <label for="title"><b>Title</b></label>
+              <input type="text" placeholder="Title" autofocus
+                     name="title" id="title" required>
+
+              <label for="message"> Message </label>
+              <input type="text" placeholder="Comments" autofocus
+                     name="message" id="message">
+              <hr>
+          </p>
+          <p>
+             <a class="button" id="create">Post Comment</a></p>
+      </div>
+      
+    </div>
+    </div>
+    <div id="editCommentModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p> Editing Comment</p>
+        <div class="modal-body">
+          <form id="editCommentForm">
+            <p class="hidden error" id="error-message"></p>
+            <label for="commentTitle">Title:</label>
+            <input type="text" id="commentTitle" name="commentTitle" required>
+            <label for="commentMessage">Comment:</label>
+            <textarea id="commentMessage" name="commentMessage" required></textarea>
+        </form>
+      </div>
+        <p
+        <a class="button" id="submitUpdatedComment">UpdateComment</a>
+
+      </div>
+
+    </div>
+
     <h2 id="commentList"></h2>
     <ol id="commentList"></ol>
   </div>
-  <div class="card">
+  <!-- <div class="card" id="commentsContainer">
+    <h2 id="commentList"></h2>
+    <ol id="commentList"></ol>
+  </div> -->
+  <div class="card" style="float: down;">
     <a class="button" id="createCommentButton" hidden="hidden">Add Comment </a>
     <a class="button" id="editActivityButton" hidden="hidden">Edit Activity</a>
   </div>

@@ -1,20 +1,18 @@
+import Authenticator from '../api/authenticator';
 import TaLEClient from '../api/TaLEClient'
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
-import Authenticator from '../api/authenticator';
 
-class ViewCities extends BindingClass {
+class PersonalActivities extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCitiesToPage', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addActivitiesToPage', 'loginOrOut'], this);
         this.dataStore = new DataStore();
-        this.dataStore.addChangeListener(this.addCitiesToPage);
         this.header = new Header(this.dataStore);
         this.authenticator = new Authenticator();
-        console.log("viewCities constructor");
+        this.dataStore.addChangeListener(this.addActivitiesToPage);
     }
-
 
     async clientLoaded() {
         const userLoggedIn = await this.authenticator.isUserLoggedIn();
@@ -31,42 +29,49 @@ class ViewCities extends BindingClass {
             document.getElementById('loginButton').innerText = `Login`;
             document.getElementById('loginButton').addEventListener('click', this.createLoginButton());
         }
-        const cityList = await this.client.viewCities();
-        this.dataStore.set('cityList', cityList);
+        const activities = await this.client.viewPersonalActivities();
+        this.dataStore.set('activities', activities);
+
         
     }
 
-
     mount() {
+        
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
-
     }
 
-    async addCitiesToPage() {
-        console.log("addCitiesToPage")
-        const cityList = this.dataStore.get('cityList');
-        console.log("CityList ++++=" + cityList);
-        if (cityList == null) {
-        console.log("cityList is null")
+    addActivitiesToPage() {
+        const activities = this.dataStore.get('activities');
+        if (activities == null) {
             return;
         }
 
-        let cityHtml = '<table><tr><th>City</th></tr>';
+        const activitiesContainer = document.getElementById('activitiesContainer');
 
-        for (const city of cityList) {
-            cityHtml += `
-            <tr>
-                <td>
-                    <a href="/viewCity.html?cityId=${city.cityId}">${city.cityName}</a>
-                </td>
-            </tr>
-            `;
-        }
-        document.getElementById('citiesList').innerHTML = cityHtml;
+        activities.forEach(activity => {
+            const activityDiv = document.createElement('div');
+            activityDiv.classList.add('activity');
+
+            const activityName = document.createElement('h3');
+            activityName.textContent = activity.activityName;
+            activityDiv.appendChild(activityName);
+            
+            activitiesContainer.appendChild(activityDiv);
+            
+            
+        })
+
     }
 
+
+    redirectToViewActivity(activityId) {
+        if (activityId != null) {
+            window.location.href = '/viewActivity.html?activityId=${activityId}';
+        }
+    }
+    
     async loginOrOut() {
         const user = await this.client.getIdentity();
         if (user != null) {
@@ -98,12 +103,12 @@ class ViewCities extends BindingClass {
 
     }
 
-
+    
 }
 
 const main = async () => {
-    const viewCities = new ViewCities();
-    viewCities.mount();
-};
+    const personalActivities = new PersonalActivities();
+    personalActivities.mount();
+}
 
 window.addEventListener('DOMContentLoaded', main);

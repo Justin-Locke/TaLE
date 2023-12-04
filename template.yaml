@@ -410,6 +410,8 @@ Resources:
          Properties:
            Path: /activities/{activityId}/comments
            Method: get
+           Auth:
+             Authorizer: 'NONE'
 
   GetCommentLambda:
    Type: AWS::Serverless::Function
@@ -494,10 +496,6 @@ Resources:
   #-----------------------------------------------------
   # S3 Configuration
   #-----------------------------------------------------
-#  PetImageS3Bucket:
-#    Type: AWS::S3::Bucket
-#    Properties:
-#      BucketName: river-pet-sitting-client-pet-image-bucket
 
   #-----------------------------------------------------
   # DynamoDB Configuration

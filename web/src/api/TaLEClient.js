@@ -118,7 +118,7 @@ export default class TaLEClient extends BindingClass {
     async editActivity(activityId, activityName, description, posterExperience, errorCallback) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users cand update Comments");
-            const response = await this.axiosClient.put(`/activities/${activityId}`, {
+            const response = await this.axiosClient.put(`activities/${activityId}`, {
                 updatedActivityName: activityName,
                 updatedDescription: description,
                 updatedPosterExperience: posterExperience
@@ -189,9 +189,11 @@ export default class TaLEClient extends BindingClass {
 
     async viewComment(activityId, commentId, errorCallback) {
         try {
+            console.log(JSON.stringify("activityId =" + activityId));
+            console.log(JSON.stringify("commentId =" + commentId));
             const token = await this.getTokenOrThrow("Only Authenticated users can see this comment.");
-            console.log(JSON.stringify("token =" + token));
-            const response = await this.axiosClient.get(`/activities/${activityId}/comments/${commentId}`, {
+            // console.log(JSON.stringify("token =" + token));
+            const response = await this.axiosClient.get(`activities/${activityId}/comments/${commentId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -207,7 +209,7 @@ export default class TaLEClient extends BindingClass {
             const userConfirmed = window.confirm('Are you sure you want to delete this comment?');
             if (userConfirmed) {
             const token = await this.getTokenOrThrow("Only authenticated users can delete a Comment");
-            const response = await this.axiosClient.delete(`/activities/${activityId}/comments/${commentId}`, {
+            const response = await this.axiosClient.delete(`activities/${activityId}/comments/${commentId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -223,7 +225,7 @@ export default class TaLEClient extends BindingClass {
     async editComment(activityId, commentId, commentTitle, commentMessage, errorCallback) {
         try{
             const token = await this.getTokenOrThrow("Only authenticated users cand update Comments");
-            const response = await this.axiosClient.put(`/activities/${activityId}/comments/${commentId}`, {
+            const response = await this.axiosClient.put(`activities/${activityId}/comments/${commentId}`, {
                 title: commentTitle,
                 message: commentMessage
             }, {

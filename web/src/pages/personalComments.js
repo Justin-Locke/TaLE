@@ -1,20 +1,18 @@
+import Authenticator from '../api/authenticator';
 import TaLEClient from '../api/TaLEClient'
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
-import Authenticator from '../api/authenticator';
 
-class ViewCities extends BindingClass {
+class PersonalComments extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCitiesToPage', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCommentsToPage', 'loginOrOut'], this);
         this.dataStore = new DataStore();
-        this.dataStore.addChangeListener(this.addCitiesToPage);
         this.header = new Header(this.dataStore);
         this.authenticator = new Authenticator();
-        console.log("viewCities constructor");
+        this.dataStore.addChangeListener(this.addCommentsToPage);
     }
-
 
     async clientLoaded() {
         const userLoggedIn = await this.authenticator.isUserLoggedIn();
@@ -26,47 +24,52 @@ class ViewCities extends BindingClass {
             personalBttn.removeAttribute('hidden');
             document.getElementById('loginButton').innerText = `Logout: ${user.name}`;
             document.getElementById('loginButton').addEventListener('click', this.createLogoutButton(user));
+            this.addCommentsToPage();
         }
         if (!userLoggedIn) {
-            document.getElementById('loginButton').innerText = `Login`;
-            document.getElementById('loginButton').addEventListener('click', this.createLoginButton());
+            const loginButton = document.getElementById('loginButton');
+            loginButton.innerText = `Login`;
+            loginButton.addEventListener('click', this.createLoginButton());
         }
-        const cityList = await this.client.viewCities();
-        this.dataStore.set('cityList', cityList);
-        
+        const comments = await this.client.viewPersonalComments();
+        this.dataStore.set('comments', comments);        
     }
 
-
     mount() {
+        
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
-
     }
 
-    async addCitiesToPage() {
-        console.log("addCitiesToPage")
-        const cityList = this.dataStore.get('cityList');
-        console.log("CityList ++++=" + cityList);
-        if (cityList == null) {
-        console.log("cityList is null")
+
+    addCommentsToPage() {
+        const comments = this.dataStore.get('comments');
+        if (comments == null) {
             return;
         }
 
-        let cityHtml = '<table><tr><th>City</th></tr>';
+        const commentsContainer = document.getElementById('commentsContainer');
 
-        for (const city of cityList) {
-            cityHtml += `
-            <tr>
-                <td>
-                    <a href="/viewCity.html?cityId=${city.cityId}">${city.cityName}</a>
-                </td>
-            </tr>
-            `;
-        }
-        document.getElementById('citiesList').innerHTML = cityHtml;
+        comments.forEach(comment => {
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
+
+            const commentTitle = document.createElement('h3');
+            commentTitle.textContent = comment.title;
+            commentDiv.appendChild(commentTitle);
+
+            commentsContainer.appendChild(commentDiv);
+        })
+
     }
 
+    redirectToViewActivity(activityId) {
+        if (activityId != null) {
+            window.location.href = '/viewActivity.html?activityId=${activityId}';
+        }
+    }
+    
     async loginOrOut() {
         const user = await this.client.getIdentity();
         if (user != null) {
@@ -98,12 +101,12 @@ class ViewCities extends BindingClass {
 
     }
 
-
+    
 }
 
 const main = async () => {
-    const viewCities = new ViewCities();
-    viewCities.mount();
-};
+    const personalComments = new PersonalComments();
+    personalComments.mount();
+}
 
 window.addEventListener('DOMContentLoaded', main);
