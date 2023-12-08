@@ -25,11 +25,46 @@
         <a id="loginButton" class="split"><i class="fa fa-fw fa-user"></i></a>
     </div>  
     <h1 class="card" id="cityName"></h1>
-</body>
+    <div class="card" id="Modal-Container">
+        <a class="button" id="createNewActivityButton" hidden="hidden">Add a new activity</a>
     <div class="card" id="activitiesContainer">
+        <div id="activityModal" class="modal">
+
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Creating a New Activity</p>
+                <div class="modal-body">
+                    <p class="formField">
+                        <p class="hidden error" id="error-message"></p>
+                        <div>
+                        <lable for="activityName"><b>Activity Name</b></lable>
+                        <input type="text" placeholder="Fun Thing In Nashville" autofocus
+                        name="activityName" id="activityName" required>
+                        </div>
+
+                    </p>
+                        <div>
+                        <label for="description"><b>Description</b></label>
+                        <input type="text" placeholder="A City of FUN!" autofocus
+                        name="description" id="description" required>
+                        </div>
+
+                        <div>
+                        <label for="posterExperience"><b>Your Experience</b></label>
+                        <input type="text" placeholder="Spent all week in cowboy boots!" autofocus
+                        name="posterExperience" id="posterExperience" required>
+                        </div>
+                        <hr>
+                    </p>
+                    <p>
+                        <a class="button" id="postNewActivityButton">Post New Activity</a>
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="card">
-    <a class="button" id="createNewActivityButton" hidden="hidden">Add a new activity</a>
+    <!-- <a class="button" id="createNewActivityButton" hidden="hidden">Add a new activity</a> -->
     </div>
 </body>
 </html>

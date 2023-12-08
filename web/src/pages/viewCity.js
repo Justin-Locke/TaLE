@@ -7,7 +7,7 @@ import Authenticator from '../api/authenticator';
 class ViewCity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'redirectToCreateNewActivity', 'addActivitiesToPage', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'submitNewActivity', 'redirectToCreateNewActivity', 'addActivitiesToPage', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCityToPage);
         this.dataStore.addChangeListener(this.addActivitiesToPage);
@@ -40,14 +40,24 @@ class ViewCity extends BindingClass {
         const city = await this.client.viewCity(cityId);
         this.dataStore.set('city', city);
         
-        const activityIdList = city.activityList;
         const allActivities = await this.client.viewAllActivitiesForCity(cityId);
-        // const allActivities = [];
-        // for (const activityId of activityIdList) {
-        //     const activity = await this.client.viewActivity(activityId);
-        //     allActivities.push(activity);
-        // }
         this.dataStore.set('allActivities', allActivities);
+
+        const newActivityButton = document.getElementById('createNewActivityButton');
+        const activityModal = document.getElementById('activityModal');
+        const span = document.getElementsByClassName("close")[0];
+        newActivityButton.onclick = function() {
+            activityModal.style.display = "block";
+        }
+        span.onclick = function() {
+            activityModal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == activityModal) {
+                activityModal.style.display = "none";
+            }
+        } 
+
     }
     
 
@@ -55,7 +65,7 @@ class ViewCity extends BindingClass {
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
-        document.getElementById('createNewActivityButton').addEventListener('click', this.redirectToCreateNewActivity);
+        document.getElementById('postNewActivityButton').addEventListener('click', this.submitNewActivity);
     }
 
     async submitNewActivity(evt) {
@@ -66,7 +76,7 @@ class ViewCity extends BindingClass {
         errorMessageDisplay.innerText = '';
         errorMessageDisplay.classList.add('hidden');
 
-        const createButton = document.getElementById('create');
+        const createButton = document.getElementById('postNewActivityButton');
         const origButtonText = createButton.innerText;
         createButton.innerText = 'Creating..';
 
@@ -78,10 +88,10 @@ class ViewCity extends BindingClass {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+
         });
         console.log(activity + "is the Activity");
-        this.dataStore.set('activity', activity);
-        
+        location.reload();
     }
 
     addCityToPage() {
