@@ -55,7 +55,7 @@ class ViewCity extends BindingClass {
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
-        document.getElementById('createNewActivityButton').addEventListener('click', this.submitNewActivity);
+        document.getElementById('createNewActivityButton').addEventListener('click', this.redirectToCreateNewActivity);
     }
 
     async submitNewActivity(evt) {
