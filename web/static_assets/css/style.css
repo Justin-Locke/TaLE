@@ -74,6 +74,16 @@
     text-decoration: none;
     color: var(--secondary-color);
 }
+.activity {
+    text-align: center;
+    cursor: pointer;
+    color: var(--primary-color);
+    text-shadow: #000;
+}
+
+.activity:hover {
+    color: lightblue;
+}
 
 .card {
     color: var(--primary-color);
