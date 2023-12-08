@@ -51,13 +51,6 @@ class ViewCity extends BindingClass {
         
 
     }
-
-
-
-        
-       
-        
-        
     
 
     mount() {
@@ -76,43 +69,39 @@ class ViewCity extends BindingClass {
 
         document.getElementById('cityName').innerText = city.cityName;
         
-        // var listOfActivityIds = city.activityList;
-        // console.log(JSON.stringify(listOfActivityIds));
-        // let activityListHtml = '';
-        // // let activityId;
-        // listOfActivityIds.forEach(function(activityId) {
-        //     this.client.viewActivity(activityId).then(function)(activity) {
-        //         var activityList = document.getElementById('activityList');
-        //         var listItem = document.createElement('li');
-        //         listItem.textContent = activity.activityName;
-        //         activityList.appendChild(listItem);
-        //     }
-        // })
-        // for (activityId of listOfActivityIds) {
-        //     activityListHtml += '<div class="activity">' + activityId + '</div>';
-        // }
-        // document.getElementById('activityList').innerHTML = activityListHtml;
     }
 
     addActivitiesToPage() {
         const activityList = this.dataStore.get('allActivities');
+
+        const activitiesContainer = document.getElementById('activitiesContainer');
         if (activityList == null) {
             console.log("ActivityList is null");
             return;
         }
 
-        let activityHtml = '<table><tr><th>Activities</th></tr>';
+        activityList.forEach(activity => {
+            const activityDiv = document.createElement('div');
+            activityDiv.classList.add('activity');
 
-        for (const activity of activityList) {
-            activityHtml += `
-            <tr>
-                <td>
-                    <a href="/viewActivity.html?activityId=${activity.activityId}">${activity.activityName}</a>
-                </td>
-            </tr>
-            `;
+            const activityName = document.createElement('h3');
+            activityName.textContent = activity.activityName;
+            activityName.addEventListener('click', () => {this.redirectToViewActivity(activity)});
+            activityDiv.appendChild(activityName);
+        
+            const line = document.createElement('hr');
+            activityDiv.appendChild(line);
+            activitiesContainer.appendChild(activityDiv);
+        })
+
+        
+        
+    }
+
+    redirectToViewActivity(activity) {
+            if (activity != null) {
+            window.location.href = `/viewActivity.html?activityId=${activity.activityId}`
         }
-        document.getElementById('activityList').innerHTML = activityHtml;
     }
 
 

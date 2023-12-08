@@ -10,6 +10,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
+import java.sql.SQLOutput;
 
 public class GetActivity {
     private Logger log = LogManager.getLogger();
@@ -33,6 +34,7 @@ public class GetActivity {
         String activityId = getActivityRequest.getActivityId();
 
         Activity activity = activitiesDao.getActivityById(activityId);
+
 
         ActivityModel activityModel = new ModelConverter().toActivityModel(activity);
 
