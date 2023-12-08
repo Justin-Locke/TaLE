@@ -9,7 +9,7 @@ export default class TaLEClient extends BindingClass {
     super();
 
     const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 
-    'viewCity', 'viewCities',
+    'viewCity', 'viewCities', 'viewAllActivitiesForCity',
       'createNewActivity', 'viewActivity', 'viewPersonalActivities',
       'editActivity',
        'viewCommentsForActivity', 'viewPersonalComments',
@@ -113,6 +113,15 @@ export default class TaLEClient extends BindingClass {
           } catch (error) {
             this.handleError(error, errorCallback)
           }
+    }
+
+    async viewAllActivitiesForCity(cityId, errorCallback) {
+        try {
+            const response = await this.axiosClient.get(`cities/${cityId}/activities`);
+            return response.data.activityModelList;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
     }
 
     async editActivity(activityId, activityName, description, posterExperience, errorCallback) {

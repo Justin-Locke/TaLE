@@ -35,21 +35,19 @@ class ViewCity extends BindingClass {
         }
         const urlParams = new URLSearchParams(window.location.search);
         const cityId = urlParams.get('cityId');
+        this.dataStore.set('cityId', cityId);
 
         const city = await this.client.viewCity(cityId);
         this.dataStore.set('city', city);
         
         const activityIdList = city.activityList;
-        
-        const allActivities = [];
-        for (const activityId of activityIdList) {
-            const activity = await this.client.viewActivity(activityId);
-            allActivities.push(activity);
-        }
+        const allActivities = await this.client.viewAllActivitiesForCity(cityId);
+        // const allActivities = [];
+        // for (const activityId of activityIdList) {
+        //     const activity = await this.client.viewActivity(activityId);
+        //     allActivities.push(activity);
+        // }
         this.dataStore.set('allActivities', allActivities);
-
-        
-
     }
     
 
@@ -57,8 +55,33 @@ class ViewCity extends BindingClass {
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
-        document.getElementById('createNewActivityButton').addEventListener('click', () => this.redirectToCreateNewActivity());
+        document.getElementById('createNewActivityButton').addEventListener('click', this.submitNewActivity);
+    }
 
+    async submitNewActivity(evt) {
+        const cityId = this.dataStore.get('cityId');
+        evt.preventDefault();
+
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = '';
+        errorMessageDisplay.classList.add('hidden');
+
+        const createButton = document.getElementById('create');
+        const origButtonText = createButton.innerText;
+        createButton.innerText = 'Creating..';
+
+        const activityName = document.getElementById('activityName').value;
+        const description = document.getElementById('description').value;
+        const posterExperience = document.getElementById('posterExperience').value;
+
+        const activity = await this.client.createNewActivity(cityId, activityName, description, posterExperience, (error) => {
+            createButton.innerText = origButtonText;
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+        });
+        console.log(activity + "is the Activity");
+        this.dataStore.set('activity', activity);
+        
     }
 
     addCityToPage() {
@@ -93,8 +116,6 @@ class ViewCity extends BindingClass {
             activityDiv.appendChild(line);
             activitiesContainer.appendChild(activityDiv);
         })
-
-        
         
     }
 
