@@ -45,6 +45,7 @@ class ViewCity extends BindingClass {
 
         const newActivityButton = document.getElementById('createNewActivityButton');
         const activityModal = document.getElementById('activityModal');
+        activityModal.classList.add('activityModal');
         const span = document.getElementsByClassName("close")[0];
         newActivityButton.onclick = function() {
             activityModal.style.display = "block";
@@ -123,7 +124,6 @@ class ViewCity extends BindingClass {
 
         const activitiesContainer = document.getElementById('activitiesContainer');
         if (activityList == null) {
-            console.log("ActivityList is null");
             return;
         }
 
