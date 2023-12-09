@@ -246,7 +246,7 @@ class ViewActivity extends BindingClass {
         
         evt.preventDefault();
 
-        const errorMessageDisplay = document.getElementById('error-message');
+        const errorMessageDisplay = document.getElementById('edit-error-message');
         errorMessageDisplay.innerText = ``;
         errorMessageDisplay.classList.add('hidden');
         
@@ -265,13 +265,15 @@ class ViewActivity extends BindingClass {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
-            if (error.message == null) {
-                this.dataStore.set('updatedComment', updatedComment);
-                document.getElementById('editCommentModal').style.display = "none";
-                location.reload();
-            }
-        });
 
+        });
+        if (updatedComment != null) {
+            this.dataStore.set('updatedComment', updatedComment);
+            document.getElementById('editCommentModal').style.display = "none";
+            location.reload();
+        }
+
+        
 
         
     }

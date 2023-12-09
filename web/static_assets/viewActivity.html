@@ -66,27 +66,23 @@
         <p> Editing Comment</p>
         <div class="modal-body">
           <form id="editCommentForm">
-            <p class="hidden error" id="error-message"></p>
+            <p class="hidden error" id="edit-error-message"></p>
             <label for="commentTitle">Title:</label>
             <input type="text" id="commentTitle" name="commentTitle" required>
             <label for="commentMessage">Comment:</label>
             <textarea id="commentMessage" name="commentMessage" required></textarea>
         </form>
       </div>
-        <p
+        <p></p>
         <a class="button" id="submitUpdatedComment">UpdateComment</a>
 
       </div>
 
     </div>
 
-    <h2 id="commentList"></h2>
-    <ol id="commentList"></ol>
+
   </div>
-  <!-- <div class="card" id="commentsContainer">
-    <h2 id="commentList"></h2>
-    <ol id="commentList"></ol>
-  </div> -->
+
   <div class="card" style="float: down;">
     <a class="button" id="createCommentButton" hidden="hidden">Add Comment </a>
     <a class="button" id="editActivityButton" hidden="hidden">Edit Activity</a>
