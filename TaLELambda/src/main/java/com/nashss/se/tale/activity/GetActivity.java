@@ -1,4 +1,5 @@
 package com.nashss.se.tale.activity;
+
 import com.nashss.se.tale.activity.requests.GetActivityRequest;
 import com.nashss.se.tale.activity.results.GetActivityResult;
 import com.nashss.se.tale.converters.ModelConverter;
@@ -10,7 +11,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
-import java.sql.SQLOutput;
 
 public class GetActivity {
     private Logger log = LogManager.getLogger();
