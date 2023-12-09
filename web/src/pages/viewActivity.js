@@ -180,7 +180,8 @@ class ViewActivity extends BindingClass {
                 const editCommentModal = document.getElementById("editCommentModal");
                 updateButton.style.background = "none"
                 updateButton.style.font
-                updateButton.addEventListener('click', () => this.addCommentToModal(activityId, comment.commentId));
+                updateButton.addEventListener('click', () => this.addCommentToModal(comment));
+
                 
                 updateButton.onclick = () => {
                     editCommentModal.style.display = "block";
@@ -247,14 +248,14 @@ class ViewActivity extends BindingClass {
         }
     }
 
-    async addCommentToModal(activityId, commentId) {
-        const comment = await this.client.viewComment(activityId, commentId);
+    async addCommentToModal(comment) {
         if (comment != null) {
             document.getElementById('commentTitle').value = comment.title;
             document.getElementById('commentMessage').value = comment.message;
+            document.getElementById('commentId').value = comment.commentId;
         }
         console.log("Comment = " + comment);
-        this.dataStore.set('commentId', commentId);
+        // this.dataStore.set('commentId', comment.commentId);
     }
 
     async addActivityToModal(activity) {
@@ -275,7 +276,7 @@ class ViewActivity extends BindingClass {
         
         const activityId = this.dataStore.get('activityId');
         console.log(JSON.stringify(activityId + "= activityId"));
-        const commentId = this.dataStore.get('commentId');
+        const commentId = document.getElementById('commentId').value;
         
         const createButton = document.getElementById('submitUpdatedComment');
         const origButtonText = createButton.innerText;
