@@ -40,17 +40,31 @@ class ViewActivity extends BindingClass {
         const commentModal = document.getElementById("commentModal");
         const editCommentModal = document.getElementById('editCommentModal');
         const span = document.getElementsByClassName("close")[0];
+        const span2 = document.getElementsByClassName("close")[1];
         newCommentButton.onclick = function() {
             commentModal.style.display = "block";
         }
         span.onclick = function() {
             commentModal.style.display = "none";
+            document.getElementById('title').value = '';
+            document.getElementById('message').value = '';
+            const errorMessageDisplay = document.getElementById('error-message');
+            errorMessageDisplay.innerText = '';
+            errorMessageDisplay.classList.add('hidden');
+        }
+
+        span2.onclick = function() {
             editCommentModal.style.display = "none";
+
         }
 
         window.onclick = function(event) {
             if (event.target == commentModal) {
                 commentModal.style.display = "none";
+                const errorMessageDisplay = document.getElementById('error-message');
+                errorMessageDisplay.innerText = '';
+                errorMessageDisplay.classList.add('hidden');
+                
             }
 
             if (event.target == editCommentModal) {
@@ -127,6 +141,11 @@ class ViewActivity extends BindingClass {
             const titleElement = document.createElement('h3');
             titleElement.textContent = comment.title;
             commentDiv.appendChild(titleElement);
+            if (comment.edited) {
+                const edited = document.createElement('edited');
+                edited.textContent = 'edited';
+                commentDiv.appendChild(edited);
+            }
             const line = document.createElement('hr');
             commentDiv.appendChild(line);
 
@@ -191,9 +210,12 @@ class ViewActivity extends BindingClass {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
-        this.dataStore.set('comment', comment);   
-        document.getElementById('commentModal').style.display = "none";
-        location.reload();
+        if (comment != null) {
+            this.dataStore.set('comment', comment);   
+            document.getElementById('commentModal').style.display = "none";
+            location.reload();
+        }
+
     }
 
     async deleteComment(activityId, commentId) {
