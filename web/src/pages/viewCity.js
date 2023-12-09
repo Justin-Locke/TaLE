@@ -118,7 +118,12 @@ class ViewCity extends BindingClass {
             activityDiv.classList.add('activity');
 
             const activityName = document.createElement('h3');
-            activityName.textContent = activity.activityName;
+            if (activity.activityName == null) {
+                activityName.textContent = "*ACTIVITY NAME NOT FOUND*"
+            } else {
+                activityName.textContent = activity.activityName;
+            }
+
             activityName.addEventListener('click', () => {this.redirectToViewActivity(activity)});
             activityDiv.appendChild(activityName);
         

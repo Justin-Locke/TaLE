@@ -23,6 +23,24 @@
     padding: 4px 20px;
 }
 
+.parallax-container {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.parallax-section {
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: background-position 0.3s ease;
+}
+
 .button {
   background-color: var(--tertiary-color);
   border: none;
@@ -79,6 +97,17 @@
     cursor: pointer;
     color: var(--primary-color);
     text-shadow: #000;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    
+}
+
+.activitiesContainer {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    padding: 10px 20px;
+    overflow: scroll;
 }
 
 .activity:hover {
