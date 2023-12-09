@@ -44,7 +44,7 @@ public class CreateNewActivity {
         }
 
         if (request.getDescription().isEmpty() && request.getPosterExperience().isEmpty()) {
-            throw new EmptyFieldInRequestException("You must fill out at least ONE field. \n Description/Experience");
+            throw new EmptyFieldInRequestException("You must fill out at least ONE of these fields. Description/Experience");
         }
 
         Activity newActivity = new Activity();

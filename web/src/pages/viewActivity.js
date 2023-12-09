@@ -243,10 +243,13 @@ class ViewActivity extends BindingClass {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+            if (error.message == null) {
+                this.dataStore.set('updatedComment', updatedComment);
+                document.getElementById('editCommentModal').style.display = "none";
+                location.reload();
+            }
         });
-        this.dataStore.set('updatedComment', updatedComment);
-        document.getElementById('editCommentModal').style.display = "none";
-        location.reload();
+
 
         
     }

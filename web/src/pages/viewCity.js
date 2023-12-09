@@ -51,10 +51,21 @@ class ViewCity extends BindingClass {
         }
         span.onclick = function() {
             activityModal.style.display = "none";
+            document.getElementById('activityName').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('posterExperience').value = '';
+            const errorMessageDisplay = document.getElementById('error-message');
+            errorMessageDisplay.innerText = '';
+            errorMessageDisplay.classList.add('hidden');
+            
         }
         window.onclick = function(event) {
             if (event.target == activityModal) {
-                activityModal.style.display = "none";
+                
+            activityModal.style.display = "none";
+            const errorMessageDisplay = document.getElementById('error-message');
+            errorMessageDisplay.innerText = '';
+            errorMessageDisplay.classList.add('hidden');
             }
         } 
 
@@ -90,8 +101,11 @@ class ViewCity extends BindingClass {
             errorMessageDisplay.classList.remove('hidden');
 
         });
-        console.log(activity + "is the Activity");
-        location.reload();
+        if (activity != null) {
+            console.log(activity + "is the Activity");
+            location.reload();
+        }
+
     }
 
     addCityToPage() {
