@@ -6,6 +6,7 @@ import com.nashss.se.tale.dynamodb.ActivitiesDao;
 import com.nashss.se.tale.dynamodb.CitiesDao;
 import com.nashss.se.tale.dynamodb.models.Activity;
 import com.nashss.se.tale.dynamodb.models.City;
+import com.nashss.se.tale.exceptions.EmptyFieldInRequestException;
 import com.nashss.se.tale.models.ActivityModel;
 import com.nashss.se.tale.utils.IdUtils;
 
@@ -38,6 +39,10 @@ public class CreateNewActivity {
      * @return created Activity.
      */
     public CreateNewActivityResult handleRequest(final CreateNewActivityRequest request) {
+        if (request.getActivityName().isEmpty()) {
+            throw new EmptyFieldInRequestException("Your activity must contain a name");
+        }
+
         Activity newActivity = new Activity();
         newActivity.setActivityId(IdUtils.generateActivityId());
         newActivity.setUserId(request.getUserId());
