@@ -43,6 +43,10 @@ public class CreateNewActivity {
             throw new EmptyFieldInRequestException("Your activity must contain a name");
         }
 
+        if (request.getDescription().isEmpty() && request.getPosterExperience().isEmpty()) {
+            throw new EmptyFieldInRequestException("You must fill out at least ONE field. \n Description/Experience");
+        }
+
         Activity newActivity = new Activity();
         newActivity.setActivityId(IdUtils.generateActivityId());
         newActivity.setUserId(request.getUserId());
