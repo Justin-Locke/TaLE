@@ -41,7 +41,7 @@ public class EditComment {
 
         Comment commentToUpdate = commentsDao.getComment(request.getActivityId(), request.getCommentId());
 
-        if (commentToUpdate.getUserId().equals(request.getUserId())) {
+        if (!commentToUpdate.getUserId().equals(request.getUserId())) {
             throw new InvalidUserException("You are not allowed to edit this comment...How did you get here?");
         }
 
