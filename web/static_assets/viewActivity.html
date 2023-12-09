@@ -24,21 +24,21 @@
     </div>
     <a id="loginButton" class="split"><i class="fa fa-fw fa-user"></i></a>
   </div>
-
-  <div class="card && vl" style="float:left; width: 50%;">
+  <div class="card && vl" id="Modal-Container" style="float:left; width: 50%;">
+    <a class="button" id="editActivityButton" hidden="hidden">Edit Activity</a>
+    
     Activity Name: <h1 id="activityName">loading...</h1>
     <hr>
     <h2>Details</h2>
     Description: <h3 id="description">loading...</h3>
     Poster Experience: <h3 id="posterExperience">loading...</h3>
-      <a class="button" id="editActivityButton" hidden="hidden">Edit Activity</a>
   </div>
 
   <div class="card" id="Modal-Container" style="float:right; width:50%; border-left: 6px solid; height: 500px;">
     <a class="button" id="createCommentButton" hidden="hidden">Add Comment </a>
   <div class="card" id="commentsContainer">
+    
     <div id="commentModal" class="modal">
-
       <div class="modal-content">
         <span class="close">&times;</span>
         <p>Share your experience!</p>
@@ -60,6 +60,7 @@
       
     </div>
     </div>
+
     <div id="editCommentModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -75,17 +76,32 @@
       </div>
         <p></p>
         <a class="button" id="submitUpdatedComment">UpdateComment</a>
-
       </div>
-
     </div>
 
+    <div id="editActivityModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <P>Edit Your Activity</P>
+        <div class="modal-body">
+          <p class="hidden error" id="edit-activity-error-message"></p>
+          <p class="formField">
+            <lable for ="editActivityName">Activity Name:</label>
+              <input type="text" id="editActivityName" name="editActivityName" required>
+              <label for="editActivityDescription">Description:</label>
+              <textarea id="editActivityDescription" name="editActivityDescription" required></textarea>
+              <label for="editPosterExperience">Your Experience:</label>
+              <textarea id="editPosterExperience" name="editPosterExperience" required></textarea>
+          </p>
+        </div>
+        <a class="button" id="submitUpdatedActivity">Update Activity</a>
 
+      </div>
+    </div>
   </div>
 
   <div class="card" style="float: down;">
     <a class="button" id="createCommentButton" hidden="hidden">Add Comment </a>
-    <a class="button" id="editActivityButton" hidden="hidden">Edit Activity</a>
   </div>
 
 </body>

@@ -7,7 +7,7 @@ import DataStore from "../util/DataStore";
 class ViewActivity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'submitNewComment', 'submitUpdatedComment', 'addActivityToPage',
+        this.bindClassMethods(['clientLoaded', 'mount', 'submitNewComment', 'submitUpdatedComment', 'submitUpdatedActivity', 'addActivityToPage',
          'redirectToCreateComment', 'addCommentsToPage', 'addCommentToModal', 'deleteComment',
          'redirectToEditActivity', 'redirectToEditComment', 'loginOrOut'], this);
         this.dataStore = new DataStore();
@@ -39,10 +39,16 @@ class ViewActivity extends BindingClass {
         const newCommentButton = document.getElementById('createCommentButton');
         const commentModal = document.getElementById("commentModal");
         const editCommentModal = document.getElementById('editCommentModal');
+        const editActivityButton = document.getElementById('editActivityButton');
+        const editActivityModal = document.getElementById('editActivityModal');
         const span = document.getElementsByClassName("close")[0];
         const span2 = document.getElementsByClassName("close")[1];
+        const span3 = document.getElementsByClassName("close")[2];
         newCommentButton.onclick = function() {
             commentModal.style.display = "block";
+        }
+        editActivityButton.onclick = function() {
+            editActivityModal.style.display = "block";
         }
         span.onclick = function() {
             commentModal.style.display = "none";
@@ -58,6 +64,10 @@ class ViewActivity extends BindingClass {
 
         }
 
+        span3.onclick = function() {
+            editActivityModal.style.display = "none";
+        }
+
         window.onclick = function(event) {
             if (event.target == commentModal) {
                 commentModal.style.display = "none";
@@ -69,6 +79,10 @@ class ViewActivity extends BindingClass {
 
             if (event.target == editCommentModal) {
                 editCommentModal.style.display = "none";
+            }
+
+            if (event.target == editActivityModal) {
+                editActivityModal.style.display = "none";
             }
         }
 
@@ -83,13 +97,14 @@ class ViewActivity extends BindingClass {
         this.dataStore.set('activity', activity);
         const comments = await this.client.viewCommentsForActivity(activityId);
         this.dataStore.set('comments', comments);
+        this.addActivityToModal(activity);
         
     }
 
     mount() {  
         document.getElementById('create').addEventListener('click', this.submitNewComment);
         document.getElementById('submitUpdatedComment').addEventListener('click', this.submitUpdatedComment);
-
+        document.getElementById('submitUpdatedActivity').addEventListener('click', this.submitUpdatedActivity);
 
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
@@ -112,7 +127,7 @@ class ViewActivity extends BindingClass {
         if (user && user.email === activity.userId) {
             const editButton = document.getElementById('editActivityButton');
             editButton.removeAttribute("hidden");
-            editButton.addEventListener('click', () => this.redirectToEditActivity(activityId));
+            // editButton.addEventListener('click', () => this.redirectToEditActivity(activityId));
         }
 
         if (user != null) {
@@ -242,6 +257,14 @@ class ViewActivity extends BindingClass {
         this.dataStore.set('commentId', commentId);
     }
 
+    async addActivityToModal(activity) {
+        if (activity != null) {
+            document.getElementById('editActivityName').value = activity.activityName;
+            document.getElementById('editActivityDescription').value = activity.description;
+            document.getElementById('editPosterExperience').value = activity.posterExperience;
+        }
+    }
+
     async submitUpdatedComment(evt) {
         
         evt.preventDefault();
@@ -272,10 +295,35 @@ class ViewActivity extends BindingClass {
             document.getElementById('editCommentModal').style.display = "none";
             location.reload();
         }
-
         
+    }
 
+    async submitUpdatedActivity(evt) {
+        evt.preventDefault();
+
+        const errorMessageDisplay = document.getElementById('edit-activity-error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
         
+        const activityId = this.dataStore.get('activityId');
+
+        const createButton = document.getElementById('submitUpdatedActivity');
+        const origButtonText = createButton.innerText;
+        createButton.innerText = 'Updating..';
+
+        const activityName = document.getElementById('editActivityName').value;
+        const description = document.getElementById('editActivityDescription').value;
+        const posterExperience = document.getElementById('editPosterExperience').value;
+
+        const updatedActivity = await this.client.editActivity(activityId, activityName, description, posterExperience, (error) => {
+            createButton.innerText = origButtonText;
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+        });
+        if (updatedActivity != null) {
+            this.dataStore.set('updatedActivity', updatedActivity);
+            location.reload();
+        }
     }
 
 
