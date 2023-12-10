@@ -8,7 +8,18 @@
     <link rel="icon" type="image/x-icon" href="photos/TaLE (1).ico">
     <title>City</title>
 </head>
-<body class="background">
+<!-- <style>
+    .parallax {
+        background-image: url("web/static_assets/photos/pexels-isaac-loredo-vargas-17715307.jpg");
+        min-height: 500px;
+
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style> -->
+<body>
     <header class="header" id="header"></header>
     </div>
     <div class="navbar">
@@ -23,8 +34,9 @@
             </div>
         </div>
         <a id="loginButton" class="split"><i class="fa fa-fw fa-user"></i></a>
-    </div>  
-    <h1 class="card" id="cityName"></h1>
+    </div> 
+    <div class="parallax"></div> 
+    <h1 class="card" id="cityName" style="text-align: center;"></h1>
     <div class="card" id="Modal-Container">
         <a class="button" id="createNewActivityButton" hidden="hidden">Add a new activity</a>
     <div class="activitiesContainer" id="activitiesContainer">

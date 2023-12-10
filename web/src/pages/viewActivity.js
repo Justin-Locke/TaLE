@@ -111,6 +111,11 @@ class ViewActivity extends BindingClass {
         document.getElementById('create').addEventListener('click', this.submitNewComment);
         document.getElementById('submitUpdatedComment').addEventListener('click', this.submitUpdatedComment);
         document.getElementById('submitUpdatedActivity').addEventListener('click', this.submitUpdatedActivity);
+        document.getElementById('message').addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("create").click();
+            }
+        })
 
         this.header.addHeaderToPage();
         this.client = new TaLEClient();

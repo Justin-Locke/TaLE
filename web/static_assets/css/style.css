@@ -23,6 +23,19 @@
     padding: 4px 20px;
 }
 
+.parallax {
+    background-image: url("web/static_assets/photos/pexels-isaac-loredo-vargas-17715307.jpg");
+    background-image: url('phtots/pexels-cesar-g-15267002.jpg')
+    image
+
+    min-height: 500px;
+
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .parallax-container {
     height: 100vh;
     overflow: hidden;
@@ -159,6 +172,51 @@
     flex-direction: column;
 }
 
+label {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    width: 180px;
+    line-height: 26px;
+    text-align: right;
+    padding-right: 10px;
+    font-weight: bold;
+}
+
+input[type=text] {
+    width: 150px;
+    padding: 12px 20px 12px 40px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #04AA6D;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: width 0.4s ease-in-out;
+    text-align: justify;
+    display: inline-block;
+    
+}
+
+input[type=text]:focus
+{
+    width: 40%;
+}
+textarea {
+    width: 250px;
+    height: 60px;
+    padding: 12px 20px 12px 40px;
+    box-sizing: border-box;
+    border: 2px solid #04AA6D;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: width 0.4s ease-in-out;
+    word-wrap: normal;
+}
+
+textarea:focus {
+    width: 400px;
+}
+
 .comment-div {
 
 }
@@ -192,11 +250,19 @@
 
   /* Modal Content/Box */
 .modal-content {
+    position: relative;
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
+    width: 75%; /* Could be more or less, depending on screen size */
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    border-radius: 25px;
+
+    
 }
 
 .activity-modal-content {
@@ -209,8 +275,41 @@
     color: var(--primary-color);
     text-shadow: #000;
 }
+
+.modal-body {
+    text-align: center;
+    justify-self: center;
+}
+
+.modal-footer {
+
+}
+
 .modal-submit-button {
-    
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    border-radius: 25px;
+
+}
+.modal-submit-button:hover {
+    background-color: skyblue;
+}
+
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity: 0}
+    to {top: 0; opacity: 1;}
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0;}
+    to {top: 0; opacity: 1;}
 }
 
 
@@ -262,8 +361,22 @@ a {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 25px;
+    
 
 
+}
+
+.newCommentButton {
+    
+    background-color: var(--tertiary-color);
+    border: none;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    
 }
 
 h3 {

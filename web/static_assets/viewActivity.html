@@ -27,21 +27,21 @@
   <div class="card && vl" id="Modal-Container" style="float:left; width: 50%;">
     <a class="button" id="editActivityButton" hidden="hidden">Edit Activity</a>
     
-    Activity Name: <h1 id="activityName">loading...</h1>
+    <h1 id="activityName" style="text-align: center;">loading...</h1>
     <hr>
-    <h2>Details</h2>
-    Description: <h3 id="description">loading...</h3>
-    Poster Experience: <h3 id="posterExperience">loading...</h3>
+    <h2 style="text-align: center;">Details</h2>
+    <label><b>Description</b></label> <h3 id="description" style="text-align: center;">loading...</h3>
+    <label><b>Poster Experience:</b></label><h3 id="posterExperience" style="text-align: center;">loading...</h3>
   </div>
 
   <div class="card" id="Modal-Container" style="float:right; width:50%; border-left: 6px solid; height: 500px;">
-    <a class="button" id="createCommentButton" hidden="hidden">Add Comment </a>
+    <a class="newCommentButton" id="createCommentButton" hidden="hidden">Add Comment </a>
   <div class="card" id="commentsContainer">
     
     <div id="commentModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p>Share your experience!</p>
+        <h3 style="text-align: center;">Share your experience!</h3>
       <div class="modal-body">
           <p class="hidden error" id="error-message"></p>
           <p class="formField">
@@ -51,12 +51,11 @@
                      name="title" id="title" required>
 
               <label for="message"> Message </label>
-              <input type="text" placeholder="Comments" autofocus
-                     name="message" id="message">
+              <textarea type="text" placeholder="Comments" autofocus
+                     name="message" id="message"> </textarea>
               <hr>
           </p>
-          <p>
-             <a class="button" id="create">Post Comment</a></p>
+             <p class="modal-submit-button" id="create">Post Comment</p>
       </div>
       
     </div>
@@ -65,46 +64,50 @@
     <div id="editCommentModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
-        <p> Editing Comment</p>
+        <h3 style="text-align: center;"> Editing Comment</h3>
         <div class="modal-body">
           <form id="editCommentForm">
             <p class="hidden error" id="edit-error-message"></p>
+            <div>
             <label for="commentTitle">Title:</label>
             <input type="text" id="commentTitle" name="commentTitle" required>
+            </div>
+            <div>
             <label for="commentMessage">Comment:</label>
             <textarea id="commentMessage" name="commentMessage" required></textarea>
+            </div>
         </form>
       </div>
         <p></p>
-        <a class="button" id="submitUpdatedComment">UpdateComment</a>
+        <p class="modal-submit-button" id="submitUpdatedComment">UpdateComment</p>
       </div>
     </div>
 
     <div id="editActivityModal" class="modal">
-      <div class="modal-content">
+      <div class="modal-content" style="display: inline-bloc">
         <span class="close">&times;</span>
-        <P>Edit Your Activity</P>
+        <h3 style="text-align: center;">Edit Your Activity</h3>
         <div class="modal-body">
-          <p class="hidden" id="activityId" type=></p>
-
           <p class="hidden error" id="edit-activity-error-message"></p>
           <p class="formField">
-            <lable for ="editActivityName">Activity Name:</label>
+            <div>
+              <label for="editActivityName">Activity Name:</label>
               <input type="text" id="editActivityName" name="editActivityName" required>
+            </div>
+            <div>
               <label for="editActivityDescription">Description:</label>
               <textarea id="editActivityDescription" name="editActivityDescription" required></textarea>
+            </div>
+            <div>
               <label for="editPosterExperience">Your Experience:</label>
               <textarea id="editPosterExperience" name="editPosterExperience" required></textarea>
-          </p>
+            </div>
+            </p>
         </div>
-        <a class="button" id="submitUpdatedActivity">Update Activity</a>
+        <p class="modal-submit-button" id="submitUpdatedActivity">Update Activity</p>
 
       </div>
     </div>
-  </div>
-
-  <div class="card" style="float: down;">
-    <a class="button" id="createCommentButton" hidden="hidden">Add Comment </a>
   </div>
 
 </body>
