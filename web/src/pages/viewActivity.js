@@ -297,7 +297,6 @@ class ViewActivity extends BindingClass {
 
         });
         if (updatedComment != null) {
-            this.dataStore.set('updatedComment', updatedComment);
             document.getElementById('editCommentModal').style.display = "none";
             location.reload();
         }
