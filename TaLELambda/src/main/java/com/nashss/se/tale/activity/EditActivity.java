@@ -38,17 +38,18 @@ public class EditActivity {
 
         Activity activityToUpdate = activitiesDao.getActivityById(request.getActivityId());
 
-        if (!activityToUpdate.getDescription().isEmpty() && request.getUpdatedDescription().isEmpty()) {
+        if (!(activityToUpdate.getDescription().isEmpty()) && request.getUpdatedDescription().isEmpty()) {
             throw new EmptyFieldInRequestException("You can update your description but you cannot delete it.");
         }
 
-        if (!activityToUpdate.getPosterExperience().isEmpty() && request.getUpdatedPosterExperience().isEmpty()) {
+        if (!(activityToUpdate.getPosterExperience() == null || activityToUpdate.getPosterExperience().isEmpty()) && request.getUpdatedPosterExperience().isEmpty()) {
             throw new EmptyFieldInRequestException("You can update your experience but you cannot delete it.");
         }
 
         if (!activityToUpdate.getUserId().equals(request.getUserId())) {
             throw new InvalidUserException("You do not have access to modify this activity");
         }
+
 
         activityToUpdate.setActivityName(request.getUpdatedActivityName());
         activityToUpdate.setDescription(request.getUpdatedDescription());

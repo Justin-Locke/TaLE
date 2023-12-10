@@ -41,16 +41,16 @@ class ViewActivity extends BindingClass {
         const editCommentModal = document.getElementById('editCommentModal');
         const editActivityButton = document.getElementById('editActivityButton');
         const editActivityModal = document.getElementById('editActivityModal');
-        const span = document.getElementsByClassName("close")[0];
-        const span2 = document.getElementsByClassName("close")[1];
-        const span3 = document.getElementsByClassName("close")[2];
+        const newCommentspan = document.getElementsByClassName("close")[0];
+        const editCommentspan = document.getElementsByClassName("close")[1];
+        const editActivityspan = document.getElementsByClassName("close")[2];
         newCommentButton.onclick = function() {
             commentModal.style.display = "block";
         }
         editActivityButton.onclick = function() {
             editActivityModal.style.display = "block";
         }
-        span.onclick = function() {
+        newCommentspan.onclick = function() {
             commentModal.style.display = "none";
             document.getElementById('title').value = '';
             document.getElementById('message').value = '';
@@ -59,12 +59,15 @@ class ViewActivity extends BindingClass {
             errorMessageDisplay.classList.add('hidden');
         }
 
-        span2.onclick = function() {
+        editCommentspan.onclick = function() {
             editCommentModal.style.display = "none";
 
         }
 
-        span3.onclick = function() {
+        editActivityspan.onclick = function() {
+            const errorMessageDisplay = document.getElementById('edit-error-message');
+            errorMessageDisplay.innerText = ``;
+            errorMessageDisplay.classList.add('hidden');
             editActivityModal.style.display = "none";
         }
 
@@ -82,6 +85,9 @@ class ViewActivity extends BindingClass {
             }
 
             if (event.target == editActivityModal) {
+                const errorMessageDisplay = document.getElementById('edit-activity-error-message');
+                errorMessageDisplay.innerText = ``;
+                errorMessageDisplay.classList.add('hidden');
                 editActivityModal.style.display = "none";
             }
         }
@@ -116,7 +122,6 @@ class ViewActivity extends BindingClass {
         if (activity == null) {
             return;
         }
-        const activityId = this.dataStore.get('activityId');
 
         document.getElementById('activityName').innerText = activity.activityName;
         document.getElementById('description').innerText = activity.description;
@@ -300,7 +305,6 @@ class ViewActivity extends BindingClass {
     }
 
     async submitUpdatedActivity(evt) {
-        evt.preventDefault();
 
         const errorMessageDisplay = document.getElementById('edit-activity-error-message');
         errorMessageDisplay.innerText = ``;
