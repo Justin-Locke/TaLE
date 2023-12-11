@@ -69,17 +69,18 @@ class ViewCity extends BindingClass {
             errorMessageDisplay.classList.add('hidden');
             }
         } 
-        const navbar = document.getElementById("navbar");
-        const sticky = navbar.offsetTop;
+        
+        // const navbar = document.getElementById("navbar");
+        // const sticky = navbar.offsetTop;
 
-        window.onscroll = function() {
+        // window.onscroll = function() {
 
-            if (window.scrollY >= sticky) {
-                navbar.classList.add('sticky');
-              } else {
-                navbar.classList.remove('sticky');
-              }
-        }
+        //     if (window.scrollY >= sticky) {
+        //         navbar.classList.add('sticky');
+        //       } else {
+        //         navbar.classList.remove('sticky');
+        //       }
+        // }
 
     }
     
@@ -87,6 +88,7 @@ class ViewCity extends BindingClass {
     mount() {
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
+        
         this.clientLoaded();
         document.getElementById('postNewActivityButton').addEventListener('click', this.submitNewActivity);
     }
@@ -131,6 +133,18 @@ class ViewCity extends BindingClass {
     }
 
     addActivitiesToPage() {
+        document.onreadystatechange = function() {
+            if (document.readyState != "complete") {
+                document.querySelector(
+                    "body").style.visibility = "hidden";
+                    document.querySelector(
+                        ".loader").style.visibility = "visible";
+            } else {
+                document.querySelector(
+                    "loader").style.display = "none";
+                document.querySelector("body").style.visibility ="visible";
+            }
+        }
         const activityList = this.dataStore.get('allActivities');
 
         const activitiesContainer = document.getElementById('activitiesContainer');

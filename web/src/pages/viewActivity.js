@@ -34,6 +34,23 @@ class ViewActivity extends BindingClass {
             pageBttn.classList.remove('subnavbtn.hidden');
             pageBttn.classList.add('subnavbtn2');
             pageBttn.removeAttribute('hidden');
+            if (window.innerWidth > 800) {
+                navbar.style.display = "flex";
+                navbar.style.flexWrap = "nowrap";
+            }
+            window.addEventListener("resize", function() {
+                const navbar = document.getElementById('navbar');
+                if (window.innerWidth > 800) {
+                    navbar.style.display = "flex";
+                    navbar.style.flexWrap = "nowrap";
+                } else {
+                    navbar.style.display = "block";
+                }
+            });
+
+            
+
+
         }
         if (!userLoggedIn) {
             logoutButton.innerText = `Login`;
@@ -120,6 +137,7 @@ class ViewActivity extends BindingClass {
                 document.getElementById("create").click();
             }
         })
+
 
         this.header.addHeaderToPage();
         this.client = new TaLEClient();

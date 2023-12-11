@@ -7,7 +7,7 @@ import DataStore from "../util/DataStore";
 class PersonalComments extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCommentsToPage', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCommentsToPage', 'redirectToViewActivity', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
         this.authenticator = new Authenticator();
@@ -48,16 +48,25 @@ class PersonalComments extends BindingClass {
         if (comments == null) {
             return;
         }
+        const outlineComments = document.createElement('div');
 
         const commentsContainer = document.getElementById('commentsContainer');
 
         comments.forEach(comment => {
             const commentDiv = document.createElement('div');
-            commentDiv.classList.add('comment');
+            commentDiv.classList.add('personal-comments');
 
-            const commentTitle = document.createElement('h3');
+            const commentTitle = document.createElement('h1');
             commentTitle.textContent = comment.title;
+            commentTitle.addEventListener('click', () => this.redirectToViewActivity(comment.activityId));
             commentDiv.appendChild(commentTitle);
+
+            const commentMessage = document.createElement('p');
+            commentMessage.textContent = comment.message;
+            console.log(JSON.stringify(commentMessage));
+            commentDiv.appendChild(commentMessage);
+
+
 
             commentsContainer.appendChild(commentDiv);
         })
@@ -66,7 +75,7 @@ class PersonalComments extends BindingClass {
 
     redirectToViewActivity(activityId) {
         if (activityId != null) {
-            window.location.href = '/viewActivity.html?activityId=${activityId}';
+            window.location.href = `/viewActivity.html?activityId=${activityId}`;
         }
     }
     

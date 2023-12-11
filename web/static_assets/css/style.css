@@ -25,6 +25,68 @@
     padding: 4px 20px;
 }
 
+/* #spinner {
+    animation: spin 1s linear infinite;
+    color: red;
+    }
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+.inline{
+    display: flex;
+}
+.center{
+    flex: left;
+}
+.spinner i {
+    margin-top: 10px;
+    margin-left: 50px;
+} */
+
+.loader {
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    margin: -76px 0 0 -76px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid blue;
+  border-bottom: 16px solid blue;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s;
+}
+@-webkit-keyframes animatebottom {
+    from { bottom: -100px; opacity: 0;}
+    to { bottom: 0px; opacity: 1;}
+}
+@keyframes animatebottom {
+    from {bottom: -100px; opacity: 0;}
+    to {bottom: 0px; opacity: 1;}
+}
+
 
 
 
@@ -389,6 +451,19 @@ a {
 
 }
 
+.personal-comments {
+    border: 3px solid #73AD21;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 25px;
+    text-align: center;
+    width: 50%;
+    margin: auto;
+    cursor: pointer;
+    
+    
+}
+
 .newCommentButton {
     
     background-color: #04AA6D;
@@ -536,10 +611,12 @@ p {
 
 
 .subnav:hover .subnav-content {
+    transition: 0.2s 1s;
     display: block;
 }
 
 .subnav:hover .subnav-content2 {
+    transition: 0.2s 1s;
     display: block;
 }
 
@@ -643,7 +720,7 @@ p {
 
 /* Add responsiveness - will automatically display the navbar vertically
 instead of horizontally on screens less than 500 pixels */
-@media screen and (max-width: 663px) {
+@media screen and (max-width: 800px) {
     .navbar a {
         float: none;
         display: block;
