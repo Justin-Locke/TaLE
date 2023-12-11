@@ -233,8 +233,6 @@ export default class TaLEClient extends BindingClass {
 
     async deleteActivity(activityId, errorCallback) {
         try {
-            const userConfirmed = window.confirm('Are you sure you want to delete this activity?')
-            if (userConfirmed) {
                 const token = await this.getTokenOrThrow("Only authenticated users can delete a Comment");
                 const response = await this.axiosClient.delete(`activities/${activityId}`, {
                     headers: {
@@ -242,7 +240,6 @@ export default class TaLEClient extends BindingClass {
                     }
                 })
                 return response.data.deleteResult;
-            }
         } catch (error) {
             this.handleError(error, errorCallback)
         }

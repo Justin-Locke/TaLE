@@ -69,6 +69,11 @@ class ViewCity extends BindingClass {
             errorMessageDisplay.classList.add('hidden');
             }
         } 
+        document.getElementById('posterExperience').addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("postNewActivityButton").click();
+            }
+        })
         
         // const navbar = document.getElementById("navbar");
         // const sticky = navbar.offsetTop;
@@ -91,6 +96,7 @@ class ViewCity extends BindingClass {
         
         this.clientLoaded();
         document.getElementById('postNewActivityButton').addEventListener('click', this.submitNewActivity);
+        
     }
 
     async submitNewActivity(evt) {
@@ -117,7 +123,7 @@ class ViewCity extends BindingClass {
         });
         if (activity != null) {
             console.log(activity + "is the Activity");
-            location.reload();
+            this.redirectToViewActivity(activity);
         }
 
     }
@@ -133,18 +139,7 @@ class ViewCity extends BindingClass {
     }
 
     addActivitiesToPage() {
-        // document.onreadystatechange = function() {
-        //     if (document.readyState != "complete") {
-        //         document.querySelector(
-        //             "body").style.visibility = "hidden";
-        //             document.querySelector(
-        //                 ".loader").style.visibility = "visible";
-        //     } else {
-        //         document.querySelector(
-        //             "loader").style.display = "none";
-        //         document.querySelector("body").style.visibility ="visible";
-        //     }
-        // }
+
         const activityList = this.dataStore.get('allActivities');
 
         const activitiesContainer = document.getElementById('activitiesContainer');

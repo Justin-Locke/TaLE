@@ -1,7 +1,7 @@
 import TaLEClient from "../api/TaLEClient";
 import BindingClass from "../util/bindingClass";
 
-export default class LoginButton extends BindingClass {
+export default class NavBar extends BindingClass {
     constructor() {
         super();
 
