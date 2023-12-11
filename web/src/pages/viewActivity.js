@@ -167,9 +167,16 @@ class ViewActivity extends BindingClass {
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
 
+            const datePosted = document.createElement('small');
+            datePosted.textContent = "Posted on " + comment.datePosted;
+            commentDiv.appendChild(datePosted);
+            
+
             const titleElement = document.createElement('h3');
             titleElement.textContent = comment.title;
+            
             commentDiv.appendChild(titleElement);
+            
             if (comment.edited) {
                 const edited = document.createElement('edited');
                 edited.textContent = 'edited';
