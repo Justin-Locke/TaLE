@@ -1,16 +1,17 @@
+import Authenticator from '../api/authenticator';
 import TaLEClient from '../api/TaLEClient'
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
-import Authenticator from '../api/authenticator';
 
-class CreateComment extends BindingClass {
+class PersonalActivities extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'submit', 'redirectToViewActivity', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addActivitiesToPage', 'redirectToViewActivity', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
         this.authenticator = new Authenticator();
+        this.dataStore.addChangeListener(this.addActivitiesToPage);
     }
 
     async clientLoaded() {
@@ -25,72 +26,69 @@ class CreateComment extends BindingClass {
             document.getElementById('loginButton').addEventListener('click', this.createLogoutButton(user));
         }
         if (!userLoggedIn) {
-            document.getElementById('personalPage').style.display = 'none';
             document.getElementById('loginButton').innerText = `Login`;
             document.getElementById('loginButton').addEventListener('click', this.createLoginButton());
         }
-        const urlParams =  new URLSearchParams(window.location.search);
-        const activityId = urlParams.get('activityId');
-        this.dataStore.set('activityId', activityId);
+        const activities = await this.client.viewPersonalActivities();
+        this.dataStore.set('activities', activities);
 
-
+        
     }
 
     mount() {
-        document.getElementById('create').addEventListener('click', this.submit);
+        
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
     }
 
-    async submit(evt) {
-        const acitivityId = this.dataStore.get('activityId');
-        evt.preventDefault();
+    addActivitiesToPage() {
+        const activities = this.dataStore.get('activities');
+        if (activities == null) {
+            return;
+        }
 
-        const errorMessageDisplay = document.getElementById('error-message');
-        errorMessageDisplay.innerText = '';
-        errorMessageDisplay.classList.add('hidden');
+        const activitiesContainer = document.getElementById('activitiesContainer');
 
-        const createButton = document.getElementById('create');
-        const origButtonText = createButton.innerText;
-        createButton.innerText = 'Creating..';
+        activities.forEach(activity => {
+            const activityDiv = document.createElement('div');
+            activityDiv.classList.add('activity');
 
-        const title = document.getElementById('title').value;
-        const message = document.getElementById('message').value;
+            const activityName = document.createElement('h3');
+            activityName.textContent = activity.activityName;
+            activityName.addEventListener('click', () => this.redirectToViewActivity(activity.activityId));
+            activityDiv.appendChild(activityName);
 
-        const comment = await this.client.createComment(acitivityId, title, message, (error) => {
-            createButton.innerText = origButtonText;
-            errorMessageDisplay.innerText = `Error: ${error.message}`;
-            errorMessageDisplay.classList.remove('hidden');
-        });
-        this.dataStore.set('comment', comment);
-        this.redirectToViewActivity();
-        
+            const line = document.createElement('hr');
+            activityDiv.appendChild(line);
+
+            const activityPostDate = document.createElement('p');
+            activityPostDate.textContent = activity.datePosted;
+            activityDiv.appendChild(activityPostDate);
+            
+            activitiesContainer.appendChild(activityDiv);
+            
+            
+        })
+
     }
 
-    redirectToViewActivity() {
-        console.log("redirecting now");
-        const activityId = this.dataStore.get('activityId');
+
+    redirectToViewActivity(activityId) {
         if (activityId != null) {
-            console.log("activiy is not null");
             window.location.href = `/viewActivity.html?activityId=${activityId}`;
         }
-        console.log("redirect finished");
-        
-
     }
-
+    
     async loginOrOut() {
-        const userLoggedIn = await this.authenticator.isUserLoggedIn();
-        if (userLoggedIn) {
+        const user = await this.client.getIdentity();
+        if (user != null) {
             return this.client.logout;
         } else {
             return this.client.login;
         }
 
     }
-
-
 
     createLoginButton() {
         return this.createButton('Login', this.client.login);
@@ -112,11 +110,13 @@ class CreateComment extends BindingClass {
         return button;
 
     }
+
+    
 }
 
 const main = async () => {
-    const createComment = new CreateComment();
-    createComment.mount();
-};
+    const personalActivities = new PersonalActivities();
+    personalActivities.mount();
+}
 
 window.addEventListener('DOMContentLoaded', main);

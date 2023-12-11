@@ -4,28 +4,118 @@
     <meta charset="UTF-8">
     <script type="text/javascript" src="assets/viewActivity.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/x-icon" href="photos/TaLE (1).ico">
     <title>Activity</title>
 </head>
 <body class="background">
   <header class="header" id="header"></header>
-  <div class="card"></div>
+  </div>
+  <div class="navbar" id="navbar">
+      <a class="active" href="/"><i class="fa fa-fw fa-home"></i>
+      Home</a>
+      <a href="viewPlaces.html" id="places"><i class="fa fa-fw fa-road"></i> Places </a>
+      <div class="subnav">
+        <button class="subnavbtn.hidden" id="personalPage" hidden="hidden"><i class="fa fa-fw fa-caret-down"></i> My Stuff</button>
+        <div class="subnav-content">
+          <a href="personalActivities.html">My Activities</a>
+          <a href="personalComments.html">My Comments</a>
+        </div>
+    </div>
+    <div class="subnav">
+      <button class="subnavbtn.hidden" id="editable-activities" hidden="hidden"><i class="fa fa-fw fa-caret-down"></i> Post/Edit </button>
+      <div class="subnav-content2">
+        <a class="edit-activity-button" id="editActivityButton" hidden="hidden">Edit Activity</a>
 
-  <div class="card">
-    Activity Name: <h1 id="activityName">loading...</h1>
+      </div>
+    </div>
+    <a class="newCommentButton" id="createCommentButton" hidden="hidden"><i class="fa fa-fw fa-plus"></i> Comment </a>
+
+
+    <a id="loginButton" class="split"><i class="fa fa-fw fa-user"></i></a>
+  </div>
+  <div class="card && vl" id="Modal-Container" style="float:left; width: 50%;">
+    
+    <h1 id="activityName" style="text-align: center;">loading...</h1>
     <hr>
-    <h2>Details</h2>
-    Description: <h3 id="description">loading...</h3>
-    Poster Experience: <h3 id="posterExperience">loading...</h3>
-
-
+    <h2 style="text-align: center;">Details</h2>
+    <label><b>Description</b></label> <h3 id="description" style="text-align: center;">loading...</h3>
+    <label><b>Poster Experience:</b></label><h3 id="posterExperience" style="text-align: center;">loading...</h3>
   </div>
+
+  <div class="card" id="Modal-Container" style="float:right; width:50%; border-left: 6px solid; height: 500px;">
   <div class="card" id="commentsContainer">
-    <h2 id="commentList"></h2>
-    <ol id="commentList"></ol>
-  </div>
-  <div class="card">
-    <a class="button" id="createCommentButton" hidden="hidden">Add Comment </a>
-    <a class="button" id="editActivityButton" hidden="hidden">Edit Activity</a>
+    
+    <div id="commentModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 style="text-align: center;">Share your experience!</h3>
+      <div class="modal-body">
+          <p class="hidden error" id="error-message"></p>
+          <p class="formField">
+              <p class="hidden" id="commentId" type=></p>
+              <label for="title"><b>Title</b></label>
+              <input type="text" placeholder="Title" autofocus
+                     name="title" id="title" required>
+
+              <label for="message"> Message </label>
+              <textarea type="text" placeholder="Comments" autofocus
+                     name="message" id="message"> </textarea>
+              <hr>
+          </p>
+             <p class="modal-submit-button" id="create">Post Comment</p>
+      </div>
+      
+    </div>
+    </div>
+
+    <div id="editCommentModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3 style="text-align: center;"> Editing Comment</h3>
+        <div class="modal-body">
+          <form id="editCommentForm">
+            <p class="hidden error" id="edit-error-message"></p>
+            <div>
+            <label for="commentTitle">Title:</label>
+            <input type="text" id="commentTitle" name="commentTitle" required>
+            </div>
+            <div>
+            <label for="commentMessage">Comment:</label>
+            <textarea id="commentMessage" name="commentMessage" required></textarea>
+            </div>
+        </form>
+      </div>
+        <p></p>
+        <p class="modal-submit-button" id="submitUpdatedComment">UpdateComment</p>
+      </div>
+    </div>
+
+    <div id="editActivityModal" class="modal">
+      <div class="modal-content" style="display: inline-bloc">
+        <span class="close">&times;</span>
+        <h3 style="text-align: center;">Edit Your Activity</h3>
+        <div class="modal-body">
+          <p class="hidden error" id="edit-activity-error-message"></p>
+          <p class="formField">
+            <div>
+              <label for="editActivityName">Activity Name:</label>
+              <input type="text" id="editActivityName" name="editActivityName" required>
+            </div>
+            <div>
+              <label for="editActivityDescription">Description:</label>
+              <textarea id="editActivityDescription" name="editActivityDescription" required></textarea>
+            </div>
+            <div>
+              <label for="editPosterExperience">Your Experience:</label>
+              <textarea id="editPosterExperience" name="editPosterExperience" required></textarea>
+            </div>
+            </p>
+        </div>
+        <p class="modal-submit-button" id="submitUpdatedActivity">Update Activity</p>
+
+      </div>
+    </div>
   </div>
 
 </body>

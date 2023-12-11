@@ -9,8 +9,7 @@ export default class Header extends BindingClass {
         super();
 
         const methodsToBind = [
-            'addHeaderToPage', 'createSiteTitle', 'createUserInfoForHeader',
-            'createLoginButton', 'createLoginButton', 'createLogoutButton'
+            'addHeaderToPage', 'createSiteTitle', 'createUserInfoForHeader'
         ];
         this.bindClassMethods(methodsToBind, this);
 
@@ -48,33 +47,33 @@ export default class Header extends BindingClass {
         const userInfo = document.createElement('div');
         userInfo.classList.add('user');
 
-        const childContent = currentUser
-            ? this.createLogoutButton(currentUser)
-            : this.createLoginButton();
+        // const childContent = currentUser
+        //     ? this.createLogoutButton(currentUser)
+        //     : this.createLoginButton();
 
-        userInfo.appendChild(childContent);
+        // userInfo.appendChild(childContent);
 
         return userInfo;
     }
 
-    createLoginButton() {
-        return this.createButton('Login', this.client.login);
-    }
+    // createLoginButton() {
+    //     return this.createButton('Login', this.client.login);
+    // }
 
-    createLogoutButton(currentUser) {
-        return this.createButton(`Logout: ${currentUser.name}`, this.client.logout);
-    }
+    // createLogoutButton(currentUser) {
+    //     return this.createButton(`Logout: ${currentUser.name}`, this.client.logout);
+    // }
 
-    createButton(text, clickHandler) {
-        const button = document.createElement('a');
-        button.classList.add('button');
-        button.href = '#';
-        button.innerText = text;
+    // createButton(text, clickHandler) {
+    //     const button = document.createElement('a');
+    //     button.classList.add('button');
+    //     button.href = '#';
+    //     button.innerText = text;
 
-        button.addEventListener('click', async () => {
-            await clickHandler();
-        });
+    //     button.addEventListener('click', async () => {
+    //         await clickHandler();
+    //     });
 
-        return button;
-    }
+    //     return button;
+    // }
 }

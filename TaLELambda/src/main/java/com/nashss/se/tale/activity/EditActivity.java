@@ -4,6 +4,8 @@ import com.nashss.se.tale.activity.results.EditActivityResult;
 import com.nashss.se.tale.converters.ModelConverter;
 import com.nashss.se.tale.dynamodb.ActivitiesDao;
 import com.nashss.se.tale.dynamodb.models.Activity;
+import com.nashss.se.tale.exceptions.EmptyFieldInRequestException;
+import com.nashss.se.tale.exceptions.InvalidUserException;
 import com.nashss.se.tale.models.ActivityModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,18 +32,28 @@ public class EditActivity {
      * @return updated Activity Model.
      */
     public EditActivityResult handleRequest(final EditActivityRequest request) {
+        if (request.getUpdatedActivityName().isEmpty()) {
+            throw new EmptyFieldInRequestException("Your activity must have a name");
+        }
+
         Activity activityToUpdate = activitiesDao.getActivityById(request.getActivityId());
 
-        if (request.getUpdatedActivityName() != null) {
-            activityToUpdate.setActivityName(request.getUpdatedActivityName());
-        }
-        if (request.getUpdatedDescription() != null) {
-            activityToUpdate.setDescription(request.getUpdatedDescription());
-        }
-        if (request.getUpdatedPosterExperience() != null) {
-            activityToUpdate.setPosterExperience(request.getUpdatedPosterExperience());
+        if (!(activityToUpdate.getDescription().isEmpty()) && request.getUpdatedDescription().isEmpty()) {
+            throw new EmptyFieldInRequestException("You can update your description but you cannot delete it.");
         }
 
+        if (!(activityToUpdate.getPosterExperience() == null || activityToUpdate.getPosterExperience().isEmpty()) && request.getUpdatedPosterExperience().isEmpty()) {
+            throw new EmptyFieldInRequestException("You can update your experience but you cannot delete it.");
+        }
+
+        if (!activityToUpdate.getUserId().equals(request.getUserId())) {
+            throw new InvalidUserException("You do not have access to modify this activity");
+        }
+
+
+        activityToUpdate.setActivityName(request.getUpdatedActivityName());
+        activityToUpdate.setDescription(request.getUpdatedDescription());
+        activityToUpdate.setPosterExperience(request.getUpdatedPosterExperience());
         activityToUpdate.setEdited(true);
 
         activitiesDao.saveActivity(activityToUpdate);

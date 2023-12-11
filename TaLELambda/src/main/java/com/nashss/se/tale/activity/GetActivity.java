@@ -1,4 +1,5 @@
 package com.nashss.se.tale.activity;
+
 import com.nashss.se.tale.activity.requests.GetActivityRequest;
 import com.nashss.se.tale.activity.results.GetActivityResult;
 import com.nashss.se.tale.converters.ModelConverter;
@@ -33,6 +34,7 @@ public class GetActivity {
         String activityId = getActivityRequest.getActivityId();
 
         Activity activity = activitiesDao.getActivityById(activityId);
+
 
         ActivityModel activityModel = new ModelConverter().toActivityModel(activity);
 

@@ -3,24 +3,24 @@ package com.nashss.se.tale.activity.requests;
 import java.util.List;
 
 public class GetAllActivitiesRequest {
-    private List<String> activityIdList;
+    private String cityId;
 
     /**
      * Constructor for GetAllActivitiesRequest.
-     * @param activityIdList List of activityIds.
+     * @param cityId to get all activities from.
      */
-    public GetAllActivitiesRequest(List<String> activityIdList) {
-        this.activityIdList = activityIdList;
+    public GetAllActivitiesRequest(String cityId) {
+        this.cityId = cityId;
     }
 
-    public List<String> getActivityIdList() {
-        return activityIdList;
+    public String getCityId() {
+        return cityId;
     }
 
     @Override
     public String toString() {
         return "GetAllActivitiesRequest{" +
-                "activityIdList=" + activityIdList +
+                "cityId='" + cityId + '\'' +
                 '}';
     }
 
@@ -30,15 +30,15 @@ public class GetAllActivitiesRequest {
     }
 
     public static class Builder {
-        private List<String> activityIdList;
+        private String cityId;
 
-        public Builder withActivityIdList(List<String> activityIdList) {
-            this.activityIdList = activityIdList;
+        public Builder withCityId(String cityId) {
+            this.cityId = cityId;
             return this;
         }
 
         public GetAllActivitiesRequest build() {
-            return new GetAllActivitiesRequest(activityIdList);
+            return new GetAllActivitiesRequest(cityId);
         }
     }
 }

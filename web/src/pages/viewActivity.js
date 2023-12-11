@@ -7,18 +7,115 @@ import DataStore from "../util/DataStore";
 class ViewActivity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addActivityToPage',
-         'redirectToCreateComment', 'addCommentsToPage', 'deleteComment',
-         'redirectToEditActivity',
-        'redirectToEditComment'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'submitNewComment', 'submitUpdatedComment', 'submitUpdatedActivity', 'addActivityToPage',
+         'redirectToCreateComment', 'addCommentsToPage', 'addCommentToModal', 'deleteComment',
+         'redirectToEditActivity', 'redirectToEditComment', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.dataStore.addChangeListener(this.addCommentsToPage);
+        this.authenticator = new Authenticator();
 
         this.header = new Header(this.dataStore);
     }
 
     async clientLoaded() {
+        const userLoggedIn = await this.authenticator.isUserLoggedIn();
+        const logoutButton = document.getElementById('loginButton')
+
+        if (userLoggedIn) {
+            const user = await this.client.getIdentity();
+            const personalBttn = document.getElementById('personalPage');
+            personalBttn.classList.remove('subnavbtn.hidden');
+            personalBttn.classList.add('subnavbtn');
+            personalBttn.removeAttribute('hidden');
+            logoutButton.innerText = `Logout: ${user.name}`;
+            logoutButton.addEventListener('click', this.createLogoutButton(user));
+            const pageBttn = document.getElementById('editable-activities');
+            pageBttn.classList.remove('subnavbtn.hidden');
+            pageBttn.classList.add('subnavbtn2');
+            pageBttn.removeAttribute('hidden');
+            if (window.innerWidth > 800) {
+                navbar.style.display = "flex";
+                navbar.style.flexWrap = "nowrap";
+            }
+            window.addEventListener("resize", function() {
+                const navbar = document.getElementById('navbar');
+                if (window.innerWidth > 800) {
+                    navbar.style.display = "flex";
+                    navbar.style.flexWrap = "nowrap";
+                } else {
+                    navbar.style.display = "block";
+                }
+            });
+
+            
+
+
+        }
+        if (!userLoggedIn) {
+            logoutButton.innerText = `Login`;
+            logoutButton.addEventListener('click', this.createLoginButton());
+        }
+
+        const newCommentButton = document.getElementById('createCommentButton');
+        const commentModal = document.getElementById("commentModal");
+        const editCommentModal = document.getElementById('editCommentModal');
+        const editActivityButton = document.getElementById('editActivityButton');
+        const editActivityModal = document.getElementById('editActivityModal');
+        const newCommentspan = document.getElementsByClassName("close")[0];
+        const editCommentspan = document.getElementsByClassName("close")[1];
+        const editActivityspan = document.getElementsByClassName("close")[2];
+        newCommentButton.onclick = function() {
+            commentModal.style.display = "block";
+        }
+        editActivityButton.onclick = function() {
+            editActivityModal.style.display = "block";
+        }
+        newCommentspan.onclick = function() {
+            commentModal.style.display = "none";
+            document.getElementById('title').value = '';
+            document.getElementById('message').value = '';
+            const errorMessageDisplay = document.getElementById('error-message');
+            errorMessageDisplay.innerText = '';
+            errorMessageDisplay.classList.add('hidden');
+        }
+
+        editCommentspan.onclick = function() {
+            editCommentModal.style.display = "none";
+
+        }
+
+        editActivityspan.onclick = function() {
+            const errorMessageDisplay = document.getElementById('edit-error-message');
+            errorMessageDisplay.innerText = ``;
+            errorMessageDisplay.classList.add('hidden');
+            editActivityModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == commentModal) {
+                commentModal.style.display = "none";
+                const errorMessageDisplay = document.getElementById('error-message');
+                errorMessageDisplay.innerText = '';
+                errorMessageDisplay.classList.add('hidden');
+                
+            }
+
+            if (event.target == editCommentModal) {
+                editCommentModal.style.display = "none";
+            }
+
+            if (event.target == editActivityModal) {
+                const errorMessageDisplay = document.getElementById('edit-activity-error-message');
+                errorMessageDisplay.innerText = ``;
+                errorMessageDisplay.classList.add('hidden');
+                editActivityModal.style.display = "none";
+            }
+        }
+
+
+
+        
         const urlParams = new URLSearchParams(window.location.search);
         const activityId = urlParams.get('activityId');
 
@@ -26,15 +123,21 @@ class ViewActivity extends BindingClass {
         const activity = await this.client.viewActivity(activityId);
         this.dataStore.set('activity', activity);
         const comments = await this.client.viewCommentsForActivity(activityId);
-        console.log(JSON.stringify(comments + " = comments "));
         this.dataStore.set('comments', comments);
-
+        this.addActivityToModal(activity);
         
     }
 
     mount() {  
-        document.getElementById('createCommentButton').addEventListener('click', this.redirectToCreateComment);
-        document.getElementById('')
+        document.getElementById('create').addEventListener('click', this.submitNewComment);
+        document.getElementById('submitUpdatedComment').addEventListener('click', this.submitUpdatedComment);
+        document.getElementById('submitUpdatedActivity').addEventListener('click', this.submitUpdatedActivity);
+        document.getElementById('message').addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("create").click();
+            }
+        })
+
 
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
@@ -46,19 +149,17 @@ class ViewActivity extends BindingClass {
         if (activity == null) {
             return;
         }
-        const activityId = this.dataStore.get('activityId');
 
         document.getElementById('activityName').innerText = activity.activityName;
         document.getElementById('description').innerText = activity.description;
         document.getElementById('posterExperience').innerText = activity.posterExperience;
 
         const user = await this.client.getIdentity();
-        // if (user && user.email != activity.userId) {
-        //     document.getElementById('editActivityButton').style.visibility='hidden';
-        // }
+
         if (user && user.email === activity.userId) {
-            document.getElementById('editActivityButton').removeAttribute("hidden");
-            document.getElementById('editActivityButton').addEventListener('click', () => this.redirectToEditActivity(activityId));
+            const editButton = document.getElementById('editActivityButton');
+            editButton.removeAttribute("hidden");
+            // editButton.addEventListener('click', () => this.redirectToEditActivity(activityId));
         }
 
         if (user != null) {
@@ -68,17 +169,15 @@ class ViewActivity extends BindingClass {
     }
 
     async addCommentsToPage() {
+        
         const activityId = await this.dataStore.get('activityId');
 
         const comments = await this.dataStore.get('comments');
         if (comments == null) {
-            console.log("Comments are null");
             return;
         }
-        console.log(JSON.stringify("Comments =" + comments));
         
         const currentUser = await this.client.getIdentity();
-
 
         const commentsContainer = document.getElementById('commentsContainer');
 
@@ -86,59 +185,182 @@ class ViewActivity extends BindingClass {
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
 
+            const datePosted = document.createElement('small');
+            datePosted.textContent = "Posted on " + comment.datePosted;
+            commentDiv.appendChild(datePosted);
+            
+
             const titleElement = document.createElement('h3');
             titleElement.textContent = comment.title;
+            
             commentDiv.appendChild(titleElement);
+            
+            if (comment.edited) {
+                const edited = document.createElement('edited');
+                edited.textContent = 'edited';
+                commentDiv.appendChild(edited);
+            }
+            const line = document.createElement('hr');
+            commentDiv.appendChild(line);
 
             const messageElement = document.createElement('p');
             messageElement.textContent = comment.message;
             commentDiv.appendChild(messageElement);
+            const line2 = document.createElement('hr');
+            commentDiv.appendChild(line2);
+
             
             // Check if the current user is the author of the comment
             if (currentUser && currentUser.email === comment.userId) {
+                const buttonGroup = document.createElement('button-group');
                 const updateButton = document.createElement('button');
+                updateButton.classList.add('editButton');
                 updateButton.textContent = 'Edit';
-                updateButton.addEventListener('click', () => this.redirectToEditComment(activityId, comment.commentId));
+                const editCommentModal = document.getElementById("editCommentModal");
+                updateButton.style.background = "none"
+                updateButton.style.font
+                updateButton.addEventListener('click', () => this.addCommentToModal(comment));
+
+                
+                updateButton.onclick = () => {
+                    editCommentModal.style.display = "block";
+                }
+                
+
 
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
+                deleteButton.classList.add('deleteButton');
+
                 deleteButton.addEventListener('click', () => this.deleteComment(activityId, comment.commentId));
 
-                commentDiv.appendChild(updateButton);
-                commentDiv.appendChild(deleteButton);
+                buttonGroup.appendChild(updateButton);
+                buttonGroup.appendChild(deleteButton);
+                commentDiv.appendChild(buttonGroup);
             }
 
             commentsContainer.appendChild(commentDiv);
         });
 
-        // let commentHtml = '<table><tr><th>Comments</th></tr><th>Comment Content</th>';
-
-        // for (const comment of comments) {
-        //     commentHtml += `
-        //     <tr>
-        //         <td>
-        //             <a href="/viewComment.html?commentId=${comment.commentId}">${comment.title}</a>
-        //         </td>
-        //         <tr>
-        //             <td> ${comment.message} </td>
-        //         </tr>
-
-        //     </tr>
-        //     `;
-        // }
-        // document.getElementById('commentList').innerHTML = commentHtml;
     }
-    async deleteComment(acitivityId, commentId) {
-        const response = await this.client.deleteComment(acitivityId, commentId);
+
+    async submitNewComment(evt) {
+
+        const activityId = this.dataStore.get('activityId');
+        evt.preventDefault();
+
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = '';
+        errorMessageDisplay.classList.add('hidden');
+
+        const createButton = document.getElementById('create');
+        const origButtonText = createButton.innerText;
+        createButton.innerText = 'Creating..';
+
+        const title = document.getElementById('title').value;
+        const message = document.getElementById('message').value;
+
+        const comment = await this.client.createComment(activityId, title, message, (error) => {
+            createButton.innerText = origButtonText;
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+        });
+        if (comment != null) {
+            this.dataStore.set('comment', comment);   
+            document.getElementById('commentModal').style.display = "none";
+            location.reload();
+        }
+
+    }
+
+    async deleteComment(activityId, commentId) {
+        const response = await this.client.deleteComment(activityId, commentId);
         if (response != null) {
             location.reload();
         }
     }
 
-    async redirectToEditActivity(acitivityId) {
-        const activity = await this.client.viewActivity(acitivityId);
+    async redirectToEditActivity(activityId) {
+        const activity = await this.client.viewActivity(activityId);
         if (activity != null) {
-            window.location.href = `/editActivity.html?activityId=${acitivityId}`;
+            window.location.href = `/editActivity.html?activityId=${activityId}`;
+        }
+    }
+
+    async addCommentToModal(comment) {
+        if (comment != null) {
+            document.getElementById('commentTitle').value = comment.title;
+            document.getElementById('commentMessage').value = comment.message;
+            document.getElementById('commentId').value = comment.commentId;
+        }
+        console.log("Comment = " + comment);
+        // this.dataStore.set('commentId', comment.commentId);
+    }
+
+    async addActivityToModal(activity) {
+        if (activity != null) {
+            document.getElementById('editActivityName').value = activity.activityName;
+            document.getElementById('editActivityDescription').value = activity.description;
+            document.getElementById('editPosterExperience').value = activity.posterExperience;
+        }
+    }
+
+    async submitUpdatedComment(evt) {
+        
+        evt.preventDefault();
+
+        const errorMessageDisplay = document.getElementById('edit-error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+        
+        const activityId = this.dataStore.get('activityId');
+        console.log(JSON.stringify(activityId + "= activityId"));
+        const commentId = document.getElementById('commentId').value;
+        
+        const createButton = document.getElementById('submitUpdatedComment');
+        const origButtonText = createButton.innerText;
+        createButton.innerText = 'Updating..';
+
+        const title = document.getElementById('commentTitle').value;
+        const message = document.getElementById('commentMessage').value;
+
+        const updatedComment = await this.client.editComment(activityId, commentId, title, message, (error) => {
+            createButton.innerText = origButtonText;
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+
+        });
+        if (updatedComment != null) {
+            document.getElementById('editCommentModal').style.display = "none";
+            location.reload();
+        }
+        
+    }
+
+    async submitUpdatedActivity(evt) {
+
+        const errorMessageDisplay = document.getElementById('edit-activity-error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+        
+        const activityId = this.dataStore.get('activityId');
+
+        const createButton = document.getElementById('submitUpdatedActivity');
+        const origButtonText = createButton.innerText;
+        createButton.innerText = 'Updating..';
+
+        const activityName = document.getElementById('editActivityName').value;
+        const description = document.getElementById('editActivityDescription').value;
+        const posterExperience = document.getElementById('editPosterExperience').value;
+
+        const updatedActivity = await this.client.editActivity(activityId, activityName, description, posterExperience, (error) => {
+            createButton.innerText = origButtonText;
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+        });
+        if (updatedActivity != null) {
+            this.dataStore.set('updatedActivity', updatedActivity);
+            location.reload();
         }
     }
 
@@ -151,11 +373,42 @@ class ViewActivity extends BindingClass {
         }
     }
 
-    async redirectToEditComment(acitivityId, commentId) {
-        const comment = await this.client.viewComment(acitivityId, commentId);
+    async redirectToEditComment(activityId, commentId) {
+        const comment = await this.client.viewComment(activityId, commentId);
         if (comment != null) {
-             window.location.href = `/viewComment.html?activityId=${acitivityId}&commentId=${commentId}`;
+             window.location.href = `/viewComment.html?activityId=${activityId}&commentId=${commentId}`;
         }
+    }
+
+    async loginOrOut() {
+        const user = await this.client.getIdentity();
+        if (user != null) {
+            return this.client.logout;
+        } else {
+            return this.client.login;
+        }
+
+    }
+
+    createLoginButton() {
+        return this.createButton('Login', this.client.login);
+    }
+
+    createLogoutButton(currentUser) {
+        return this.createButton(`Logout: ${currentUser.name}`, this.client.logout);
+    }
+
+    createButton(text, clickHandler) {
+        const button = document.getElementById('loginButton');
+        button.href = '#';
+        button.innerText = text;
+
+        button.addEventListener('click', async () => {
+            await clickHandler();
+        });
+
+        return button;
+
     }
 
 }

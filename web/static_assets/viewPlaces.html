@@ -4,13 +4,30 @@
     <meta charset="UTF-8">
     <script type="text/javascript" src="assets/viewCities.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" type="image/x-icon" href="photos/TaLE (1).ico">
     <title>Cities</title>
 </head>
 <body class="background">
-<header class="header" id="header"></header>
+    <header class="header" id="header"></header>
+    </div>
+    <div class="navbar">
+        <a class="active" href="/"><i class="fa fa-fw fa-home"></i>
+        Home</a>
+        <a href="viewPlaces.html" id="places"><i class="fa fa-fw fa-road"></i> Places </a>
+        <div class="subnav">
+            <button class="subnavbtn.hidden" id="personalPage" hidden="hidden"><i class="fa fa-fw fa-caret-down"></i> My Stuff</button>
+            <div class="subnav-content">
+                <a href="personalActivities.html">My Activities</a>
+                <a href="personalComments.html">My Comments</a>
+            </div>
+        </div>
+        <a id="loginButton" class="split"><i class="fa fa-fw fa-user"></i></a>
+    </div>
 <div class="card">
-    <h1>Places </h1>
-    <ol id="citiesList"></ol>
+    <h1 style="text-align: center;"> Where Are You Going? </h1>
+    <hr>
+    <div id="citiesContainer"></div>
 </div>
 
 

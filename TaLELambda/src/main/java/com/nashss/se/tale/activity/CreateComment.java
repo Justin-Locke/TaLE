@@ -4,6 +4,7 @@ import com.nashss.se.tale.activity.results.CreateCommentResult;
 import com.nashss.se.tale.converters.ModelConverter;
 import com.nashss.se.tale.dynamodb.CommentsDao;
 import com.nashss.se.tale.dynamodb.models.Comment;
+import com.nashss.se.tale.exceptions.EmptyFieldInRequestException;
 import com.nashss.se.tale.models.CommentModel;
 import com.nashss.se.tale.utils.IdUtils;
 
@@ -32,6 +33,10 @@ public class CreateComment {
      * @return the Created Comment.
      */
     public CreateCommentResult handleRequest(final CreateCommentRequest request) {
+        if (request.getTitle().isEmpty() || request.getMessage().isEmpty()) {
+            throw new EmptyFieldInRequestException("Comments must contain both a Title and a Message.");
+        }
+
         Comment newComment = new Comment();
         newComment.setCommentId(IdUtils.generateCommentId());
         newComment.setActivityId(request.getActivityId());

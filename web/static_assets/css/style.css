@@ -4,7 +4,9 @@
     --secondary-color: #ffffff;
     --tertiary-color: #F5881F;
     --error-color: #EE3A23;
+
 }
+
 
 .background {
     background-color: #8A8C8F;
@@ -23,6 +25,101 @@
     padding: 4px 20px;
 }
 
+/* #spinner {
+    animation: spin 1s linear infinite;
+    color: red;
+    }
+    @keyframes spin {
+        100% {
+            transform: rotate(360deg)
+        }
+    }
+.inline{
+    display: flex;
+}
+.center{
+    flex: left;
+}
+.spinner i {
+    margin-top: 10px;
+    margin-left: 50px;
+} */
+
+.loader {
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    margin: -76px 0 0 -76px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid blue;
+  border-bottom: 16px solid blue;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+  
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s;
+}
+@-webkit-keyframes animatebottom {
+    from { bottom: -100px; opacity: 0;}
+    to { bottom: 0px; opacity: 1;}
+}
+@keyframes animatebottom {
+    from {bottom: -100px; opacity: 0;}
+    to {bottom: 0px; opacity: 1;}
+}
+
+
+
+
+
+.parallax {
+    background-image: url("../pexels-isaac-loredo-vargas-17715307.jpg");
+
+    min-height: 500px;
+
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.parallax-container {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.parallax-section {
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: background-position 0.3s ease;
+}
+
 .button {
   background-color: var(--tertiary-color);
   border: none;
@@ -32,6 +129,44 @@
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
+}
+
+.new-activity-button {
+  background-color: lightslategray;
+  border: none;
+  color: var(--secondary-color);
+  padding: 6px 8px 4px 8px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.editButton {
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    width: 15%;
+    cursor: pointer;
+    position: relative;
+    float: none;
+    flex-direction: row;
+    
+}
+
+.deleteButton {
+    border: none;
+    color: red;
+    flex-direction: row;
+    float: inline-end;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    width: 15%;
+    cursor: pointer;
+    background-color: inherit;
+    position: relative;
+    
 }
 
 .button-group {
@@ -46,12 +181,57 @@
     text-decoration: none;
     color: var(--secondary-color);
 }
+.activity {
+    text-align: center;
+    cursor: pointer;
+    color: var(--primary-color);
+    text-shadow: #000;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+    
+}
+
+.cities {
+    text-align: center;
+    cursor: pointer;
+    color: var(--primary-color);
+    text-shadow: #000;
+    margin: 0 auto;
+    width: 50%;
+    height: 50%;
+}
+
+.activitiesContainer {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    padding: 10px 20px;
+    overflow: scroll;
+}
+
+
+.activity:hover, .cities:hover {
+    color: lightblue;
+}
 
 .card {
     color: var(--primary-color);
     background-color: var(--secondary-color);
-    margin: 20px;
     padding: 10px 20px;
+    overflow: scroll;
+}
+
+.cityCard {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    padding: 10px 20px;
+    
+
+}
+
+.vl {
+    border-left: 6px solid green;
+    height: 500px;
 }
 
 .error {
@@ -76,45 +256,169 @@
     flex-direction: column;
 }
 
-.tags {
+label {
     display: flex;
     flex-direction: row;
+    justify-content: flex-end;
+    width: 180px;
+    line-height: 26px;
+    text-align: right;
+    padding-right: 10px;
+    font-weight: bold;
 }
 
-.tag {
-    font-size: 12px;
-    margin: 0 10px;
-    padding: 4px 8px;
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+input[type=text] {
+    width: 150px;
+    padding: 12px 20px 12px 40px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid #04AA6D;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: width 0.4s ease-in-out;
+    text-align: justify;
+    display: inline-block;
+    
+}
+
+input[type=text]:focus
+{
+    width: 40%;
+}
+textarea {
+    width: 250px;
+    height: 60px;
+    padding: 12px 20px 12px 40px;
+    box-sizing: border-box;
+    border: 2px solid #04AA6D;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: width 0.4s ease-in-out;
+    word-wrap: normal;
+}
+
+textarea:focus {
+    width: 400px;
+}
+
+.comment-div {
+
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.activityModal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+
+  /* Modal Content/Box */
+.modal-content {
     position: relative;
-    border-radius: 16px;
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 75%; /* Could be more or less, depending on screen size */
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+    border-radius: 25px;
+
+    
 }
 
-.song {
-    padding: 2px;
-    display: flex;
+.activity-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    text-align: center;
+    color: var(--primary-color);
+    text-shadow: #000;
 }
 
-.song .title {
-    flex: 20%;
+.modal-body {
+    text-align: center;
+    justify-self: center;
 }
 
-.song .album {
-    flex: 80%;
+.modal-footer {
+
 }
+
+.modal-submit-button {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    border-radius: 25px;
+
+}
+.modal-submit-button:hover {
+    background-color: skyblue;
+}
+
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity: 0}
+    to {top: 0; opacity: 1;}
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0;}
+    to {top: 0; opacity: 1;}
+}
+
+
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
 
 /*
 Flexbox on a lists removes the numbers. We use a counter here to add them back.
 https://stackoverflow.com/a/34316093
 https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
 */
-.song:before {
-    counter-increment: section;
-    content: counter(section) ".";
-    position: absolute;
-    margin-left: -40px;
-}
 
 .hidden {
     display: none;
@@ -137,16 +441,333 @@ a {
 }
 
 .comment {
-    border: 1px solid #ccc;
+    border: 2px solid #73AD21;
     padding: 10px;
     margin-bottom: 10px;
+    border-radius: 25px;
+    flex-wrap: wrap;
+    grid-auto-rows: auto;
+
+
+}
+
+.personal-comments {
+    border: 3px solid #73AD21;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 25px;
+    text-align: center;
+    width: 50%;
+    margin: auto;
+    cursor: pointer;
+    
+    
+}
+
+.newCommentButton {
+    
+    background-color: #04AA6D;
+    border: none;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    display: inline-block;
+    
+}
+
+.edit-activity-button {
+    background-color: lightslategray;
+    border: none;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 h3 {
-    font-size: 18px;
-    margin-bottome: 8px;
+    font-size: 20px;
+    margin-bottom: 8px;
 }
 
 p {
-    font-size: 14px;
+    font-size: 16px;
 }
+
+/* Style the navigation bar */
+.navbar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+    flex-wrap: wrap;
+    
+}
+
+/* Navbar links */
+.navbar a {
+    float: left;
+    text-align: center;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+    width: 20%;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+/* Navbar links on mouse-over */
+.navbar a:hover, .navbar a.split:hover, .subnav:hover .subnavbtn {
+    background-color: #000;
+}
+
+.navbar a.hidden {
+    display: none;
+}
+
+.navbar a.split {
+    float: right;
+    background-color: #04AA6D;
+    color: white;
+}
+
+/* Subnav menu */
+.subnav {
+    float: left;
+    overflow: hidden;
+}
+
+/* Subnav button */
+.subnav .subnavbtn {
+    font-size: 17px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 12px 17px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0;
+}
+
+.subnav .subnavbtn2 {
+    font-size: 17px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 12px 17px;
+    background-color: slategray;
+    font-family: inherit;
+    margin: 0;
+}
+
+.subnav-content {
+    display: none;
+    position: absolute;
+    left: 0;
+    background-color: #04AA6D;
+    width: 100%;
+    z-index: 1;
+}
+
+.subnav-content2 {
+    display: none;
+    position: absolute;
+    left: 0;
+    background-color: slategray;
+    width: 100%;
+    z-index: 1;
+}
+
+.subnav-content a {
+    float: left;
+    color: white;
+    text-decoration: none;
+
+}
+.subnav-content2 a {
+    float: left;
+    color: white;
+    text-decoration: none;
+}
+
+.subnav-content a:hover {
+    background-color: #000;
+    color: white;
+}
+
+.subnav-content2 a:hover {
+    background-color: #000;
+    color: white;
+}
+
+
+
+.subnav:hover .subnav-content {
+    transition: 0.2s 1s;
+    display: block;
+}
+
+.subnav:hover .subnav-content2 {
+    transition: 0.2s 1s;
+    display: block;
+}
+
+/* Current/active navbar link */
+.active {
+    background-color: #04AA6D;
+}
+
+* {box-sizing: border-box;}
+
+/* Slideshow container */
+.slideshow-container {
+    max-width: 1000px;
+    position: relative;
+    margin: auto;
+}
+
+/* Hide the images by default */
+.mySlides {
+    display: none;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+    background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+    background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: .4;}
+    to {opacity: 1;}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+    .text {font-size: 11px;}
+}
+
+/* Add responsiveness - will automatically display the navbar vertically
+instead of horizontally on screens less than 500 pixels */
+@media screen and (max-width: 800px) {
+    .navbar a {
+        float: none;
+        display: block;
+        width: 100%;
+    }
+    .navbar a.hidden {
+        display: none;
+    }
+    .navbar a.split {
+        float: right;
+        background-color: #04AA6D;
+        color: white;
+
+    }
+
+    .subnav {
+        float: none;
+        display: block;
+        width: 100%;
+    }
+
+    .subnavbtn {
+        float: none;
+        display: block;
+        width: 100%;
+    }
+
+    .subnavbtn2 {
+        float: none;
+        display: block;
+        width: 100%;
+    }
+
+    .subnavbtn.hidden {
+        float: none;
+        display: none;
+        width: 100%;
+    }
+
+    /* .subnav-content {
+        display: none;
+        position: relative;
+        left: 0;
+        background-color: #04AA6D;
+        width: 100%;
+        z-index: 1;
+    } */
+
+}
+
