@@ -309,6 +309,28 @@ Resources:
            Auth:
              Authorizer: 'NONE'
 
+  GetAllActivitiesLambda:
+   Type: AWS::Serverless::Function
+   Properties:
+     Role: !GetAtt AccessRole.Arn
+     CodeUri: TaLELambda
+     Handler: com.nashss.se.tale.lambda.GetAllActivitiesLambda::handleRequest
+     Runtime: java11
+     Architectures:
+       - x86_64
+     MemorySize: 512
+     Environment:
+       Variables:
+         JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+     Events:
+       TaLE:
+         Type: Api
+         Properties:
+           Path: /cities/{cityId}/activities
+           Method: get
+           Auth:
+             Authorizer: 'NONE'
+
   GetActivityLambda:
    Type: AWS::Serverless::Function
    Properties:

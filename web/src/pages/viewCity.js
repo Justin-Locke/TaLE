@@ -7,7 +7,7 @@ import Authenticator from '../api/authenticator';
 class ViewCity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'redirectToCreateNewActivity', 'addActivitiesToPage', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'submitNewActivity', 'redirectToCreateNewActivity', 'addActivitiesToPage', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCityToPage);
         this.dataStore.addChangeListener(this.addActivitiesToPage);
@@ -35,20 +35,52 @@ class ViewCity extends BindingClass {
         }
         const urlParams = new URLSearchParams(window.location.search);
         const cityId = urlParams.get('cityId');
+        this.dataStore.set('cityId', cityId);
 
         const city = await this.client.viewCity(cityId);
         this.dataStore.set('city', city);
         
-        const activityIdList = city.activityList;
-        
-        const allActivities = [];
-        for (const activityId of activityIdList) {
-            const activity = await this.client.viewActivity(activityId);
-            allActivities.push(activity);
-        }
+        const allActivities = await this.client.viewAllActivitiesForCity(cityId);
         this.dataStore.set('allActivities', allActivities);
 
+        const newActivityButton = document.getElementById('createNewActivityButton');
+        const activityModal = document.getElementById('activityModal');
+        activityModal.classList.add('activityModal');
+        const span = document.getElementsByClassName("close")[0];
+        newActivityButton.onclick = function() {
+            activityModal.style.display = "block";
+        }
+        span.onclick = function() {
+            activityModal.style.display = "none";
+            document.getElementById('activityName').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('posterExperience').value = '';
+            const errorMessageDisplay = document.getElementById('error-message');
+            errorMessageDisplay.innerText = '';
+            errorMessageDisplay.classList.add('hidden');
+            
+        }
+        window.onclick = function(event) {
+            if (event.target == activityModal) {
+                
+            activityModal.style.display = "none";
+            const errorMessageDisplay = document.getElementById('error-message');
+            errorMessageDisplay.innerText = '';
+            errorMessageDisplay.classList.add('hidden');
+            }
+        } 
         
+        // const navbar = document.getElementById("navbar");
+        // const sticky = navbar.offsetTop;
+
+        // window.onscroll = function() {
+
+        //     if (window.scrollY >= sticky) {
+        //         navbar.classList.add('sticky');
+        //       } else {
+        //         navbar.classList.remove('sticky');
+        //       }
+        // }
 
     }
     
@@ -56,8 +88,37 @@ class ViewCity extends BindingClass {
     mount() {
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
+        
         this.clientLoaded();
-        document.getElementById('createNewActivityButton').addEventListener('click', () => this.redirectToCreateNewActivity());
+        document.getElementById('postNewActivityButton').addEventListener('click', this.submitNewActivity);
+    }
+
+    async submitNewActivity(evt) {
+        const cityId = this.dataStore.get('cityId');
+        evt.preventDefault();
+
+        const errorMessageDisplay = document.getElementById('error-message');
+        errorMessageDisplay.innerText = '';
+        errorMessageDisplay.classList.add('hidden');
+
+        const createButton = document.getElementById('postNewActivityButton');
+        const origButtonText = createButton.innerText;
+        createButton.innerText = 'Creating..';
+
+        const activityName = document.getElementById('activityName').value;
+        const description = document.getElementById('description').value;
+        const posterExperience = document.getElementById('posterExperience').value;
+
+        const activity = await this.client.createNewActivity(cityId, activityName, description, posterExperience, (error) => {
+            createButton.innerText = origButtonText;
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+
+        });
+        if (activity != null) {
+            console.log(activity + "is the Activity");
+            location.reload();
+        }
 
     }
 
@@ -72,11 +133,22 @@ class ViewCity extends BindingClass {
     }
 
     addActivitiesToPage() {
+        document.onreadystatechange = function() {
+            if (document.readyState != "complete") {
+                document.querySelector(
+                    "body").style.visibility = "hidden";
+                    document.querySelector(
+                        ".loader").style.visibility = "visible";
+            } else {
+                document.querySelector(
+                    "loader").style.display = "none";
+                document.querySelector("body").style.visibility ="visible";
+            }
+        }
         const activityList = this.dataStore.get('allActivities');
 
         const activitiesContainer = document.getElementById('activitiesContainer');
         if (activityList == null) {
-            console.log("ActivityList is null");
             return;
         }
 
@@ -85,7 +157,12 @@ class ViewCity extends BindingClass {
             activityDiv.classList.add('activity');
 
             const activityName = document.createElement('h3');
-            activityName.textContent = activity.activityName;
+            if (activity.activityName == null) {
+                activityName.textContent = "*ACTIVITY NAME NOT FOUND*"
+            } else {
+                activityName.textContent = activity.activityName;
+            }
+
             activityName.addEventListener('click', () => {this.redirectToViewActivity(activity)});
             activityDiv.appendChild(activityName);
         
@@ -93,8 +170,6 @@ class ViewCity extends BindingClass {
             activityDiv.appendChild(line);
             activitiesContainer.appendChild(activityDiv);
         })
-
-        
         
     }
 

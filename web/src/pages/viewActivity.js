@@ -7,7 +7,7 @@ import DataStore from "../util/DataStore";
 class ViewActivity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'submitNewComment', 'submitUpdatedComment', 'addActivityToPage',
+        this.bindClassMethods(['clientLoaded', 'mount', 'submitNewComment', 'submitUpdatedComment', 'submitUpdatedActivity', 'addActivityToPage',
          'redirectToCreateComment', 'addCommentsToPage', 'addCommentToModal', 'deleteComment',
          'redirectToEditActivity', 'redirectToEditComment', 'loginOrOut'], this);
         this.dataStore = new DataStore();
@@ -30,6 +30,27 @@ class ViewActivity extends BindingClass {
             personalBttn.removeAttribute('hidden');
             logoutButton.innerText = `Logout: ${user.name}`;
             logoutButton.addEventListener('click', this.createLogoutButton(user));
+            const pageBttn = document.getElementById('editable-activities');
+            pageBttn.classList.remove('subnavbtn.hidden');
+            pageBttn.classList.add('subnavbtn2');
+            pageBttn.removeAttribute('hidden');
+            if (window.innerWidth > 800) {
+                navbar.style.display = "flex";
+                navbar.style.flexWrap = "nowrap";
+            }
+            window.addEventListener("resize", function() {
+                const navbar = document.getElementById('navbar');
+                if (window.innerWidth > 800) {
+                    navbar.style.display = "flex";
+                    navbar.style.flexWrap = "nowrap";
+                } else {
+                    navbar.style.display = "block";
+                }
+            });
+
+            
+
+
         }
         if (!userLoggedIn) {
             logoutButton.innerText = `Login`;
@@ -39,22 +60,56 @@ class ViewActivity extends BindingClass {
         const newCommentButton = document.getElementById('createCommentButton');
         const commentModal = document.getElementById("commentModal");
         const editCommentModal = document.getElementById('editCommentModal');
-        const span = document.getElementsByClassName("close")[0];
+        const editActivityButton = document.getElementById('editActivityButton');
+        const editActivityModal = document.getElementById('editActivityModal');
+        const newCommentspan = document.getElementsByClassName("close")[0];
+        const editCommentspan = document.getElementsByClassName("close")[1];
+        const editActivityspan = document.getElementsByClassName("close")[2];
         newCommentButton.onclick = function() {
             commentModal.style.display = "block";
         }
-        span.onclick = function() {
+        editActivityButton.onclick = function() {
+            editActivityModal.style.display = "block";
+        }
+        newCommentspan.onclick = function() {
             commentModal.style.display = "none";
+            document.getElementById('title').value = '';
+            document.getElementById('message').value = '';
+            const errorMessageDisplay = document.getElementById('error-message');
+            errorMessageDisplay.innerText = '';
+            errorMessageDisplay.classList.add('hidden');
+        }
+
+        editCommentspan.onclick = function() {
             editCommentModal.style.display = "none";
+
+        }
+
+        editActivityspan.onclick = function() {
+            const errorMessageDisplay = document.getElementById('edit-error-message');
+            errorMessageDisplay.innerText = ``;
+            errorMessageDisplay.classList.add('hidden');
+            editActivityModal.style.display = "none";
         }
 
         window.onclick = function(event) {
             if (event.target == commentModal) {
                 commentModal.style.display = "none";
+                const errorMessageDisplay = document.getElementById('error-message');
+                errorMessageDisplay.innerText = '';
+                errorMessageDisplay.classList.add('hidden');
+                
             }
 
             if (event.target == editCommentModal) {
                 editCommentModal.style.display = "none";
+            }
+
+            if (event.target == editActivityModal) {
+                const errorMessageDisplay = document.getElementById('edit-activity-error-message');
+                errorMessageDisplay.innerText = ``;
+                errorMessageDisplay.classList.add('hidden');
+                editActivityModal.style.display = "none";
             }
         }
 
@@ -69,12 +124,19 @@ class ViewActivity extends BindingClass {
         this.dataStore.set('activity', activity);
         const comments = await this.client.viewCommentsForActivity(activityId);
         this.dataStore.set('comments', comments);
+        this.addActivityToModal(activity);
         
     }
 
     mount() {  
         document.getElementById('create').addEventListener('click', this.submitNewComment);
         document.getElementById('submitUpdatedComment').addEventListener('click', this.submitUpdatedComment);
+        document.getElementById('submitUpdatedActivity').addEventListener('click', this.submitUpdatedActivity);
+        document.getElementById('message').addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("create").click();
+            }
+        })
 
 
         this.header.addHeaderToPage();
@@ -87,7 +149,6 @@ class ViewActivity extends BindingClass {
         if (activity == null) {
             return;
         }
-        const activityId = this.dataStore.get('activityId');
 
         document.getElementById('activityName').innerText = activity.activityName;
         document.getElementById('description').innerText = activity.description;
@@ -98,7 +159,7 @@ class ViewActivity extends BindingClass {
         if (user && user.email === activity.userId) {
             const editButton = document.getElementById('editActivityButton');
             editButton.removeAttribute("hidden");
-            editButton.addEventListener('click', () => this.redirectToEditActivity(activityId));
+            // editButton.addEventListener('click', () => this.redirectToEditActivity(activityId));
         }
 
         if (user != null) {
@@ -124,9 +185,21 @@ class ViewActivity extends BindingClass {
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
 
+            const datePosted = document.createElement('small');
+            datePosted.textContent = "Posted on " + comment.datePosted;
+            commentDiv.appendChild(datePosted);
+            
+
             const titleElement = document.createElement('h3');
             titleElement.textContent = comment.title;
+            
             commentDiv.appendChild(titleElement);
+            
+            if (comment.edited) {
+                const edited = document.createElement('edited');
+                edited.textContent = 'edited';
+                commentDiv.appendChild(edited);
+            }
             const line = document.createElement('hr');
             commentDiv.appendChild(line);
 
@@ -146,7 +219,8 @@ class ViewActivity extends BindingClass {
                 const editCommentModal = document.getElementById("editCommentModal");
                 updateButton.style.background = "none"
                 updateButton.style.font
-                updateButton.addEventListener('click', () => this.addCommentToModal(activityId, comment.commentId));
+                updateButton.addEventListener('click', () => this.addCommentToModal(comment));
+
                 
                 updateButton.onclick = () => {
                     editCommentModal.style.display = "block";
@@ -191,9 +265,12 @@ class ViewActivity extends BindingClass {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
-        this.dataStore.set('comment', comment);   
-        document.getElementById('commentModal').style.display = "none";
-        location.reload();
+        if (comment != null) {
+            this.dataStore.set('comment', comment);   
+            document.getElementById('commentModal').style.display = "none";
+            location.reload();
+        }
+
     }
 
     async deleteComment(activityId, commentId) {
@@ -210,27 +287,35 @@ class ViewActivity extends BindingClass {
         }
     }
 
-    async addCommentToModal(activityId, commentId) {
-        const comment = await this.client.viewComment(activityId, commentId);
+    async addCommentToModal(comment) {
         if (comment != null) {
             document.getElementById('commentTitle').value = comment.title;
             document.getElementById('commentMessage').value = comment.message;
+            document.getElementById('commentId').value = comment.commentId;
         }
         console.log("Comment = " + comment);
-        this.dataStore.set('commentId', commentId);
+        // this.dataStore.set('commentId', comment.commentId);
+    }
+
+    async addActivityToModal(activity) {
+        if (activity != null) {
+            document.getElementById('editActivityName').value = activity.activityName;
+            document.getElementById('editActivityDescription').value = activity.description;
+            document.getElementById('editPosterExperience').value = activity.posterExperience;
+        }
     }
 
     async submitUpdatedComment(evt) {
         
         evt.preventDefault();
 
-        const errorMessageDisplay = document.getElementById('error-message');
+        const errorMessageDisplay = document.getElementById('edit-error-message');
         errorMessageDisplay.innerText = ``;
         errorMessageDisplay.classList.add('hidden');
         
         const activityId = this.dataStore.get('activityId');
         console.log(JSON.stringify(activityId + "= activityId"));
-        const commentId = this.dataStore.get('commentId');
+        const commentId = document.getElementById('commentId').value;
         
         const createButton = document.getElementById('submitUpdatedComment');
         const origButtonText = createButton.innerText;
@@ -243,12 +328,40 @@ class ViewActivity extends BindingClass {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
-        });
-        this.dataStore.set('updatedComment', updatedComment);
-        document.getElementById('editCommentModal').style.display = "none";
-        location.reload();
 
+        });
+        if (updatedComment != null) {
+            document.getElementById('editCommentModal').style.display = "none";
+            location.reload();
+        }
         
+    }
+
+    async submitUpdatedActivity(evt) {
+
+        const errorMessageDisplay = document.getElementById('edit-activity-error-message');
+        errorMessageDisplay.innerText = ``;
+        errorMessageDisplay.classList.add('hidden');
+        
+        const activityId = this.dataStore.get('activityId');
+
+        const createButton = document.getElementById('submitUpdatedActivity');
+        const origButtonText = createButton.innerText;
+        createButton.innerText = 'Updating..';
+
+        const activityName = document.getElementById('editActivityName').value;
+        const description = document.getElementById('editActivityDescription').value;
+        const posterExperience = document.getElementById('editPosterExperience').value;
+
+        const updatedActivity = await this.client.editActivity(activityId, activityName, description, posterExperience, (error) => {
+            createButton.innerText = origButtonText;
+            errorMessageDisplay.innerText = `Error: ${error.message}`;
+            errorMessageDisplay.classList.remove('hidden');
+        });
+        if (updatedActivity != null) {
+            this.dataStore.set('updatedActivity', updatedActivity);
+            location.reload();
+        }
     }
 
 

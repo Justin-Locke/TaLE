@@ -53,18 +53,24 @@ class ViewCities extends BindingClass {
             return;
         }
 
-        let cityHtml = '<table><tr><th>City</th></tr>';
+        const citiesContainer = document.getElementById('citiesContainer');
+        cityList.forEach(city => {
+            const cityDiv = document.createElement('div');
+            cityDiv.classList.add('cities');
+            const cityName = document.createElement('h3');
+            cityName.textContent = city.cityName;
+            cityName.addEventListener('click', () => this.redirectToViewCity(city));
+            cityDiv.appendChild(cityName);
 
-        for (const city of cityList) {
-            cityHtml += `
-            <tr>
-                <td>
-                    <a href="/viewCity.html?cityId=${city.cityId}">${city.cityName}</a>
-                </td>
-            </tr>
-            `;
+            citiesContainer.appendChild(cityDiv);
+        })
+      
+    }
+
+    redirectToViewCity(city) {
+        if (city != null) {
+            window.location.href = `/viewCity.html?cityId=${city.cityId}`;
         }
-        document.getElementById('citiesList').innerHTML = cityHtml;
     }
 
     async loginOrOut() {

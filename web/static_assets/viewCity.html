@@ -10,7 +10,7 @@
 </head>
 <body class="background">
     <header class="header" id="header"></header>
-    </div>
+
     <div class="navbar">
         <a class="active" href="/"><i class="fa fa-fw fa-home"></i>
         Home</a>
@@ -22,14 +22,48 @@
                 <a href="personalComments.html">My Comments</a>
             </div>
         </div>
+        <a class="new-activity-button" id="createNewActivityButton" hidden="hidden"><i class="fa fa-fw fa-plus"></i> New Activity</a>
         <a id="loginButton" class="split"><i class="fa fa-fw fa-user"></i></a>
     </div>  
-    <h1 class="card" id="cityName"></h1>
-</body>
-    <div class="card" id="activitiesContainer">
+    <div class="card" style="text-align: center; font-size: xx-large; margin: auto; background-color: slategrey">
+    <h1 class="cityCard" id="cityName" style="margin: auto; width: 60%;"></h1>
     </div>
-    <div class="card">
-    <a class="button" id="createNewActivityButton" hidden="hidden">Add a new activity</a>
+    
+    <div class="card" id="Modal-Container">
+    <div class="activitiesContainer" id="activitiesContainer">
+        <div id="activityModal" class="modal">
+
+            <div class="activity-modal-content">
+                <span class="close">&times;</span>
+                <h2 style="text-align: center;">Creating a New Activity</h2>
+                <div class="modal-body">
+                    <p class="formField">
+                        <p class="hidden error" id="error-message"></p>
+                        <div>
+                        <label for="activityName"><b>Activity Name</b></label>
+                        <input type="text" placeholder="Fun Thing In Nashville" autofocus
+                        name="activityName" id="activityName" required>
+                        </div>
+
+                    </p>
+                        <div>
+                        <label for="description"><b>Description</b></label>
+                        <textarea type="text" placeholder="A City of FUN!" autofocus
+                        name="description" id="description" required></textarea>
+                        </div>
+
+                        <div>
+                        <label for="posterExperience"><b>Your Experience</b></label>
+                        <textarea type="text" placeholder="Spent all week in cowboy boots!" autofocus
+                        name="posterExperience" id="posterExperience" required></textarea>
+                        </div>
+                        <hr>
+                    </p>
+                        <p class="modal-submit-button" id="postNewActivityButton">Post New Activity</p>
+                </div>
+            </div>
+        </div>
     </div>
+    <div id="loader"></div>
 </body>
 </html>

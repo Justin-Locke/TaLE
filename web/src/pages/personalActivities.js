@@ -7,7 +7,7 @@ import DataStore from "../util/DataStore";
 class PersonalActivities extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addActivitiesToPage', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addActivitiesToPage', 'redirectToViewActivity', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
         this.authenticator = new Authenticator();
@@ -56,7 +56,15 @@ class PersonalActivities extends BindingClass {
 
             const activityName = document.createElement('h3');
             activityName.textContent = activity.activityName;
+            activityName.addEventListener('click', () => this.redirectToViewActivity(activity.activityId));
             activityDiv.appendChild(activityName);
+
+            const line = document.createElement('hr');
+            activityDiv.appendChild(line);
+
+            const activityPostDate = document.createElement('p');
+            activityPostDate.textContent = activity.datePosted;
+            activityDiv.appendChild(activityPostDate);
             
             activitiesContainer.appendChild(activityDiv);
             
@@ -68,7 +76,7 @@ class PersonalActivities extends BindingClass {
 
     redirectToViewActivity(activityId) {
         if (activityId != null) {
-            window.location.href = '/viewActivity.html?activityId=${activityId}';
+            window.location.href = `/viewActivity.html?activityId=${activityId}`;
         }
     }
     

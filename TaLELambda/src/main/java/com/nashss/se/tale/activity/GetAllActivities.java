@@ -3,7 +3,9 @@ import com.nashss.se.tale.activity.requests.GetAllActivitiesRequest;
 import com.nashss.se.tale.activity.results.GetAllActivitiesResult;
 import com.nashss.se.tale.converters.ModelConverter;
 import com.nashss.se.tale.dynamodb.ActivitiesDao;
+import com.nashss.se.tale.dynamodb.CitiesDao;
 import com.nashss.se.tale.dynamodb.models.Activity;
+import com.nashss.se.tale.dynamodb.models.City;
 import com.nashss.se.tale.models.ActivityModel;
 
 import org.apache.logging.log4j.LogManager;
@@ -17,14 +19,16 @@ import javax.inject.Inject;
 public class GetAllActivities {
     private Logger log = LogManager.getLogger();
     private ActivitiesDao activitiesDao;
+    private CitiesDao citiesDao;
 
     /**
      * Constructor for GetAllActivities using Dagger.
      * @param activitiesDao to instantiate ActivitiesDao for DDB.
      */
     @Inject
-    public GetAllActivities(ActivitiesDao activitiesDao) {
+    public GetAllActivities(ActivitiesDao activitiesDao, CitiesDao citiesDao) {
         this.activitiesDao = activitiesDao;
+        this.citiesDao = citiesDao;
     }
 
     /**
@@ -33,9 +37,12 @@ public class GetAllActivities {
      * @return List of Activities.
      */
     public GetAllActivitiesResult handleRequest(final GetAllActivitiesRequest request) {
-        List<String> activityIdList = request.getActivityIdList();
-        List<Activity> activityList = new ArrayList<>();
+        String cityId = request.getCityId();
 
+        City city = citiesDao.getCityById(cityId);
+        List<String> activityIdList = city.getActivityList();
+
+        List<Activity> activityList = new ArrayList<>();
         for (String id: activityIdList) {
             activityList.add(activitiesDao.getActivityById(id));
         }
