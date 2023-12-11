@@ -25,26 +25,6 @@
     padding: 4px 20px;
 }
 
-/* #spinner {
-    animation: spin 1s linear infinite;
-    color: red;
-    }
-    @keyframes spin {
-        100% {
-            transform: rotate(360deg)
-        }
-    }
-.inline{
-    display: flex;
-}
-.center{
-    flex: left;
-}
-.spinner i {
-    margin-top: 10px;
-    margin-left: 50px;
-} */
-
 .loader {
     position: absolute;
     left: 50%;
@@ -134,6 +114,20 @@
 .new-activity-button {
   background-color: lightslategray;
   border: none;
+  border-width: 25px;
+  border-radius: 25px;
+  color: var(--secondary-color);
+  padding: 6px 8px 4px 8px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.delete-activity-button {
+  background-color: rosybrown;
+  border: none;
+  border-width: 25px;
+  border-radius: 25px;
   color: var(--secondary-color);
   padding: 6px 8px 4px 8px;
   text-align: center;
@@ -167,6 +161,11 @@
     background-color: inherit;
     position: relative;
     
+}
+
+.warning-sign {
+    font-size: 48px;
+    color: #ff6347;
 }
 
 .button-group {
@@ -466,21 +465,25 @@ a {
 
 .newCommentButton {
     
-    background-color: #04AA6D;
+    background-color: slategrey;
     border: none;
+    border-radius: 15px;
+    border-width: 25px;
     color: var(--secondary-color);
     padding: 6px 8px 4px 8px;
     text-align: center;
     font-weight: bold;
     text-decoration: none;
     cursor: pointer;
-    display: inline-block;
+
     
 }
 
 .edit-activity-button {
     background-color: lightslategray;
     border: none;
+    border-radius: 15px;
+    border-width: 25px;
     color: var(--secondary-color);
     padding: 6px 8px 4px 8px;
     text-align: center;
@@ -560,6 +563,8 @@ p {
 .subnav .subnavbtn2 {
     font-size: 17px;
     border: none;
+    border-radius: 15px;
+    border-width: 25px;
     outline: none;
     color: white;
     padding: 12px 17px;
@@ -752,6 +757,8 @@ instead of horizontally on screens less than 500 pixels */
         float: none;
         display: block;
         width: 100%;
+        border-radius: 15px;
+        border-width: 25px;
     }
 
     .subnavbtn.hidden {

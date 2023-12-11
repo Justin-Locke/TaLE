@@ -8,8 +8,8 @@ class ViewActivity extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'submitNewComment', 'submitUpdatedComment', 'submitUpdatedActivity', 'addActivityToPage',
-         'redirectToCreateComment', 'addCommentsToPage', 'addCommentToModal', 'deleteComment',
-         'redirectToEditActivity', 'redirectToEditComment', 'loginOrOut'], this);
+         'redirectToCreateComment', 'addCommentsToPage', 'addCommentToModal', 'deleteComment', 'deleteActivity',
+         'redirectToEditActivity', 'redirectToEditComment', 'redirectToViewCity', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.dataStore.addChangeListener(this.addCommentsToPage);
@@ -30,10 +30,7 @@ class ViewActivity extends BindingClass {
             personalBttn.removeAttribute('hidden');
             logoutButton.innerText = `Logout: ${user.name}`;
             logoutButton.addEventListener('click', this.createLogoutButton(user));
-            const pageBttn = document.getElementById('editable-activities');
-            pageBttn.classList.remove('subnavbtn.hidden');
-            pageBttn.classList.add('subnavbtn2');
-            pageBttn.removeAttribute('hidden');
+            
             if (window.innerWidth > 800) {
                 navbar.style.display = "flex";
                 navbar.style.flexWrap = "nowrap";
@@ -62,15 +59,21 @@ class ViewActivity extends BindingClass {
         const editCommentModal = document.getElementById('editCommentModal');
         const editActivityButton = document.getElementById('editActivityButton');
         const editActivityModal = document.getElementById('editActivityModal');
+        // const deleteActivityButton = document.getElementById('delete-activity-button');
+        const deleteActivityModal = document.getElementById('deleteModal');
         const newCommentspan = document.getElementsByClassName("close")[0];
         const editCommentspan = document.getElementsByClassName("close")[1];
         const editActivityspan = document.getElementsByClassName("close")[2];
+        const deleteActivityspan = document.getElementsByClassName("warning-sign");
         newCommentButton.onclick = function() {
             commentModal.style.display = "block";
         }
         editActivityButton.onclick = function() {
             editActivityModal.style.display = "block";
         }
+        // deleteActivityButton.onclick = function() {
+        //     deleteActivityModal.style.display = "block"
+        // }
         newCommentspan.onclick = function() {
             commentModal.style.display = "none";
             document.getElementById('title').value = '';
@@ -92,6 +95,10 @@ class ViewActivity extends BindingClass {
             editActivityModal.style.display = "none";
         }
 
+        // deleteActivityspan.onclick = function() {
+        //     deleteActivityModal.style.display = "none";
+        // }
+
         window.onclick = function(event) {
             if (event.target == commentModal) {
                 commentModal.style.display = "none";
@@ -111,6 +118,8 @@ class ViewActivity extends BindingClass {
                 errorMessageDisplay.classList.add('hidden');
                 editActivityModal.style.display = "none";
             }
+
+ 
         }
 
 
@@ -121,6 +130,11 @@ class ViewActivity extends BindingClass {
 
         this.dataStore.set('activityId', activityId);
         const activity = await this.client.viewActivity(activityId);
+        if (activity == null) {
+            document.getElementById('activityName').innerText = "DELETED BY ORIGINAL AUTHOR";
+            document.getElementById('description').innerText = "DELETED BY ORIGINAL AUTHOR";
+            document.getElementById('posterExperience').innerText = "DELETED BY ORIGINAL AUTHOR";
+        }
         this.dataStore.set('activity', activity);
         const comments = await this.client.viewCommentsForActivity(activityId);
         this.dataStore.set('comments', comments);
@@ -138,7 +152,7 @@ class ViewActivity extends BindingClass {
             }
         })
 
-
+        
         this.header.addHeaderToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
@@ -148,22 +162,44 @@ class ViewActivity extends BindingClass {
         const activity = this.dataStore.get('activity');
         if (activity == null) {
             return;
-        }
+        } 
 
         document.getElementById('activityName').innerText = activity.activityName;
         document.getElementById('description').innerText = activity.description;
         document.getElementById('posterExperience').innerText = activity.posterExperience;
+        
 
         const user = await this.client.getIdentity();
 
         if (user && user.email === activity.userId) {
+            const pageBttn = document.getElementById('editable-activities');
+            pageBttn.classList.remove('subnavbtn.hidden');
+            pageBttn.classList.add('subnavbtn2');
+            pageBttn.removeAttribute('hidden');
             const editButton = document.getElementById('editActivityButton');
             editButton.removeAttribute("hidden");
-            // editButton.addEventListener('click', () => this.redirectToEditActivity(activityId));
+            const deleteModal = document.getElementById('deleteModal');
+            const deleteButton = document.getElementById('delete-activity-button');
+            deleteButton.removeAttribute("hidden");
+            deleteButton.onclick = function() {
+                deleteModal.style.display = "block";
+            }
+            document.getElementById('verified-delete').addEventListener('click', () => {
+
+            
+                this.deleteActivity(activity.activityId);
+            });
+            document.getElementById('cancel-delete').addEventListener('click', function() {
+                deleteModal.style.display = "none";
+            })
         }
 
         if (user != null) {
             document.getElementById('createCommentButton').removeAttribute("hidden");
+        }
+
+        if (document.readyState == "complete" && activity == null) {
+  
         }
 
     }
@@ -280,6 +316,19 @@ class ViewActivity extends BindingClass {
         }
     }
 
+    async deleteActivity(activityId) {
+        const response = await this.client.deleteActivity(activityId);
+        if (response != null) {
+            this.redirectToViewCity("N012012V");
+        }
+    }
+
+    async redirectToViewCity(cityId) {
+        if (cityId != null) {
+            window.location.href = `/viewCity.html?cityId=${cityId}`;
+        }
+    }
+
     async redirectToEditActivity(activityId) {
         const activity = await this.client.viewActivity(activityId);
         if (activity != null) {
@@ -293,8 +342,6 @@ class ViewActivity extends BindingClass {
             document.getElementById('commentMessage').value = comment.message;
             document.getElementById('commentId').value = comment.commentId;
         }
-        console.log("Comment = " + comment);
-        // this.dataStore.set('commentId', comment.commentId);
     }
 
     async addActivityToModal(activity) {

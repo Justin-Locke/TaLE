@@ -37,6 +37,14 @@ public class ActivitiesDao {
         return activity;
     }
 
+    public String deleteActivity(String activityId) {
+        Activity activityToDelete = new Activity();
+        activityToDelete.setActivityId(activityId);
+        mapper.delete(activityToDelete);
+
+        return String.format("Activity deleted.");
+    }
+
     /**
      * Method to get a single Activity.
      * @param activityId to get single Activity.

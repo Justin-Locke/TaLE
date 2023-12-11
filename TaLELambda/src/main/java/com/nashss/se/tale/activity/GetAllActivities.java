@@ -43,9 +43,20 @@ public class GetAllActivities {
         List<String> activityIdList = city.getActivityList();
 
         List<Activity> activityList = new ArrayList<>();
+        List<String> activityIdsToRemove = new ArrayList<>();
         for (String id: activityIdList) {
-            activityList.add(activitiesDao.getActivityById(id));
+            Activity activity = activitiesDao.getActivityById(id);
+            if (activity == null) {
+                activityIdsToRemove.add(id);
+            } else {
+                activityList.add(activity);
+            }
         }
+
+        activityIdList.removeAll(activityIdsToRemove);
+
+        city.setActivityList(activityIdList);
+        citiesDao.saveCity(city);
 
         List<ActivityModel> activityModelList = new ArrayList<>();
         for (Activity activity: activityList) {

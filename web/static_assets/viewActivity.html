@@ -5,6 +5,7 @@
     <script type="text/javascript" src="assets/viewActivity.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
     <link rel="icon" type="image/x-icon" href="photos/TaLE (1).ico">
     <title>Activity</title>
 </head>
@@ -26,6 +27,7 @@
       <button class="subnavbtn.hidden" id="editable-activities" hidden="hidden"><i class="fa fa-fw fa-caret-down"></i> Post/Edit </button>
       <div class="subnav-content2">
         <a class="edit-activity-button" id="editActivityButton" hidden="hidden">Edit Activity</a>
+        <a class="delete-activity-button" id="delete-activity-button" hidden="hidden">Delete Activity</a>
 
       </div>
     </div>
@@ -114,6 +116,17 @@
         </div>
         <p class="modal-submit-button" id="submitUpdatedActivity">Update Activity</p>
 
+      </div>
+    </div>
+
+    <div id="deleteModal" class="modal">
+      <div class="modal-content">
+        <span class="warning-sign">&#9888;</span>
+        <div class="modal-body">
+        <p> Are you sure you want to delete? </p>
+        <button id="verified-delete"> DELETE </button>
+        <button id="cancel-delete"> CANCEL </button>
+        </div>
       </div>
     </div>
   </div>
