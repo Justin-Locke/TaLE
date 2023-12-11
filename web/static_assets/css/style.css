@@ -4,7 +4,9 @@
     --secondary-color: #ffffff;
     --tertiary-color: #F5881F;
     --error-color: #EE3A23;
+
 }
+
 
 .background {
     background-color: #8A8C8F;
@@ -23,10 +25,12 @@
     padding: 4px 20px;
 }
 
+
+
+
+
 .parallax {
-    background-image: url("web/static_assets/photos/pexels-isaac-loredo-vargas-17715307.jpg");
-    background-image: url('phtots/pexels-cesar-g-15267002.jpg')
-    image
+    background-image: url("../pexels-isaac-loredo-vargas-17715307.jpg");
 
     min-height: 500px;
 
@@ -61,6 +65,16 @@
   padding: 6px 8px 4px 8px;
   text-align: center;
   font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.new-activity-button {
+  background-color: lightslategray;
+  border: none;
+  color: var(--secondary-color);
+  padding: 6px 8px 4px 8px;
+  text-align: center;
   text-decoration: none;
   cursor: pointer;
 }
@@ -143,6 +157,14 @@
     background-color: var(--secondary-color);
     padding: 10px 20px;
     overflow: scroll;
+}
+
+.cityCard {
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    padding: 10px 20px;
+    
+
 }
 
 .vl {
@@ -368,7 +390,7 @@ a {
 
 .newCommentButton {
     
-    background-color: var(--tertiary-color);
+    background-color: #04AA6D;
     border: none;
     color: var(--secondary-color);
     padding: 6px 8px 4px 8px;
@@ -376,7 +398,19 @@ a {
     font-weight: bold;
     text-decoration: none;
     cursor: pointer;
+    display: inline-block;
     
+}
+
+.edit-activity-button {
+    background-color: lightslategray;
+    border: none;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 h3 {
@@ -406,6 +440,12 @@ p {
     text-decoration: none;
     font-size: 17px;
     width: 20%;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 
 /* Navbar links on mouse-over */
@@ -441,11 +481,31 @@ p {
     margin: 0;
 }
 
+.subnav .subnavbtn2 {
+    font-size: 17px;
+    border: none;
+    outline: none;
+    color: white;
+    padding: 12px 17px;
+    background-color: slategray;
+    font-family: inherit;
+    margin: 0;
+}
+
 .subnav-content {
     display: none;
     position: absolute;
     left: 0;
     background-color: #04AA6D;
+    width: 100%;
+    z-index: 1;
+}
+
+.subnav-content2 {
+    display: none;
+    position: absolute;
+    left: 0;
+    background-color: slategray;
     width: 100%;
     z-index: 1;
 }
@@ -456,13 +516,29 @@ p {
     text-decoration: none;
 
 }
+.subnav-content2 a {
+    float: left;
+    color: white;
+    text-decoration: none;
+}
 
 .subnav-content a:hover {
     background-color: #000;
     color: white;
 }
 
+.subnav-content2 a:hover {
+    background-color: #000;
+    color: white;
+}
+
+
+
 .subnav:hover .subnav-content {
+    display: block;
+}
+
+.subnav:hover .subnav-content2 {
     display: block;
 }
 
@@ -566,7 +642,7 @@ p {
 
 /* Add responsiveness - will automatically display the navbar vertically
 instead of horizontally on screens less than 500 pixels */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 663px) {
     .navbar a {
         float: none;
         display: block;
@@ -589,6 +665,12 @@ instead of horizontally on screens less than 500 pixels */
     }
 
     .subnavbtn {
+        float: none;
+        display: block;
+        width: 100%;
+    }
+
+    .subnavbtn2 {
         float: none;
         display: block;
         width: 100%;

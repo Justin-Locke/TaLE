@@ -30,6 +30,10 @@ class ViewActivity extends BindingClass {
             personalBttn.removeAttribute('hidden');
             logoutButton.innerText = `Logout: ${user.name}`;
             logoutButton.addEventListener('click', this.createLogoutButton(user));
+            const pageBttn = document.getElementById('editable-activities');
+            pageBttn.classList.remove('subnavbtn.hidden');
+            pageBttn.classList.add('subnavbtn2');
+            pageBttn.removeAttribute('hidden');
         }
         if (!userLoggedIn) {
             logoutButton.innerText = `Login`;
