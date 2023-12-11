@@ -1,9 +1,10 @@
 package com.nashss.se.tale.lambda;
+import com.nashss.se.tale.activity.requests.DeleteActivityRequest;
+import com.nashss.se.tale.activity.results.DeleteActivityResult;
 
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.nashss.se.tale.activity.requests.DeleteActivityRequest;
-import com.nashss.se.tale.activity.results.DeleteActivityResult;
+
 
 public class DeleteActivityLambda
     extends LambdaActivityRunner<DeleteActivityRequest, DeleteActivityResult>
@@ -12,18 +13,18 @@ public class DeleteActivityLambda
     @Override
     public LambdaResponse handleRequest(AuthenticatedLambdaRequest<DeleteActivityRequest> input, Context context) {
         return super.runActivity(
-                () -> {
-                    DeleteActivityRequest unauthenticatedRequest = input.fromPath(path ->
+            () -> {
+                DeleteActivityRequest unauthenticatedRequest = input.fromPath(path ->
                             DeleteActivityRequest.builder()
                                     .withActivityId(path.get("activityId"))
-                                    .build());;
-                    return input.fromUserClaims(claims ->
+                                    .build());
+                return input.fromUserClaims(claims ->
                             DeleteActivityRequest.builder()
                                     .withActivityId(unauthenticatedRequest.getActivityId())
                                     .withUserId(claims.get("email"))
                                     .build());
-                },
-                (request, serviceComponent) ->
+            },
+            (request, serviceComponent) ->
                         serviceComponent.provideDeleteActivity().handleRequest(request)
         );
     }

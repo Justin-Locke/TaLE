@@ -24,6 +24,7 @@ public class GetAllActivities {
     /**
      * Constructor for GetAllActivities using Dagger.
      * @param activitiesDao to instantiate ActivitiesDao for DDB.
+     * @param citiesDao to instantiate CitiesDao for DDB.
      */
     @Inject
     public GetAllActivities(ActivitiesDao activitiesDao, CitiesDao citiesDao) {
