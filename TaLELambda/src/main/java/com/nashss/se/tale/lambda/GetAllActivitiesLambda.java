@@ -12,12 +12,12 @@ public class GetAllActivitiesLambda
     @Override
     public LambdaResponse handleRequest(LambdaRequest<GetAllActivitiesRequest> input, Context context) {
         return super.runActivity(
-                () -> input.fromPath(path ->
-                        GetAllActivitiesRequest.builder()
-                                .withCityId(path.get("cityId"))
-                                .build()),
+            () -> input.fromPath(path ->
+                    GetAllActivitiesRequest.builder()
+                            .withCityId(path.get("cityId"))
+                            .build()),
             (request, serviceComponent) ->
-                    serviceComponent.provideGetAllActivities().handleRequest(request)
+                serviceComponent.provideGetAllActivities().handleRequest(request)
         );
     }
 }

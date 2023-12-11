@@ -5,7 +5,7 @@ public class DeleteActivityRequest {
     private final String userId;
 
     /**
-     * Constructor for DeleteActivityRequest
+     * Constructor for DeleteActivityRequest.
      * @param activityId to find the activity to delete.
      * @param userId to verify user.
      */

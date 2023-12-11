@@ -37,6 +37,11 @@ public class ActivitiesDao {
         return activity;
     }
 
+    /**
+     * Method to delete a single activity.
+     * @param activityId to be deleted.
+     * @return String message.
+     */
     public String deleteActivity(String activityId) {
         Activity activityToDelete = new Activity();
         activityToDelete.setActivityId(activityId);
