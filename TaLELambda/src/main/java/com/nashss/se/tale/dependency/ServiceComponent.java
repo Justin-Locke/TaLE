@@ -1,18 +1,6 @@
 package com.nashss.se.tale.dependency;
 
-import com.nashss.se.tale.activity.CreateComment;
-import com.nashss.se.tale.activity.CreateNewActivity;
-import com.nashss.se.tale.activity.DeleteComment;
-import com.nashss.se.tale.activity.EditActivity;
-import com.nashss.se.tale.activity.EditComment;
-import com.nashss.se.tale.activity.GetActivity;
-import com.nashss.se.tale.activity.GetAllActivities;
-import com.nashss.se.tale.activity.GetAllCities;
-import com.nashss.se.tale.activity.GetCity;
-import com.nashss.se.tale.activity.GetComment;
-import com.nashss.se.tale.activity.GetCommentsForActivity;
-import com.nashss.se.tale.activity.GetPersonalActivities;
-import com.nashss.se.tale.activity.GetPersonalComments;
+import com.nashss.se.tale.activity.*;
 
 import dagger.Component;
 
@@ -93,6 +81,12 @@ public interface ServiceComponent {
      * @return new DeleteComment().
      */
     DeleteComment provideDeleteComment();
+
+    /**
+     * Method to instantiate DeleteActivity.
+     * @return new DeleteActivity().
+     */
+    DeleteActivity provideDeleteActivity();
 
     /**
      * Method to instantiate EditComment.

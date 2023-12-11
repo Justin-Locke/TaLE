@@ -8,8 +8,8 @@ class ViewActivity extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'submitNewComment', 'submitUpdatedComment', 'submitUpdatedActivity', 'addActivityToPage',
-         'redirectToCreateComment', 'addCommentsToPage', 'addCommentToModal', 'deleteComment',
-         'redirectToEditActivity', 'redirectToEditComment', 'loginOrOut'], this);
+         'redirectToCreateComment', 'addCommentsToPage', 'addCommentToModal', 'deleteComment', 'deleteActivity',
+         'redirectToEditActivity', 'redirectToEditComment', 'redirectToViewCity', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.dataStore.addChangeListener(this.addCommentsToPage);
@@ -148,22 +148,31 @@ class ViewActivity extends BindingClass {
         const activity = this.dataStore.get('activity');
         if (activity == null) {
             return;
-        }
+        } 
 
         document.getElementById('activityName').innerText = activity.activityName;
         document.getElementById('description').innerText = activity.description;
         document.getElementById('posterExperience').innerText = activity.posterExperience;
+        
 
         const user = await this.client.getIdentity();
 
         if (user && user.email === activity.userId) {
             const editButton = document.getElementById('editActivityButton');
             editButton.removeAttribute("hidden");
-            // editButton.addEventListener('click', () => this.redirectToEditActivity(activityId));
+            const deleteButton = document.getElementById('delete-activity-button');
+            deleteButton.removeAttribute("hidden");
+            deleteButton.addEventListener('click', () => this.deleteActivity(activity));
         }
 
         if (user != null) {
             document.getElementById('createCommentButton').removeAttribute("hidden");
+        }
+
+        if (document.readyState === "complete" && activity === null) {
+            document.getElementById('activityName').innerText = "DELETED BY ORIGINAL AUTHOR";
+        document.getElementById('description').innerText = "DELETED BY ORIGINAL AUTHOR";
+        document.getElementById('posterExperience').innerText = "DELETED BY ORIGINAL AUTHOR";
         }
 
     }
@@ -277,6 +286,19 @@ class ViewActivity extends BindingClass {
         const response = await this.client.deleteComment(activityId, commentId);
         if (response != null) {
             location.reload();
+        }
+    }
+
+    async deleteActivity(activity) {
+        const response = await this.client.deleteActivity(activity);
+        if (response != null) {
+            this.redirectToViewCity(cityId);
+        }
+    }
+
+    async redirectToViewCity(cityId) {
+        if (cityId != null) {
+            window.location.href = `/viewCity.html?cityId=${cityId}`;
         }
     }
 

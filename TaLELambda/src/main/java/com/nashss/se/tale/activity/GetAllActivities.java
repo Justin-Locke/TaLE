@@ -44,8 +44,16 @@ public class GetAllActivities {
 
         List<Activity> activityList = new ArrayList<>();
         for (String id: activityIdList) {
-            activityList.add(activitiesDao.getActivityById(id));
+            Activity activity = activitiesDao.getActivityById(id);
+            if (activity == null) {
+                activityIdList.remove(id);
+            } else {
+                activityList.add(activity);
+            }
         }
+
+        city.setActivityList(activityIdList);
+        citiesDao.saveCity(city);
 
         List<ActivityModel> activityModelList = new ArrayList<>();
         for (Activity activity: activityList) {
