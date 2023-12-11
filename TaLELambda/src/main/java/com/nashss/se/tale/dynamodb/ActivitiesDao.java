@@ -1,5 +1,6 @@
 package com.nashss.se.tale.dynamodb;
 import com.nashss.se.tale.dynamodb.models.Activity;
+import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
@@ -57,6 +58,9 @@ public class ActivitiesDao {
      */
     public Activity getActivityById(String activityId) {
         Activity activity = mapper.load(Activity.class, activityId);
+        if (activity == null) {
+            metricsPublisher.addCount(MetricsConstants);
+        }
         return activity;
     }
 
