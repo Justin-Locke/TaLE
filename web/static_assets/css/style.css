@@ -4,12 +4,20 @@
     --secondary-color: #ffffff;
     --tertiary-color: #F5881F;
     --error-color: #EE3A23;
+    --color-1: #708090;
+    --color-2: #907090;
+    --color-3: #908070;
+    --color-4: #709070;
+    --lightcolor-1: #778899;
+    --lightcolor-2: #997799;
+    --lightcolor-3: #998877;
+    --lightcolor-4: #779977;
 
 }
 
 
 .background {
-    background-color: #8A8C8F;
+    background-color: var(--color-3);
     margin: 0;
     counter-reset: section;
     font-family: "Helvetica Neue",Helvetica,sans-serif;
@@ -21,7 +29,7 @@
     justify-content: space-between;
     align-items: center;
     background-color: var(--primary-color);
-    color: var(--secondary-color);
+    color: var(--color-2);
     padding: 4px 20px;
 }
 
@@ -350,9 +358,11 @@ textarea:focus {
 
 .activity-modal-content {
     background-color: #fefefe;
+    
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
+    border: 10px solid;
+    border-color: var(--color-2);
     width: 80%; /* Could be more or less, depending on screen size */
     text-align: center;
     color: var(--primary-color);
@@ -637,11 +647,17 @@ p {
     max-width: 1000px;
     position: relative;
     margin: auto;
+    
 }
 
 /* Hide the images by default */
 .mySlides {
     display: none;
+    border-style: inset;
+    border-width: 4px;
+    border-color: black;
+    max-height: 600px;
+    max-width: 1000px;
 }
 
 /* Next & previous buttons */
