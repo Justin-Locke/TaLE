@@ -15,7 +15,7 @@
   <div class="navbar" id="navbar">
       <a class="active" href="/"><i class="fa fa-fw fa-home"></i>
       Home</a>
-      <a href="viewPlaces.html" id="places"><i class="fa fa-fw fa-road"></i> Places </a>
+      <a href="viewCities.html" id="places"><i class="fa fa-fw fa-road"></i> Places </a>
       <div class="subnav">
         <button class="subnavbtn.hidden" id="personalPage" hidden="hidden"><i class="fa fa-fw fa-caret-down"></i> My Stuff</button>
         <div class="subnav-content">
@@ -36,6 +36,11 @@
 
     <a id="loginButton" class="split"><i class="fa fa-fw fa-user"></i></a>
   </div>
+  <div id="loading-spinner" class="spinner-container">
+    <div class="spinner"></div>
+    <div id="loading-message" class="fast-appear"></div>
+    <div id="loading-message-sub" class="slow-appear"></div>
+</div>
   <div class="card && vl" id="Modal-Container" style="float:left; width: 50%;">
     
     <h1 id="activityName" style="text-align: center;">loading...</h1>
@@ -47,7 +52,7 @@
 
   <div class="card" id="Modal-Container" style="float:right; width:50%; border-left: 6px solid; height: 500px;">
   <div class="card" id="commentsContainer">
-    
+
     <div id="commentModal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -130,6 +135,8 @@
       </div>
     </div>
   </div>
-
+  </div>
+  <footer id="footer"> </footer>
+  <p class="copyright">Copyright TaLE 2023</p>
 </body>
 </html>

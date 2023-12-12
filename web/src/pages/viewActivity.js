@@ -3,6 +3,8 @@ import TaLEClient from '../api/TaLEClient'
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
 
 class ViewActivity extends BindingClass {
     constructor() {
@@ -14,8 +16,9 @@ class ViewActivity extends BindingClass {
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.dataStore.addChangeListener(this.addCommentsToPage);
         this.authenticator = new Authenticator();
-
+        this.loadingSpinner = new LoadingSpinner();
         this.header = new Header(this.dataStore);
+        this.footer = new Footer();
     }
 
     async clientLoaded() {
@@ -154,11 +157,13 @@ class ViewActivity extends BindingClass {
 
         
         this.header.addHeaderToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
     }
 
     async addActivityToPage() {
+        this.loadingSpinner.showLoadingSpinner("Loading this activity...");
         const activity = this.dataStore.get('activity');
         if (activity == null) {
             return;
@@ -278,10 +283,12 @@ class ViewActivity extends BindingClass {
             commentsContainer.appendChild(commentDiv);
         });
 
+        this.loadingSpinner.hideLoadingSpinner();
+
     }
 
     async submitNewComment(evt) {
-
+        this.loadingSpinner.showLoadingSpinner("Making a real post with your comment")
         const activityId = this.dataStore.get('activityId');
         evt.preventDefault();
 
@@ -300,6 +307,7 @@ class ViewActivity extends BindingClass {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+            this.loadingSpinner.hideLoadingSpinner();
         });
         if (comment != null) {
             this.dataStore.set('comment', comment);   

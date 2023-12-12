@@ -3,6 +3,8 @@ import Header from "../components/header";
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import Authenticator from "../api/authenticator";
+import LoadingSpinner from "../components/loadingSpinner";
+import Footer from "../components/footer";
 
 class EditActivity extends BindingClass {
     constructor() {
@@ -10,8 +12,11 @@ class EditActivity extends BindingClass {
         this.bindClassMethods(['clientLoaded', 'mount', 'submit', 'redirectToViewActivity', 'addActivityToPage', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
+        this.footer = new Footer();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.authenticator = new Authenticator();
+        this.loadingSpinner = new LoadingSpinner();
+        this.dataStore.addChangeListener(this.loadingSpinner.hideLoadingSpinner);
     }
 
     async clientLoaded() {
@@ -42,11 +47,13 @@ class EditActivity extends BindingClass {
     mount() {
         document.getElementById('submitUpdatedActivity').addEventListener('click', this.submit);
         this.header.addHeaderToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
     }
 
     async submit(evt) {
+        this.loadingSpinner.showLoadingSpinner("Updating your activity...");
         evt.preventDefault();
 
         const errorMessageDisplay = document.getElementById('error-message');
@@ -80,12 +87,14 @@ class EditActivity extends BindingClass {
     }
 
     addActivityToPage() {
+        this.loadingSpinner.showLoadingSpinner();
         const activity = this.dataStore.get('activity');
         if (activity != null) {
             document.getElementById('activityName').value = activity.activityName;
             document.getElementById('activityDescription').value = activity.description;
             document.getElementById('posterExperience').value = activity.posterExperience;
         }
+        this.loadingSpinner.hideLoadingSpinner();
     }
 
     async loginOrOut() {

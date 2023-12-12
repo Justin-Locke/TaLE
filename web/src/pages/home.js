@@ -3,6 +3,8 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import NavBar from '../components/navBar';
 import Authenticator from '../api/authenticator';
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
 
 class Homepage extends BindingClass {
     constructor() {
@@ -12,6 +14,8 @@ class Homepage extends BindingClass {
 
         this.header = new Header(this.dataStore);
         this.authenticator = new Authenticator();
+        this.footer = new Footer();
+        this.loadingSpinner = new LoadingSpinner();
     }
 
     async clientLoaded() {
@@ -63,6 +67,7 @@ class Homepage extends BindingClass {
             })
         }
         this.header.addHeaderToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
     }

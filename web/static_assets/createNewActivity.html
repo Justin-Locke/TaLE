@@ -14,7 +14,7 @@
     <div class="navbar">
         <a class="active" href="/"><i class="fa fa-fw fa-home"></i>
         Home</a>
-        <a href="viewPlaces.html" id="places"><i class="fa fa-fw fa-road"></i> Places </a>
+        <a href="viewCities.html" id="places"><i class="fa fa-fw fa-road"></i> Places </a>
         <div class="subnav">
             <button class="subnavbtn.hidden" id="personalPage" hidden="hidden"><i class="fa fa-fw fa-caret-down"></i> My Stuff</button>
             <div class="subnav-content">
@@ -26,6 +26,11 @@
     </div>
     <div class="card">
         <h2>New Activity/Event</h2>
+        <div id="loading-spinner" class="spinner-container">
+            <div class="spinner"></div>
+            <div id="loading-message" class="fast-appear"></div>
+            <div id="loading-message-sub" class="slow-appear"></div>
+        </div>
         <form class="cardContent" id="createNewActivityForm">
             <p class="hidden error" id="error-message"></p>
             <p class="formField">
@@ -46,6 +51,7 @@
                 <a class="button" id="create">Create Activity</a></p>
         </form>
     </div>
-
+    <footer id="footer"> </footer>
+    <p class="copyright">Copyright TaLE 2023</p>
 </bodyclass>
 </html>

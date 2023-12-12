@@ -3,6 +3,8 @@ import TaLEClient from '../api/TaLEClient'
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
 
 class PersonalComments extends BindingClass {
     constructor() {
@@ -10,8 +12,11 @@ class PersonalComments extends BindingClass {
         this.bindClassMethods(['clientLoaded', 'mount', 'addCommentsToPage', 'redirectToViewActivity', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
+        this.footer = new Footer();
+        this.loadingSpinner = new LoadingSpinner();
         this.authenticator = new Authenticator();
         this.dataStore.addChangeListener(this.addCommentsToPage);
+        this.dataStore.addChangeListener(this.loadingSpinner.hideLoadingSpinner);
     }
 
     async clientLoaded() {
@@ -31,6 +36,7 @@ class PersonalComments extends BindingClass {
             loginButton.innerText = `Login`;
             loginButton.addEventListener('click', this.createLoginButton());
         }
+
         const comments = await this.client.viewPersonalComments();
         this.dataStore.set('comments', comments);        
     }
@@ -38,12 +44,14 @@ class PersonalComments extends BindingClass {
     mount() {
         
         this.header.addHeaderToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
     }
 
 
     addCommentsToPage() {
+        this.loadingSpinner.showLoadingSpinner("Loading your personal comments..");
         const comments = this.dataStore.get('comments');
         if (comments == null) {
             return;
@@ -69,6 +77,26 @@ class PersonalComments extends BindingClass {
 
             commentsContainer.appendChild(commentDiv);
         })
+
+        if (commentsContainer.childElementCount === 0) {
+            const noCommentsContainer = document.createElement('div');
+            
+            const message = document.createElement('p');
+            message.textContent = "Hmmm... It seems like you haven't made any comments yet."
+            noCommentsContainer.appendChild(message);
+
+            const message2 = document.createElement('p');
+            message2.textContent = "Wanna try now?"
+            noCommentsContainer.appendChild(message2);
+
+            const button = document.createElement('button');
+            button.innerText = "Comment"
+            button.addEventListener('click', () => {
+                button.innerText = "Here. We. GOOO!"
+            });
+            noCommentsContainer.appendChild(button);
+        }
+        this.loadingSpinner.hideLoadingSpinner();
 
     }
 

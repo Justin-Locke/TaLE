@@ -3,6 +3,8 @@ import TaLEClient from '../api/TaLEClient'
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
 
 class PersonalActivities extends BindingClass {
     constructor() {
@@ -10,11 +12,15 @@ class PersonalActivities extends BindingClass {
         this.bindClassMethods(['clientLoaded', 'mount', 'addActivitiesToPage', 'redirectToViewActivity', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
+        this.footer = new Footer();
+        this.loadingSpinner = new LoadingSpinner();
         this.authenticator = new Authenticator();
         this.dataStore.addChangeListener(this.addActivitiesToPage);
+        this.dataStore.addChangeListener(this.loadingSpinner.hideLoadingSpinner)
     }
 
     async clientLoaded() {
+        this.loadingSpinner.showLoadingSpinner();
         const userLoggedIn = await this.authenticator.isUserLoggedIn();
         if (userLoggedIn) {
             const user = await this.client.getIdentity();
@@ -30,19 +36,21 @@ class PersonalActivities extends BindingClass {
             document.getElementById('loginButton').addEventListener('click', this.createLoginButton());
         }
         const activities = await this.client.viewPersonalActivities();
-        this.dataStore.set('activities', activities);
-
-        
+        this.dataStore.set('activities', activities);        
     }
 
     mount() {
         
         this.header.addHeaderToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
     }
 
     addActivitiesToPage() {
+        this.loadingSpinner.showLoadingSpinner();
+        console.log("Loading Spinner");
+
         const activities = this.dataStore.get('activities');
         if (activities == null) {
             return;
@@ -70,6 +78,9 @@ class PersonalActivities extends BindingClass {
             
             
         })
+
+        this.loadingSpinner.hideLoadingSpinner();
+        console.log("End loading spinner");
 
     }
 

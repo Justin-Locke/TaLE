@@ -3,6 +3,8 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import Authenticator from '../api/authenticator';
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
 
 class CreateComment extends BindingClass {
     constructor() {
@@ -10,7 +12,10 @@ class CreateComment extends BindingClass {
         this.bindClassMethods(['clientLoaded', 'mount', 'submit', 'redirectToViewActivity', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
+        this.footer = new Footer();
         this.authenticator = new Authenticator();
+        this.loadingSpinner = new LoadingSpinner();
+        this.dataStore.addChangeListener(this.loadingSpinner.hideLoadingSpinner);
     }
 
     async clientLoaded() {
@@ -32,18 +37,18 @@ class CreateComment extends BindingClass {
         const urlParams =  new URLSearchParams(window.location.search);
         const activityId = urlParams.get('activityId');
         this.dataStore.set('activityId', activityId);
-
-
     }
 
     mount() {
         document.getElementById('create').addEventListener('click', this.submit);
         this.header.addHeaderToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
     }
 
     async submit(evt) {
+        this.loadingSpinner.showLoadingSpinner("Making a real post with your comment...");
         const acitivityId = this.dataStore.get('activityId');
         evt.preventDefault();
 
@@ -65,7 +70,6 @@ class CreateComment extends BindingClass {
         });
         this.dataStore.set('comment', comment);
         this.redirectToViewActivity();
-        
     }
 
     redirectToViewActivity() {
@@ -73,8 +77,6 @@ class CreateComment extends BindingClass {
         if (activityId != null) {
             window.location.href = `/viewActivity.html?activityId=${activityId}`;
         }
-        
-
     }
 
     async loginOrOut() {
@@ -84,10 +86,7 @@ class CreateComment extends BindingClass {
         } else {
             return this.client.login;
         }
-
     }
-
-
 
     createLoginButton() {
         return this.createButton('Login', this.client.login);
@@ -105,9 +104,7 @@ class CreateComment extends BindingClass {
         button.addEventListener('click', async () => {
             await clickHandler();
         });
-
         return button;
-
     }
 }
 

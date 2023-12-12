@@ -3,6 +3,8 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import Authenticator from '../api/authenticator';
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
 
 class EditComment extends BindingClass {
     constructor() {
@@ -10,8 +12,11 @@ class EditComment extends BindingClass {
         this.bindClassMethods(['clientLoaded', 'mount', 'submit', 'redirectToViewActivity', 'addCommentToPage', 'loginOrOut'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
+        this.footer = new Footer();
         this.dataStore.addChangeListener(this.addCommentToPage);
         this.authenticator = new Authenticator();
+        this.loadingSpinner = new LoadingSpinner();
+        this.dataStore.addChangeListener(this.loadingSpinner.hideLoadingSpinner);
     }
 
     async clientLoaded() {
@@ -43,12 +48,13 @@ class EditComment extends BindingClass {
     mount() {
         document.getElementById('submitUpdatedComment').addEventListener('click', this.submit);
         this.header.addHeaderToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
     }
 
     async submit(evt) {
-        
+        this.loadingSpinner.showLoadingSpinner();
         evt.preventDefault();
 
         const errorMessageDisplay = document.getElementById('error-message');

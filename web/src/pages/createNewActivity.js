@@ -3,6 +3,8 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import Authenticator from '../api/authenticator';
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
 
 class CreateNewActivity extends BindingClass {
     constructor() {
@@ -11,7 +13,10 @@ class CreateNewActivity extends BindingClass {
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.redirectToViewActivity);
         this.header = new Header(this.dataStore);
+        this.footer = new Footer();
         this.authenticator = new Authenticator();
+        this.loadingSpinner = new LoadingSpinner();
+        this.dataStore.addChangeListener(this.loadingSpinner.hideLoadingSpinner);
 
     }
 
@@ -39,6 +44,7 @@ class CreateNewActivity extends BindingClass {
 
     mount() {
         this.header.addHeaderToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded(); 
         document.getElementById('create').addEventListener('click', this.submit);
@@ -46,6 +52,7 @@ class CreateNewActivity extends BindingClass {
     }
 
     async submit(evt) {
+        this.loadingSpinner.showLoadingSpinner(message = "Creating your activity...");
         const cityId = this.dataStore.get('cityId');
         evt.preventDefault();
 

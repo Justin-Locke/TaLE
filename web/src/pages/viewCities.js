@@ -3,6 +3,8 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import Authenticator from '../api/authenticator';
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
 
 class ViewCities extends BindingClass {
     constructor() {
@@ -11,11 +13,14 @@ class ViewCities extends BindingClass {
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCitiesToPage);
         this.header = new Header(this.dataStore);
+        this.footer = new Footer();
         this.authenticator = new Authenticator();
+        this.loadingSpinner = new LoadingSpinner;
     }
 
 
     async clientLoaded() {
+        this.loadingSpinner.showLoadingSpinner("Finding Fun Places...");
         const userLoggedIn = await this.authenticator.isUserLoggedIn();
         if (userLoggedIn) {
             const user = await this.client.getIdentity();
@@ -38,6 +43,7 @@ class ViewCities extends BindingClass {
 
     mount() {
         this.header.addHeaderToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
 
@@ -60,7 +66,7 @@ class ViewCities extends BindingClass {
 
             citiesContainer.appendChild(cityDiv);
         })
-      
+        this.loadingSpinner.hideLoadingSpinner();
     }
 
     redirectToViewCity(city) {
