@@ -1,4 +1,5 @@
 package com.nashss.se.tale.dynamodb;
+import com.amazonaws.services.cloudwatch.model.StandardUnit;
 import com.nashss.se.tale.dynamodb.models.Activity;
 import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
@@ -48,7 +49,7 @@ public class ActivitiesDao {
         activityToDelete.setActivityId(activityId);
         mapper.delete(activityToDelete);
 
-        return String.format("Activity deleted.");
+        return "Activity deleted.";
     }
 
     /**
@@ -59,8 +60,9 @@ public class ActivitiesDao {
     public Activity getActivityById(String activityId) {
         Activity activity = mapper.load(Activity.class, activityId);
         if (activity == null) {
-            metricsPublisher.addCount(MetricsConstants);
+            metricsPublisher.addCount(MetricsConstants.ACTIVITY_NULL_COUNT, 1);
         }
+        metricsPublisher.addCount(MetricsConstants.ACTIVITY_NULL_COUNT, 0);
         return activity;
     }
 
@@ -70,6 +72,7 @@ public class ActivitiesDao {
      * @return a List of Activity.
      */
     public List<Activity> getAllPersonalActivities(String userId) {
+        double startTime = System.currentTimeMillis();
         Map<String, AttributeValue> valueMap = new HashMap<>();
         valueMap.put(":userId", new AttributeValue().withS(userId));
         DynamoDBQueryExpression<Activity> queryExpression = new DynamoDBQueryExpression<Activity>()
@@ -79,6 +82,8 @@ public class ActivitiesDao {
                 .withExpressionAttributeValues(valueMap);
 
         PaginatedQueryList<Activity> activityList = mapper.query(Activity.class, queryExpression);
+        double totalTime = System.currentTimeMillis() - startTime;
+        metricsPublisher.addMetric(MetricsConstants.PERSONAL_LOOKUP_TIME, totalTime, StandardUnit.Milliseconds);
         return activityList;
     }
 }
