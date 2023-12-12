@@ -1,9 +1,9 @@
 package com.nashss.se.tale.dynamodb;
-import com.amazonaws.services.cloudwatch.model.StandardUnit;
 import com.nashss.se.tale.dynamodb.models.Comment;
 import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 
+import com.amazonaws.services.cloudwatch.model.StandardUnit;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
@@ -51,7 +51,7 @@ public class CommentsDao {
         DynamoDBQueryExpression<Comment> queryExpression = new DynamoDBQueryExpression<Comment>()
                 .withHashKeyValues(comment);
         PaginatedQueryList<Comment> commentList = mapper.query(Comment.class, queryExpression);
-       double totalTime = System.currentTimeMillis() - startTimer;
+        double totalTime = System.currentTimeMillis() - startTimer;
         metricsPublisher.addMetric("GET_COMMENTS_BY_ACTIVITY_ID_PROCESSING_TIME", totalTime, StandardUnit.Milliseconds);
 
         return commentList;
