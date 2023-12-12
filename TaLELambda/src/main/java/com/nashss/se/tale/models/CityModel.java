@@ -14,7 +14,7 @@ public class CityModel {
      * @param cityName name of the City.
      * @param activityList List of activity Id's associated with city.
      */
-    public CityModel(String cityId, String cityName, List<String> activityList) {
+    private CityModel(String cityId, String cityName, List<String> activityList) {
         this.cityId = cityId;
         this.cityName = cityName;
         this.activityList = activityList;

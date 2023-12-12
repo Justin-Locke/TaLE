@@ -22,7 +22,7 @@ public class CommentModel {
      * @param datePosted from comment.
      * @param edited from comment.
      */
-    public CommentModel(String activityId, String commentId,
+    private CommentModel(String activityId, String commentId,
                         String title, String message,
                         String userId, LocalDate datePosted,
                         Boolean edited) {
