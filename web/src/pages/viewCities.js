@@ -12,7 +12,6 @@ class ViewCities extends BindingClass {
         this.dataStore.addChangeListener(this.addCitiesToPage);
         this.header = new Header(this.dataStore);
         this.authenticator = new Authenticator();
-        console.log("viewCities constructor");
     }
 
 
@@ -45,11 +44,8 @@ class ViewCities extends BindingClass {
     }
 
     async addCitiesToPage() {
-        console.log("addCitiesToPage")
         const cityList = this.dataStore.get('cityList');
-        console.log("CityList ++++=" + cityList);
         if (cityList == null) {
-        console.log("cityList is null")
             return;
         }
 

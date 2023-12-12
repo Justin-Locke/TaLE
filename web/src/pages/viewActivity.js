@@ -361,7 +361,6 @@ class ViewActivity extends BindingClass {
         errorMessageDisplay.classList.add('hidden');
         
         const activityId = this.dataStore.get('activityId');
-        console.log(JSON.stringify(activityId + "= activityId"));
         const commentId = document.getElementById('commentId').value;
         
         const createButton = document.getElementById('submitUpdatedComment');
@@ -414,7 +413,6 @@ class ViewActivity extends BindingClass {
 
     redirectToCreateComment() {
         const activity = this.dataStore.get('activity');
-        console.log("redirecting");
         if (activity != null) {
             window.location.href = `/createComment.html?activityId=${activity.activityId}`;
         }

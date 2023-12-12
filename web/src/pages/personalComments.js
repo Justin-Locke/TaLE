@@ -63,7 +63,6 @@ class PersonalComments extends BindingClass {
 
             const commentMessage = document.createElement('p');
             commentMessage.textContent = comment.message;
-            console.log(JSON.stringify(commentMessage));
             commentDiv.appendChild(commentMessage);
 
 
