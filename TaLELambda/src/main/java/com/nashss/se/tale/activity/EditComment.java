@@ -33,15 +33,18 @@ public class EditComment {
      */
     public EditCommentResult handleRequest(final EditCommentRequest request) {
         if (request.getTitle().isEmpty()) {
+            log.warn("Request Title is Empty");
             throw new EmptyFieldInRequestException("Your comment must contain a title.");
         }
         if (request.getMessage().isEmpty()) {
+            log.warn("Request Message is Empty");
             throw new EmptyFieldInRequestException("Your comment has no message content.");
         }
 
         Comment commentToUpdate = commentsDao.getComment(request.getActivityId(), request.getCommentId());
-
+        log.info("Comment to update ={}", commentToUpdate);
         if (!commentToUpdate.getUserId().equals(request.getUserId())) {
+            log.error("INVALID USER MAKING AUTHENTICATED REQUEST");
             throw new InvalidUserException("You are not allowed to edit this comment...How did you get here?");
         }
 
@@ -50,7 +53,7 @@ public class EditComment {
         commentToUpdate.setEdited(true);
 
         commentsDao.saveComment(commentToUpdate);
-
+        log.info("Saved updated Comment ={}", commentToUpdate);
         CommentModel commentModel = new ModelConverter().toCommentModel(commentToUpdate);
 
         return EditCommentResult.builder()

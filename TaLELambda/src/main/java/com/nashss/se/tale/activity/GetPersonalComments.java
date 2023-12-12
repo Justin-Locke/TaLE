@@ -32,12 +32,14 @@ public class GetPersonalComments {
      * @return a List of Comments from User.
      */
     public GetPersonalCommentsResult handleRequest(final GetPersonalCommentsRequest request) {
+        log.info("GetPersonalComments Request ={}", request);
         List<Comment> commentList = commentsDao.getAllPersonalComments(request.getUserId());
-
+        log.info("Personal Comment List ={}", commentList);
         List<CommentModel> commentModelList = new ArrayList<>();
 
         for (Comment comment : commentList) {
             if (comment == null) {
+                log.warn("Null Comment Found");
                 continue;
             }
             CommentModel commentModel = new ModelConverter().toCommentModel(comment);

@@ -7,7 +7,7 @@ public class GetCityRequest {
      * Constructor for GetCityRequest.
      * @param cityId of City to retrieve.
      */
-    public GetCityRequest(String cityId) {
+    private GetCityRequest(String cityId) {
         this.cityId = cityId;
     }
     public String getCityId() {

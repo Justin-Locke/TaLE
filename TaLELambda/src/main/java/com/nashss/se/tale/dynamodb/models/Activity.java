@@ -1,19 +1,13 @@
 package com.nashss.se.tale.dynamodb.models;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.nashss.se.tale.converters.LocalDateConverter;
-
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTypeConverted;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped;
 
 import java.time.LocalDate;
 import java.util.Objects;
 
 @DynamoDBTable(tableName = "activities")
 public class Activity {
-    private static final String GSI_INDEX_NAME = "ActivitiesByUserIndex";
+    private static final String ACTIVITIES_BY_USER_INDEX = "ActivitiesByUserIndex";
     private String activityId;
     private String userId;
     private String activityName;
@@ -23,6 +17,7 @@ public class Activity {
     private String posterExperience;
 
     @DynamoDBHashKey(attributeName = "activityId")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = ACTIVITIES_BY_USER_INDEX)
     public String getActivityId() {
         return activityId;
     }
@@ -30,7 +25,8 @@ public class Activity {
     public void setActivityId(String activityId) {
         this.activityId = activityId;
     }
-    @DynamoDBAttribute(attributeName = "userId")
+
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = ACTIVITIES_BY_USER_INDEX, attributeName = "userId")
     public String getUserId() {
         return userId;
     }
@@ -38,6 +34,7 @@ public class Activity {
     public void setUserId(String userId) {
         this.userId = userId;
     }
+
     @DynamoDBAttribute(attributeName = "activityName")
     public String getActivityName() {
         return activityName;
@@ -46,6 +43,7 @@ public class Activity {
     public void setActivityName(String activityName) {
         this.activityName = activityName;
     }
+
     @DynamoDBAttribute(attributeName = "description")
     public String getDescription() {
         return description;
@@ -54,6 +52,7 @@ public class Activity {
     public void setDescription(String description) {
         this.description = description;
     }
+
     @DynamoDBAttribute(attributeName = "datePosted")
     @DynamoDBTypeConverted(converter = LocalDateConverter.class)
     public LocalDate getDatePosted() {
@@ -63,6 +62,7 @@ public class Activity {
     public void setDatePosted(LocalDate datePosted) {
         this.datePosted = datePosted;
     }
+
     @DynamoDBAttribute(attributeName = "edited")
     @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.BOOL)
     public Boolean getEdited() {
@@ -72,6 +72,7 @@ public class Activity {
     public void setEdited(Boolean edited) {
         this.edited = edited;
     }
+
     @DynamoDBAttribute(attributeName = "posterExperience")
     public String getPosterExperience() {
         return posterExperience;

@@ -7,7 +7,7 @@ public class GetPersonalCommentsRequest {
      * Constructor for GetPersonalCommentsRequest.
      * @param userId to create Request.
      */
-    public GetPersonalCommentsRequest(String userId) {
+    private GetPersonalCommentsRequest(String userId) {
         this.userId = userId;
     }
 

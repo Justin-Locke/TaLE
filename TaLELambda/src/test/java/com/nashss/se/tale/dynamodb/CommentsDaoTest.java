@@ -4,6 +4,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.nashss.se.tale.dynamodb.models.Comment;
+import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,6 +69,18 @@ public class CommentsDaoTest {
 
         assertEquals(comment, result);
         verify(mapper, times(1)).load(any(), anyString(), anyString());
+        verify(metricsPublisher, times(1)).addCount(MetricsConstants.COMMENT_NULL_COUNT, 0);
+    }
+
+    @Test
+    void getComment_withInvalidRequest_returnsNull() {
+        //Given
+        //When
+        when(mapper.load(any(),anyString(),anyString())).thenReturn(null);
+        Comment result = commentsDao.getComment("4", "124");
+        //Then
+        assertEquals(null, result);
+        verify(metricsPublisher, times(1)).addCount(MetricsConstants.COMMENT_NULL_COUNT, 1);
     }
 
     @Test
@@ -76,8 +89,9 @@ public class CommentsDaoTest {
         String userId = "J23";
         //When
         List<Comment> result = commentsDao.getAllPersonalComments(userId);
-
+        //Then
         assertEquals(paginatedQueryList, result);
+        verify(metricsPublisher, times(1)).addMetric(anyString(), anyDouble(), any());
 
 
     }

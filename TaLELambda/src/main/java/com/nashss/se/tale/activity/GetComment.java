@@ -30,9 +30,9 @@ public class GetComment {
      * @return a Comment.
      */
     public GetCommentResult handleRequest(final GetCommentRequest request) {
-        System.out.println("Activity Id = " + request.getActivityId() + "CommentId = " + request.getCommentId());
+        log.info("GetComment Request ={}", request);
         Comment comment = commentsDao.getComment(request.getActivityId(), request.getCommentId());
-
+        log.info("Comment Retrieved ={}", comment);
         CommentModel commentModel = new ModelConverter().toCommentModel(comment);
 
         return GetCommentResult.builder()

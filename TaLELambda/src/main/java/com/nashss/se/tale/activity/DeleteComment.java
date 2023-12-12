@@ -31,6 +31,7 @@ public class DeleteComment {
         String activityId = request.getActivityId();
 
         String result = commentsDao.deleteComment(activityId, commentId);
+        log.info("Delete result {}", result);
         return new DeleteCommentResult.Builder()
                 .withDeleteResult(result)
                 .build();

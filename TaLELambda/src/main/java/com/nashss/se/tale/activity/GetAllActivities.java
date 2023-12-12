@@ -38,11 +38,13 @@ public class GetAllActivities {
      * @return List of Activities.
      */
     public GetAllActivitiesResult handleRequest(final GetAllActivitiesRequest request) {
+        log.info("Handle Request Started for Get All Activities: Request ={}", request);
         String cityId = request.getCityId();
 
         City city = citiesDao.getCityById(cityId);
+        log.info("City to get Activity Id List From ={}", city);
         List<String> activityIdList = city.getActivityList();
-
+        log.info("Activity Id List ={}", activityIdList);
         List<Activity> activityList = new ArrayList<>();
         List<String> activityIdsToRemove = new ArrayList<>();
         for (String id: activityIdList) {
@@ -54,10 +56,12 @@ public class GetAllActivities {
             }
         }
 
+        log.info("Activity Id's to Delete from City ={}", activityIdsToRemove);
         activityIdList.removeAll(activityIdsToRemove);
 
         city.setActivityList(activityIdList);
         citiesDao.saveCity(city);
+        log.info("City Updated {}", city);
 
         List<ActivityModel> activityModelList = new ArrayList<>();
         for (Activity activity: activityList) {

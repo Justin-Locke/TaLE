@@ -20,7 +20,7 @@ public class CreateNewActivityRequest {
      * @param description for new Activity.
      * @param posterExperience for new Activity.
      */
-    public CreateNewActivityRequest(String cityId, String userId,
+    private CreateNewActivityRequest(String cityId, String userId,
                                     String activityName, String description, String posterExperience) {
         this.cityId = cityId;
         this.userId = userId;

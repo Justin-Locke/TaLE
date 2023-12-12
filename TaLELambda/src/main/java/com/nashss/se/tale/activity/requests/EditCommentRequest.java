@@ -19,7 +19,7 @@ public class EditCommentRequest {
      * @param userId Verify User.
      * @param commentId for Range Key.
      */
-    public EditCommentRequest(String activityId, String title, String message, String userId, String commentId) {
+    private EditCommentRequest(String activityId, String title, String message, String userId, String commentId) {
         this.activityId = activityId;
         this.title = title;
         this.message = message;

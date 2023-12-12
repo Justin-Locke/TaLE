@@ -7,7 +7,7 @@ public class GetPersonalActivitiesRequest {
      * Constructor for GetPersonalActivitiesRequest.
      * @param userId to find users posted Activities.
      */
-    public GetPersonalActivitiesRequest(String userId) {
+    private GetPersonalActivitiesRequest(String userId) {
         this.userId = userId;
     }
 

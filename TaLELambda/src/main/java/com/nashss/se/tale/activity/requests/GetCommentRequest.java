@@ -11,7 +11,7 @@ public class GetCommentRequest {
      * @param commentId for Range Key.
      * @param userId to determine user.
      */
-    public GetCommentRequest(String activityId, String commentId, String userId) {
+    private GetCommentRequest(String activityId, String commentId, String userId) {
         this.activityId = activityId;
         this.commentId = commentId;
         this.userId = userId;

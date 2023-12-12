@@ -7,7 +7,7 @@ public class GetAllActivitiesRequest {
      * Constructor for GetAllActivitiesRequest.
      * @param cityId to get all activities from.
      */
-    public GetAllActivitiesRequest(String cityId) {
+    private GetAllActivitiesRequest(String cityId) {
         this.cityId = cityId;
     }
 

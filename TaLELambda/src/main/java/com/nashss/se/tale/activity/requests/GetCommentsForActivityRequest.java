@@ -7,7 +7,7 @@ public class GetCommentsForActivityRequest {
      * Constructor for GetCommentsForActivityRequest.
      * @param activityId to create Request.
      */
-    public GetCommentsForActivityRequest(String activityId) {
+    private GetCommentsForActivityRequest(String activityId) {
         this.activityId = activityId;
     }
 

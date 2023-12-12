@@ -33,21 +33,25 @@ public class EditActivity {
      */
     public EditActivityResult handleRequest(final EditActivityRequest request) {
         if (request.getUpdatedActivityName().isEmpty()) {
+            log.warn("Request Activity Name is Empty");
             throw new EmptyFieldInRequestException("Your activity must have a name");
         }
 
         Activity activityToUpdate = activitiesDao.getActivityById(request.getActivityId());
-
+        log.info("Getting activity to update {}", activityToUpdate);
         if (!(activityToUpdate.getDescription().isEmpty()) && request.getUpdatedDescription().isEmpty()) {
+            log.warn("Trying to delete Existing Activity Description");
             throw new EmptyFieldInRequestException("You can update your description but you cannot delete it.");
         }
 
         if (!(activityToUpdate.getPosterExperience() == null ||
                 activityToUpdate.getPosterExperience().isEmpty()) && request.getUpdatedPosterExperience().isEmpty()) {
+            log.warn("Trying to delete Existing Poster Experience");
             throw new EmptyFieldInRequestException("You can update your experience but you cannot delete it.");
         }
 
         if (!activityToUpdate.getUserId().equals(request.getUserId())) {
+            log.error("INVALID USER ID MAKING AUTHENTICATED REQUEST");
             throw new InvalidUserException("You do not have access to modify this activity");
         }
 
@@ -58,7 +62,7 @@ public class EditActivity {
         activityToUpdate.setEdited(true);
 
         activitiesDao.saveActivity(activityToUpdate);
-
+        log.info("Saved updated Activity {}", activityToUpdate);
         ActivityModel activityModel = new ModelConverter().toActivityModel(activityToUpdate);
 
         return EditActivityResult.builder()

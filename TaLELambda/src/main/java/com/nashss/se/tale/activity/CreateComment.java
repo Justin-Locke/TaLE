@@ -34,6 +34,7 @@ public class CreateComment {
      */
     public CreateCommentResult handleRequest(final CreateCommentRequest request) {
         if (request.getTitle().isEmpty() || request.getMessage().isEmpty()) {
+            log.warn("Request title or message is empty");
             throw new EmptyFieldInRequestException("Comments must contain both a Title and a Message.");
         }
 
@@ -47,7 +48,7 @@ public class CreateComment {
         newComment.setEdited(false);
 
         commentsDao.saveComment(newComment);
-
+        log.info("Saved comment");
         CommentModel commentModel = new ModelConverter().toCommentModel(newComment);
 
         return CreateCommentResult.builder()

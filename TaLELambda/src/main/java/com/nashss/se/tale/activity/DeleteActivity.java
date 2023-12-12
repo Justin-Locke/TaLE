@@ -27,9 +27,8 @@ public class DeleteActivity {
      * @return a String result of Deleted activity.
      */
     public DeleteActivityResult handleRequest(final DeleteActivityRequest request) {
+        log.info("Request To Delete Activity {}", request);
         String activityId = request.getActivityId();
-        String userId = request.getUserId();
-
         String result = activitiesDao.deleteActivity(activityId);
 
         return new DeleteActivityResult.Builder()
