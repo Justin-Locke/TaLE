@@ -5,6 +5,7 @@ import com.nashss.se.tale.activity.results.CreateNewActivityResult;
 import com.nashss.se.tale.dynamodb.ActivitiesDao;
 import com.nashss.se.tale.dynamodb.CitiesDao;
 import com.nashss.se.tale.dynamodb.models.City;
+import com.nashss.se.tale.exceptions.EmptyFieldInRequestException;
 import com.nashss.se.tale.models.ActivityModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,5 +62,37 @@ class CreateNewActivityTest {
         assertEquals(request.getDescription(), model.getDescription());
         assertEquals(request.getPosterExperience(), model.getPosterExperience());
         assertEquals(2, cityToUpdate.getActivityList().size());
+    }
+
+    @Test
+    void handleRequest_withEmptyName_throwsEmptyFieldInRequestException() {
+        //Given Empty Activity Name Field
+        CreateNewActivityRequest request = CreateNewActivityRequest.builder()
+                .withCityId("CITY")
+                .withUserId("JL9")
+                .withDescription("Description")
+                .withActivityName("")
+                .withPosterExperience("MY THOUGHTS EXACTLY")
+                .build();
+        //When
+        //Then
+        assertThrows(EmptyFieldInRequestException.class,
+                () -> createNewActivity.handleRequest(request));
+    }
+
+    @Test
+    void handleRequest_withEmptyDescriptionAndEmptyPosterExxperience_throwsEmptyFieldInRequestException() {
+        //Given Empty Description and Poster Experience Fields
+        CreateNewActivityRequest request = CreateNewActivityRequest.builder()
+                .withCityId("CITY")
+                .withUserId("JL9")
+                .withDescription("")
+                .withActivityName("ACTIVITY")
+                .withPosterExperience("")
+                .build();
+        //When
+        //Then
+        assertThrows(EmptyFieldInRequestException.class,
+                () -> createNewActivity.handleRequest(request));
     }
 }

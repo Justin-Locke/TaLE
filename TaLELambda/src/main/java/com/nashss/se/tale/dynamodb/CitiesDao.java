@@ -1,7 +1,9 @@
 package com.nashss.se.tale.dynamodb;
 import com.nashss.se.tale.dynamodb.models.City;
+import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 
+import com.amazonaws.services.cloudwatch.model.StandardUnit;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
@@ -33,6 +35,11 @@ public class CitiesDao {
     public City getCityById(String id) {
         City city = this.dynamoDBMapper.load(City.class, id);
 
+        if (city == null) {
+            metricsPublisher.addCount(MetricsConstants.CITY_NULL_COUNT, 1);
+        } else {
+            metricsPublisher.addCount(MetricsConstants.CITY_NULL_COUNT, 0);
+        }
         return city;
     }
 
@@ -51,9 +58,11 @@ public class CitiesDao {
      * @return List of City.
      */
     public List<City> getAllCities() {
+        double startTime = System.currentTimeMillis();
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
         PaginatedScanList<City> cityList = dynamoDBMapper.scan(City.class, scanExpression);
-        System.out.println("cityList = {}" + cityList);
+        double totalTime = System.currentTimeMillis() - startTime;
+        metricsPublisher.addMetric(MetricsConstants.GET_ALL_TIME, totalTime, StandardUnit.Milliseconds);
         return cityList;
     }
 

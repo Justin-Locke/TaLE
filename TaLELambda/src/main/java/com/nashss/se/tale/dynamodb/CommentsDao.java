@@ -1,7 +1,9 @@
 package com.nashss.se.tale.dynamodb;
 import com.nashss.se.tale.dynamodb.models.Comment;
+import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 
+import com.amazonaws.services.cloudwatch.model.StandardUnit;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
@@ -43,11 +45,15 @@ public class CommentsDao {
      * @return a list of comments.
      */
     public List<Comment> getCommentsByActivityId(String activityId) {
+        double startTimer = System.currentTimeMillis();
         Comment comment = new Comment();
         comment.setActivityId(activityId);
         DynamoDBQueryExpression<Comment> queryExpression = new DynamoDBQueryExpression<Comment>()
                 .withHashKeyValues(comment);
         PaginatedQueryList<Comment> commentList = mapper.query(Comment.class, queryExpression);
+        double totalTime = System.currentTimeMillis() - startTimer;
+        metricsPublisher.addMetric("GET_COMMENTS_BY_ACTIVITY_ID_PROCESSING_TIME", totalTime, StandardUnit.Milliseconds);
+
         return commentList;
     }
 
@@ -59,6 +65,11 @@ public class CommentsDao {
      */
     public Comment getComment(String activityId, String commentId) {
         Comment comment = mapper.load(Comment.class, activityId, commentId);
+        if (comment == null) {
+            metricsPublisher.addCount(MetricsConstants.COMMENT_NULL_COUNT, 1);
+        } else {
+            metricsPublisher.addCount(MetricsConstants.CITY_NULL_COUNT, 0);
+        }
         return comment;
     }
 
@@ -83,6 +94,7 @@ public class CommentsDao {
      * @return a list of users comments.
      */
     public List<Comment> getAllPersonalComments(String userId) {
+        double startTime = System.currentTimeMillis();
         Map<String, AttributeValue> valueMap = new HashMap<>();
         valueMap.put(":userId", new AttributeValue().withS(userId));
         DynamoDBQueryExpression<Comment> queryExpression = new DynamoDBQueryExpression<Comment>()
@@ -92,6 +104,10 @@ public class CommentsDao {
                 .withExpressionAttributeValues(valueMap);
 
         PaginatedQueryList<Comment> commentList = mapper.query(Comment.class, queryExpression);
+
+        double totalTime = System.currentTimeMillis() - startTime;
+        metricsPublisher.addMetric(MetricsConstants.PERSONAL_LOOKUP_TIME, totalTime, StandardUnit.Milliseconds);
+
         return commentList;
     }
 }

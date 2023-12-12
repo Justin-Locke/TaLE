@@ -42,7 +42,8 @@ public class EditActivity {
             throw new EmptyFieldInRequestException("You can update your description but you cannot delete it.");
         }
 
-        if (!(activityToUpdate.getPosterExperience() == null || activityToUpdate.getPosterExperience().isEmpty()) && request.getUpdatedPosterExperience().isEmpty()) {
+        if (!(activityToUpdate.getPosterExperience() == null ||
+                activityToUpdate.getPosterExperience().isEmpty()) && request.getUpdatedPosterExperience().isEmpty()) {
             throw new EmptyFieldInRequestException("You can update your experience but you cannot delete it.");
         }
 

@@ -32,10 +32,8 @@ class EditComment extends BindingClass {
         const urlParams =  new URLSearchParams(window.location.search);
         const activityId = urlParams.get('activityId');
         this.dataStore.set('activityId', activityId);
-        console.log(JSON.stringify("ActivityId = " + activityId));
         const commentId = urlParams.get('commentId');
         this.dataStore.set('commentId', commentId);
-        console.log(JSON.stringify("Comment Id = " + commentId));
         const comment = await this.client.viewComment(activityId, commentId);
         this.dataStore.set('comment', comment);
 
@@ -58,7 +56,6 @@ class EditComment extends BindingClass {
         errorMessageDisplay.classList.add('hidden');
         
         const activityId = this.dataStore.get('activityId');
-        console.log(JSON.stringify(activityId + "= activityId"));
         const commentId = this.dataStore.get('commentId');
         
         const createButton = document.getElementById('submitUpdatedComment');
@@ -80,15 +77,10 @@ class EditComment extends BindingClass {
 
 
     redirectToViewActivity() {
-        console.log("redirecting now");
         const activityId = this.dataStore.get('activityId');
         if (activityId != null) {
-            console.log("activiy is not null");
             window.location.href = `/viewActivity.html?activityId=${activityId}`;
-        }
-        console.log("redirect finished");
-        
-
+        }        
     }
 
     addCommentToPage() {

@@ -95,4 +95,14 @@ public class ActivitiesDaoTest {
         assertEquals(paginatedQueryList, results);
     }
 
+    @Test
+    void deleteActivity_withValidActivityId_removesActivityFromDatabase() {
+        //Given
+        String activityId = "act1";
+        //When
+        activitiesDao.deleteActivity(activityId);
+        //Then
+        verify(mapper, times(1)).delete(any());
+    }
+
 }

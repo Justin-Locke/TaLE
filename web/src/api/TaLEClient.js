@@ -71,7 +71,6 @@ export default class TaLEClient extends BindingClass {
     async viewCity(cityId, errorCallback) {
         try {
             const response = await this.axiosClient.get(`cities/${cityId}`);
-            console.log(JSON.stringify(response.data.cityModel))
             return response.data.cityModel;
         } catch (error) {
             this.handleError(error, errorCallback)
@@ -89,7 +88,6 @@ export default class TaLEClient extends BindingClass {
 
     async createNewActivity(cityId, activityName, description, posterExperience, errorCallback) {
         try {
-            console.log(JSON.stringify("city =" + cityId + "activityName =" + activityName + "description =" + description + "posterExperiene =" + posterExperience));
             const token = await this.getTokenOrThrow("Only authenticated users can create an Activity Post.");
             const response = await this.axiosClient.post(`cities/${cityId}/activities`, {
                 activityName: activityName,
@@ -198,10 +196,7 @@ export default class TaLEClient extends BindingClass {
 
     async viewComment(activityId, commentId, errorCallback) {
         try {
-            console.log(JSON.stringify("activityId =" + activityId));
-            console.log(JSON.stringify("commentId =" + commentId));
             const token = await this.getTokenOrThrow("Only Authenticated users can see this comment.");
-            // console.log(JSON.stringify("token =" + token));
             const response = await this.axiosClient.get(`activities/${activityId}/comments/${commentId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`

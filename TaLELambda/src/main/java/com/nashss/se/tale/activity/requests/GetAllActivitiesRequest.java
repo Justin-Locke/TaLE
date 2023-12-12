@@ -1,7 +1,5 @@
 package com.nashss.se.tale.activity.requests;
 
-import java.util.List;
-
 public class GetAllActivitiesRequest {
     private String cityId;
 
