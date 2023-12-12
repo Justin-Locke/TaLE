@@ -69,13 +69,10 @@ class CreateComment extends BindingClass {
     }
 
     redirectToViewActivity() {
-        console.log("redirecting now");
         const activityId = this.dataStore.get('activityId');
         if (activityId != null) {
-            console.log("activiy is not null");
             window.location.href = `/viewActivity.html?activityId=${activityId}`;
         }
-        console.log("redirect finished");
         
 
     }

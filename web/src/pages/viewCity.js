@@ -14,7 +14,6 @@ class ViewCity extends BindingClass {
         this.authenticator = new Authenticator();;
 
         this.header = new Header(this.dataStore);
-        console.log("ViewCity constructor");
     }
 
     async clientLoaded() {
@@ -122,7 +121,6 @@ class ViewCity extends BindingClass {
 
         });
         if (activity != null) {
-            console.log(activity + "is the Activity");
             this.redirectToViewActivity(activity);
         }
 

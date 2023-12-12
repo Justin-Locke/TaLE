@@ -3,14 +3,14 @@ package com.nashss.se.tale.activity;
 import com.nashss.se.tale.activity.requests.CreateCommentRequest;
 import com.nashss.se.tale.activity.results.CreateCommentResult;
 import com.nashss.se.tale.dynamodb.CommentsDao;
+import com.nashss.se.tale.exceptions.EmptyFieldInRequestException;
 import com.nashss.se.tale.models.CommentModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CreateCommentTest {
     @Mock
@@ -46,5 +46,35 @@ class CreateCommentTest {
         assertEquals(request.getUserId(), model.getUserId());
         assertEquals(request.getTitle(), model.getTitle());
         assertEquals(request.getMessage(), model.getMessage());
+    }
+
+    @Test
+    void handleRequest_withEmptyTitle_throwsEmptyFieldInRequestException() {
+        //Given
+        CreateCommentRequest request = new CreateCommentRequest.Builder()
+                .withActivityId("ACT1")
+                .withUserId("USR1")
+                .withTitle("")
+                .withMessage("It's good soup.")
+                .build();
+        //When
+        //Then
+        assertThrows(EmptyFieldInRequestException.class,
+                () -> createComment.handleRequest(request));
+    }
+
+    @Test
+    void handleRequest_withEmptyMessage_throwsEmptyFieldInRequestException() {
+        //Given
+        CreateCommentRequest request = new CreateCommentRequest.Builder()
+                .withActivityId("ACT1")
+                .withUserId("USR1")
+                .withTitle("Good Soup")
+                .withMessage("")
+                .build();
+        //When
+        //Then
+        assertThrows(EmptyFieldInRequestException.class,
+                () -> createComment.handleRequest(request));
     }
 }

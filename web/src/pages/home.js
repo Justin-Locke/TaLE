@@ -12,8 +12,6 @@ class Homepage extends BindingClass {
 
         this.header = new Header(this.dataStore);
         this.authenticator = new Authenticator();
-
-        console.log("Homepage constructor");
     }
 
     async clientLoaded() {

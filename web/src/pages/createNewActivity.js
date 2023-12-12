@@ -66,21 +66,15 @@ class CreateNewActivity extends BindingClass {
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
         });
-        console.log(activity + "is the Activity");
         this.dataStore.set('activity', activity);
         
     }
 
     redirectToViewActivity() {
-        console.log("redirecting now");
         const activity = this.dataStore.get('activity');
         if (activity != null) {
-            console.log("activiy is not null");
             window.location.href = `/viewActivity.html?activityId=${activity.activityId}`;
-        }
-        console.log("redirect finished");
-        
-
+        }        
     }
 
     async loginOrOut() {
