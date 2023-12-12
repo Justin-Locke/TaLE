@@ -1,9 +1,9 @@
 package com.nashss.se.tale.dynamodb;
-import com.amazonaws.services.cloudwatch.model.StandardUnit;
 import com.nashss.se.tale.dynamodb.models.Activity;
 import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 
+import com.amazonaws.services.cloudwatch.model.StandardUnit;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
