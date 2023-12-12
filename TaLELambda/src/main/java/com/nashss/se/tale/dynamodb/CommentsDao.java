@@ -67,9 +67,9 @@ public class CommentsDao {
         Comment comment = mapper.load(Comment.class, activityId, commentId);
         if (comment == null) {
             metricsPublisher.addCount(MetricsConstants.COMMENT_NULL_COUNT, 1);
+        } else {
+            metricsPublisher.addCount(MetricsConstants.CITY_NULL_COUNT, 0);
         }
-
-        metricsPublisher.addCount(MetricsConstants.CITY_NULL_COUNT, 0);
         return comment;
     }
 

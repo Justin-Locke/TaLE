@@ -61,8 +61,9 @@ public class ActivitiesDao {
         Activity activity = mapper.load(Activity.class, activityId);
         if (activity == null) {
             metricsPublisher.addCount(MetricsConstants.ACTIVITY_NULL_COUNT, 1);
+        } else {
+            metricsPublisher.addCount(MetricsConstants.ACTIVITY_NULL_COUNT, 0);
         }
-        metricsPublisher.addCount(MetricsConstants.ACTIVITY_NULL_COUNT, 0);
         return activity;
     }
 

@@ -37,8 +37,9 @@ public class CitiesDao {
 
         if (city == null) {
             metricsPublisher.addCount(MetricsConstants.CITY_NULL_COUNT, 1);
+        } else {
+            metricsPublisher.addCount(MetricsConstants.CITY_NULL_COUNT, 0);
         }
-        metricsPublisher.addCount(MetricsConstants.CITY_NULL_COUNT, 0);
         return city;
     }
 
