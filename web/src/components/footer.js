@@ -26,6 +26,8 @@ export default class Footer {
             listItem.textContent = itemText;
             list.appendChild(listItem);
         });
+        list.style.fontSize = "small"
+        list.style.fontWeight = "normal"
         column.appendChild(list);
         return column;
     }
