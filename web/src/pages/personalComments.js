@@ -5,13 +5,15 @@ import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import LoadingSpinner from '../components/loadingSpinner';
 import Footer from '../components/footer';
+import NavBar from '../components/navBar';
 
 class PersonalComments extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCommentsToPage', 'redirectToViewActivity', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCommentsToPage', 'redirectToViewActivity'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
+        this.navbar = new NavBar();
         this.footer = new Footer();
         this.loadingSpinner = new LoadingSpinner();
         this.authenticator = new Authenticator();
@@ -20,23 +22,7 @@ class PersonalComments extends BindingClass {
     }
 
     async clientLoaded() {
-        const userLoggedIn = await this.authenticator.isUserLoggedIn();
-        if (userLoggedIn) {
-            const user = await this.client.getIdentity();
-            const personalBttn = document.getElementById('personalPage');
-            personalBttn.classList.remove('subnavbtn.hidden');
-            personalBttn.classList.add('subnavbtn');
-            personalBttn.removeAttribute('hidden');
-            document.getElementById('loginButton').innerText = `Logout: ${user.name}`;
-            document.getElementById('loginButton').addEventListener('click', this.createLogoutButton(user));
-            this.addCommentsToPage();
-        }
-        if (!userLoggedIn) {
-            const loginButton = document.getElementById('loginButton');
-            loginButton.innerText = `Login`;
-            loginButton.addEventListener('click', this.createLoginButton());
-        }
-
+        
         const comments = await this.client.viewPersonalComments();
         this.dataStore.set('comments', comments);        
     }
@@ -44,6 +30,7 @@ class PersonalComments extends BindingClass {
     mount() {
         
         this.header.addHeaderToPage();
+        this.navbar.addNavBarToPage();
         this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
@@ -53,7 +40,7 @@ class PersonalComments extends BindingClass {
     addCommentsToPage() {
         this.loadingSpinner.showLoadingSpinner("Loading your personal comments..");
         const comments = this.dataStore.get('comments');
-        if (comments == null) {
+        if (comments == null ) {
             return;
         }
         const outlineComments = document.createElement('div');
@@ -101,43 +88,11 @@ class PersonalComments extends BindingClass {
     }
 
     redirectToViewActivity(activityId) {
+        this.loadingSpinner.showLoadingSpinner();
         if (activityId != null) {
             window.location.href = `/viewActivity.html?activityId=${activityId}`;
         }
     }
-    
-    async loginOrOut() {
-        const user = await this.client.getIdentity();
-        if (user != null) {
-            return this.client.logout;
-        } else {
-            return this.client.login;
-        }
-
-    }
-
-    createLoginButton() {
-        return this.createButton('Login', this.client.login);
-    }
-
-    createLogoutButton(currentUser) {
-        return this.createButton(`Logout: ${currentUser.name}`, this.client.logout);
-    }
-
-    createButton(text, clickHandler) {
-        const button = document.getElementById('loginButton');
-        button.href = '#';
-        button.innerText = text;
-
-        button.addEventListener('click', async () => {
-            await clickHandler();
-        });
-
-        return button;
-
-    }
-
-    
 }
 
 const main = async () => {

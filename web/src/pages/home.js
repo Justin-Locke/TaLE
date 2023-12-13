@@ -10,32 +10,13 @@ class Homepage extends BindingClass {
     constructor() {
         super();
 
-        this.bindClassMethods(['clientLoaded', 'mount', 'loginOrOut'], this);
+        this.bindClassMethods(['mount'], this);
 
         this.header = new Header(this.dataStore);
+        this.navBar = new NavBar();
         this.authenticator = new Authenticator();
         this.footer = new Footer();
         this.loadingSpinner = new LoadingSpinner();
-    }
-
-    async clientLoaded() {
-        const userLoggedIn = await this.authenticator.isUserLoggedIn();
-        if (userLoggedIn) {
-            const user = await this.client.getIdentity();
-            const personalBttn = document.getElementById('personalPage');
-            personalBttn.classList.remove('subnavbtn.hidden');
-            personalBttn.classList.add('subnavbtn');
-            personalBttn.removeAttribute('hidden');
-            const logoutButton = document.getElementById('loginButton');
-            logoutButton.innerText = `Logout: ${user.name}`;
-            logoutButton.addEventListener('click', this.createLogoutButton(user));
-        }
-        if (!userLoggedIn) {
-            const loginButton = document.getElementById('loginButton');
-            loginButton.innerText = `Login`;
-            loginButton.addEventListener('click', this.createLoginButton());
-        }
-        
     }
 
     mount() {
@@ -67,41 +48,12 @@ class Homepage extends BindingClass {
             })
         }
         this.header.addHeaderToPage();
+        this.navBar.addNavBarToPage();
         this.footer.addFooterToPage();
         this.client = new TaLEClient();
-        this.clientLoaded();
     }
 
-    async loginOrOut() {
-        const userLoggedIn = await this.authenticator.isUserLoggedIn();
-        if (userLoggedIn) {
-            return this.client.logout;
-        } else {
-            return this.client.login;
-        }
-
-    }
-
-    createLoginButton() {
-        return this.createButton('Login', this.client.login);
-    }
-
-    createLogoutButton(currentUser) {
-        return this.createButton(`Logout: ${currentUser.name}`, this.client.logout);
-    }
-
-    createButton(text, clickHandler) {
-        const button = document.getElementById('loginButton');
-        button.href = '#';
-        button.innerText = text;
-
-        button.addEventListener('click', async () => {
-            await clickHandler();
-        });
-
-        return button;
-
-    }
+    
 }
 
 const main = async () => {

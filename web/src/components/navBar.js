@@ -1,32 +1,85 @@
 import TaLEClient from "../api/TaLEClient";
-import BindingClass from "../util/bindingClass";
+import Authenticator from "../api/authenticator";
 
-export default class LoginButton extends BindingClass {
+export default class NavBar {
     constructor() {
-        super();
-
-        const methodsToBind = [
-            'createloginAndLogOutButton', 'createLoginButton', 'createLogoutButton', 'createButton'
-        ];
-        this.bindClassMethods(methodsToBind, this);
-
+        this.authenticator = new Authenticator();
         this.client = new TaLEClient();
+    }
+    
+    async addNavBarToPage() {
+        const userLoggedIn = await this.authenticator.isUserLoggedIn();
+        
+        if (userLoggedIn) {
+            const user = await this.client.getIdentity();
+            const personalBttn = document.getElementById('personalPage');
+            personalBttn.classList.remove('subnavbtn.hidden');
+            personalBttn.classList.add('subnavbtn');
+            personalBttn.removeAttribute('hidden');
+            const logoutButton = document.getElementById('loginButton');
+            logoutButton.innerText = `Logout: ${user.name}`;
+            logoutButton.addEventListener('click', this.createLogoutButton(user));
+            if(document.getElementById('createNewActivityButton')) {
+                document.getElementById('createNewActivityButton').removeAttribute("hidden");
+            }
 
+        }
+        if (!userLoggedIn) {
+            const loginButton = document.getElementById('loginButton');
+            loginButton.innerText = `Login`;
+            loginButton.addEventListener('click', this.createLoginButton());
+        }
+    }
+
+    async addNavbarWithExtraButtonsResizable() {
+        const userLoggedIn = await this.authenticator.isUserLoggedIn();
+
+        if (userLoggedIn) {
+            const user = await this.client.getIdentity();
+            const personalBttn = document.getElementById('personalPage');
+            personalBttn.classList.remove('subnavbtn.hidden');
+            personalBttn.classList.add('subnavbtn');
+            personalBttn.removeAttribute('hidden');
+            
+            const logoutButton = document.getElementById('loginButton');
+            logoutButton.innerText = `Logout: ${user.name}`;
+            logoutButton.addEventListener('click', this.createLogoutButton(user));
+            
+            const navbar = document.getElementById('navbar');
+
+            if (window.innerWidth > 800) {
+                navbar.style.display = "flex";
+                navbar.style.flexWrap = "nowrap";
+            }
+            window.addEventListener("resize", function() {
+                if (window.innerWidth > 800) {
+                    navbar.style.display = "flex";
+                    navbar.style.flexWrap = "nowrap";
+                } else {
+                    navbar.style.display = "block";
+                }
+            });
+
+        }
+        if (!userLoggedIn) {
+            logoutButton.innerText = `Login`;
+            logoutButton.addEventListener('click', this.createLoginButton());
+        }
+
+    }
+
+    addExtraActivitySubnav(activityId) {
         
     }
 
-    async createLoginAndLogOutButton() {
-        const user = await this.client.getIdentity();
-        
-        if (user != null) {
-            document.getElementById('personalPage').removeAttribute("hidden");
-            document.getElementById('loginButton').innerText = `Logout: ${user.name}`;
-            document.getElementById('loginButton').addEventListener('click', this.createLogoutButton(user));
+    async loginOrOut() {
+        const userLoggedIn = await this.authenticator.isUserLoggedIn();
+        if (userLoggedIn) {
+            return this.client.logout;
+        } else {
+            return this.client.login;
         }
-        if (user == null) {
-            document.getElementById('loginButton').innerText = `Login`;
-            document.getElementById('loginButton').addEventListener('click', this.createLoginButton());
-        }
+
     }
 
     createLoginButton() {
