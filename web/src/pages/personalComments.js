@@ -22,7 +22,7 @@ class PersonalComments extends BindingClass {
     }
 
     async clientLoaded() {
-        
+        this.loadingSpinner.showLoadingSpinner("Loading your personal comments..");
         const comments = await this.client.viewPersonalComments();
         this.dataStore.set('comments', comments);        
     }
@@ -38,11 +38,8 @@ class PersonalComments extends BindingClass {
 
 
     addCommentsToPage() {
-        this.loadingSpinner.showLoadingSpinner("Loading your personal comments..");
         const comments = this.dataStore.get('comments');
-        if (comments == null ) {
-            return;
-        }
+
         const outlineComments = document.createElement('div');
 
         const commentsContainer = document.getElementById('commentsContainer');
@@ -80,9 +77,13 @@ class PersonalComments extends BindingClass {
             button.innerText = "Comment"
             button.addEventListener('click', () => {
                 button.innerText = "Here. We. GOOO!"
+                
             });
             noCommentsContainer.appendChild(button);
+            
         }
+
+        console.log("spinner Done");
         this.loadingSpinner.hideLoadingSpinner();
 
     }

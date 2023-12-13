@@ -105,7 +105,7 @@ class ViewCity extends BindingClass {
 
         });
         this.dataStore.set('activity', activity);
-        location.reload();
+        this.redirectToViewActivity(activity);
     }
 
     addCityToPage() {
