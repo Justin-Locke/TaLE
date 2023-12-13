@@ -3,77 +3,43 @@ import TaLEClient from '../api/TaLEClient'
 import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
+import NavBar from '../components/navBar';
 
 class ViewActivity extends BindingClass {
     constructor() {
         super();
         this.bindClassMethods(['clientLoaded', 'mount', 'submitNewComment', 'submitUpdatedComment', 'submitUpdatedActivity', 'addActivityToPage',
-         'redirectToCreateComment', 'addCommentsToPage', 'addCommentToModal', 'deleteComment', 'deleteActivity',
-         'redirectToEditActivity', 'redirectToEditComment', 'redirectToViewCity', 'loginOrOut'], this);
+         'addCommentsToPage', 'addCommentToModal', 'deleteComment', 'deleteActivity',
+         'redirectToViewCity'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addActivityToPage);
         this.dataStore.addChangeListener(this.addCommentsToPage);
         this.authenticator = new Authenticator();
-
+        this.loadingSpinner = new LoadingSpinner();
         this.header = new Header(this.dataStore);
+        this.navbar = new NavBar();
+        this.footer = new Footer();
     }
 
     async clientLoaded() {
-        const userLoggedIn = await this.authenticator.isUserLoggedIn();
-        const logoutButton = document.getElementById('loginButton')
-
-        if (userLoggedIn) {
-            const user = await this.client.getIdentity();
-            const personalBttn = document.getElementById('personalPage');
-            personalBttn.classList.remove('subnavbtn.hidden');
-            personalBttn.classList.add('subnavbtn');
-            personalBttn.removeAttribute('hidden');
-            logoutButton.innerText = `Logout: ${user.name}`;
-            logoutButton.addEventListener('click', this.createLogoutButton(user));
-            
-            if (window.innerWidth > 800) {
-                navbar.style.display = "flex";
-                navbar.style.flexWrap = "nowrap";
-            }
-            window.addEventListener("resize", function() {
-                const navbar = document.getElementById('navbar');
-                if (window.innerWidth > 800) {
-                    navbar.style.display = "flex";
-                    navbar.style.flexWrap = "nowrap";
-                } else {
-                    navbar.style.display = "block";
-                }
-            });
-
-            
-
-
-        }
-        if (!userLoggedIn) {
-            logoutButton.innerText = `Login`;
-            logoutButton.addEventListener('click', this.createLoginButton());
-        }
 
         const newCommentButton = document.getElementById('createCommentButton');
         const commentModal = document.getElementById("commentModal");
         const editCommentModal = document.getElementById('editCommentModal');
         const editActivityButton = document.getElementById('editActivityButton');
         const editActivityModal = document.getElementById('editActivityModal');
-        // const deleteActivityButton = document.getElementById('delete-activity-button');
-        const deleteActivityModal = document.getElementById('deleteModal');
         const newCommentspan = document.getElementsByClassName("close")[0];
         const editCommentspan = document.getElementsByClassName("close")[1];
         const editActivityspan = document.getElementsByClassName("close")[2];
-        const deleteActivityspan = document.getElementsByClassName("warning-sign");
         newCommentButton.onclick = function() {
             commentModal.style.display = "block";
         }
         editActivityButton.onclick = function() {
             editActivityModal.style.display = "block";
         }
-        // deleteActivityButton.onclick = function() {
-        //     deleteActivityModal.style.display = "block"
-        // }
+
         newCommentspan.onclick = function() {
             commentModal.style.display = "none";
             document.getElementById('title').value = '';
@@ -95,10 +61,6 @@ class ViewActivity extends BindingClass {
             editActivityModal.style.display = "none";
         }
 
-        // deleteActivityspan.onclick = function() {
-        //     deleteActivityModal.style.display = "none";
-        // }
-
         window.onclick = function(event) {
             if (event.target == commentModal) {
                 commentModal.style.display = "none";
@@ -118,12 +80,7 @@ class ViewActivity extends BindingClass {
                 errorMessageDisplay.classList.add('hidden');
                 editActivityModal.style.display = "none";
             }
-
- 
         }
-
-
-
         
         const urlParams = new URLSearchParams(window.location.search);
         const activityId = urlParams.get('activityId');
@@ -152,23 +109,24 @@ class ViewActivity extends BindingClass {
             }
         })
 
-        
         this.header.addHeaderToPage();
+        this.navbar.addNavbarWithExtraButtonsResizable();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
     }
 
     async addActivityToPage() {
+        this.loadingSpinner.showLoadingSpinner("Loading this activity...");
         const activity = this.dataStore.get('activity');
         if (activity == null) {
             return;
         } 
-
+        //Add Activity to HTML Elements//
         document.getElementById('activityName').innerText = activity.activityName;
         document.getElementById('description').innerText = activity.description;
         document.getElementById('posterExperience').innerText = activity.posterExperience;
         
-
         const user = await this.client.getIdentity();
 
         if (user && user.email === activity.userId) {
@@ -181,27 +139,24 @@ class ViewActivity extends BindingClass {
             const deleteModal = document.getElementById('deleteModal');
             const deleteButton = document.getElementById('delete-activity-button');
             deleteButton.removeAttribute("hidden");
-            deleteButton.onclick = function() {
+            deleteButton.addEventListener('click', () => {
                 deleteModal.style.display = "block";
-            }
-            document.getElementById('verified-delete').addEventListener('click', () => {
-
-            
+                const verifyDelete = document.getElementById('verified-delete');
+                verifyDelete.addEventListener('click', () => {
+                verifyDelete.innerText = "DELETING"
                 this.deleteActivity(activity.activityId);
             });
-            document.getElementById('cancel-delete').addEventListener('click', function() {
+            const verifyCancel = document.getElementById('cancel-delete');
+            verifyCancel.addEventListener('click', function() {
+                verifyCancel.innerText = "CANCELING";
                 deleteModal.style.display = "none";
+            })
             })
         }
 
         if (user != null) {
             document.getElementById('createCommentButton').removeAttribute("hidden");
         }
-
-        if (document.readyState == "complete" && activity == null) {
-  
-        }
-
     }
 
     async addCommentsToPage() {
@@ -214,21 +169,19 @@ class ViewActivity extends BindingClass {
         }
         
         const currentUser = await this.client.getIdentity();
-
         const commentsContainer = document.getElementById('commentsContainer');
 
         comments.forEach(comment => {
+            //Create Comment div//
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
 
             const datePosted = document.createElement('small');
             datePosted.textContent = "Posted on " + comment.datePosted;
             commentDiv.appendChild(datePosted);
-            
 
             const titleElement = document.createElement('h3');
             titleElement.textContent = comment.title;
-            
             commentDiv.appendChild(titleElement);
             
             if (comment.edited) {
@@ -244,8 +197,10 @@ class ViewActivity extends BindingClass {
             commentDiv.appendChild(messageElement);
             const line2 = document.createElement('hr');
             commentDiv.appendChild(line2);
-
             
+            //DeleteModal//
+            const deleteModal = document.getElementById('deleteModal');
+
             // Check if the current user is the author of the comment
             if (currentUser && currentUser.email === comment.userId) {
                 const buttonGroup = document.createElement('button-group');
@@ -256,32 +211,43 @@ class ViewActivity extends BindingClass {
                 updateButton.style.background = "none"
                 updateButton.style.font
                 updateButton.addEventListener('click', () => this.addCommentToModal(comment));
-
                 
                 updateButton.onclick = () => {
                     editCommentModal.style.display = "block";
                 }
                 
-
-
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
                 deleteButton.classList.add('deleteButton');
-
-                deleteButton.addEventListener('click', () => this.deleteComment(activityId, comment.commentId));
+                deleteButton.addEventListener('click', () => {
+                    deleteModal.style.display = "block";
+                    const verifyDelete = document.getElementById('verified-delete');
+                    verifyDelete.addEventListener('click', () => {
+                    verifyDelete.innerText = "DELETING";
+                    this.deleteComment(activityId, comment.commentId);
+                });
+                    const verifyCancel = document.getElementById('cancel-delete');
+                    verifyCancel.addEventListener('click', function() {
+                    verifyCancel.innerText = "CANCELING";
+                    deleteModal.style.display = "none";
+                })
+                })
 
                 buttonGroup.appendChild(updateButton);
                 buttonGroup.appendChild(deleteButton);
                 commentDiv.appendChild(buttonGroup);
+                
             }
-
+            //Add Comment to commentDiv//
             commentsContainer.appendChild(commentDiv);
         });
+
+        this.loadingSpinner.hideLoadingSpinner();
 
     }
 
     async submitNewComment(evt) {
-
+        this.loadingSpinner.showLoadingSpinner("Making a real post with your comment")
         const activityId = this.dataStore.get('activityId');
         evt.preventDefault();
 
@@ -300,6 +266,7 @@ class ViewActivity extends BindingClass {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+            this.loadingSpinner.hideLoadingSpinner();
         });
         if (comment != null) {
             this.dataStore.set('comment', comment);   
@@ -310,6 +277,7 @@ class ViewActivity extends BindingClass {
     }
 
     async deleteComment(activityId, commentId) {
+        this.loadingSpinner.showLoadingSpinner();
         const response = await this.client.deleteComment(activityId, commentId);
         if (response != null) {
             location.reload();
@@ -317,6 +285,7 @@ class ViewActivity extends BindingClass {
     }
 
     async deleteActivity(activityId) {
+        this.loadingSpinner.showLoadingSpinner();
         const response = await this.client.deleteActivity(activityId);
         if (response != null) {
             this.redirectToViewCity("N012012V");
@@ -326,13 +295,6 @@ class ViewActivity extends BindingClass {
     async redirectToViewCity(cityId) {
         if (cityId != null) {
             window.location.href = `/viewCity.html?cityId=${cityId}`;
-        }
-    }
-
-    async redirectToEditActivity(activityId) {
-        const activity = await this.client.viewActivity(activityId);
-        if (activity != null) {
-            window.location.href = `/editActivity.html?activityId=${activityId}`;
         }
     }
 
@@ -384,7 +346,6 @@ class ViewActivity extends BindingClass {
     }
 
     async submitUpdatedActivity(evt) {
-
         const errorMessageDisplay = document.getElementById('edit-activity-error-message');
         errorMessageDisplay.innerText = ``;
         errorMessageDisplay.classList.add('hidden');
@@ -408,52 +369,6 @@ class ViewActivity extends BindingClass {
             this.dataStore.set('updatedActivity', updatedActivity);
             location.reload();
         }
-    }
-
-
-    redirectToCreateComment() {
-        const activity = this.dataStore.get('activity');
-        if (activity != null) {
-            window.location.href = `/createComment.html?activityId=${activity.activityId}`;
-        }
-    }
-
-    async redirectToEditComment(activityId, commentId) {
-        const comment = await this.client.viewComment(activityId, commentId);
-        if (comment != null) {
-             window.location.href = `/viewComment.html?activityId=${activityId}&commentId=${commentId}`;
-        }
-    }
-
-    async loginOrOut() {
-        const user = await this.client.getIdentity();
-        if (user != null) {
-            return this.client.logout;
-        } else {
-            return this.client.login;
-        }
-
-    }
-
-    createLoginButton() {
-        return this.createButton('Login', this.client.login);
-    }
-
-    createLogoutButton(currentUser) {
-        return this.createButton(`Logout: ${currentUser.name}`, this.client.logout);
-    }
-
-    createButton(text, clickHandler) {
-        const button = document.getElementById('loginButton');
-        button.href = '#';
-        button.innerText = text;
-
-        button.addEventListener('click', async () => {
-            await clickHandler();
-        });
-
-        return button;
-
     }
 
 }

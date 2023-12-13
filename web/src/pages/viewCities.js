@@ -3,33 +3,27 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import Authenticator from '../api/authenticator';
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
+import NavBar from '../components/navBar';
 
 class ViewCities extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCitiesToPage', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCitiesToPage'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCitiesToPage);
         this.header = new Header(this.dataStore);
+        this.navbar = new NavBar();
+        this.footer = new Footer();
         this.authenticator = new Authenticator();
+        this.loadingSpinner = new LoadingSpinner;
     }
 
 
     async clientLoaded() {
-        const userLoggedIn = await this.authenticator.isUserLoggedIn();
-        if (userLoggedIn) {
-            const user = await this.client.getIdentity();
-            const personalBttn = document.getElementById('personalPage');
-            personalBttn.classList.remove('subnavbtn.hidden');
-            personalBttn.classList.add('subnavbtn');
-            personalBttn.removeAttribute('hidden');
-            document.getElementById('loginButton').innerText = `Logout: ${user.name}`;
-            document.getElementById('loginButton').addEventListener('click', this.createLogoutButton(user));
-        }
-        if (!userLoggedIn) {
-            document.getElementById('loginButton').innerText = `Login`;
-            document.getElementById('loginButton').addEventListener('click', this.createLoginButton());
-        }
+        this.loadingSpinner.showLoadingSpinner("Finding Fun Places...");
+
         const cityList = await this.client.viewCities();
         this.dataStore.set('cityList', cityList);
         
@@ -38,6 +32,8 @@ class ViewCities extends BindingClass {
 
     mount() {
         this.header.addHeaderToPage();
+        this.navbar.addNavBarToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         this.clientLoaded();
 
@@ -60,7 +56,7 @@ class ViewCities extends BindingClass {
 
             citiesContainer.appendChild(cityDiv);
         })
-      
+        this.loadingSpinner.hideLoadingSpinner();
     }
 
     redirectToViewCity(city) {
@@ -68,38 +64,6 @@ class ViewCities extends BindingClass {
             window.location.href = `/viewCity.html?cityId=${city.cityId}`;
         }
     }
-
-    async loginOrOut() {
-        const user = await this.client.getIdentity();
-        if (user != null) {
-            return this.client.logout;
-        } else {
-            return this.client.login;
-        }
-
-    }
-
-    createLoginButton() {
-        return this.createButton('Login', this.client.login);
-    }
-
-    createLogoutButton(currentUser) {
-        return this.createButton(`Logout: ${currentUser.name}`, this.client.logout);
-    }
-
-    createButton(text, clickHandler) {
-        const button = document.getElementById('loginButton');
-        button.href = '#';
-        button.innerText = text;
-
-        button.addEventListener('click', async () => {
-            await clickHandler();
-        });
-
-        return button;
-
-    }
-
 
 }
 

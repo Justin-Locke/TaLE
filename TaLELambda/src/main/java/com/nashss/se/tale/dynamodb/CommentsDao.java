@@ -68,7 +68,7 @@ public class CommentsDao {
         if (comment == null) {
             metricsPublisher.addCount(MetricsConstants.COMMENT_NULL_COUNT, 1);
         } else {
-            metricsPublisher.addCount(MetricsConstants.CITY_NULL_COUNT, 0);
+            metricsPublisher.addCount(MetricsConstants.COMMENT_NULL_COUNT, 0);
         }
         return comment;
     }

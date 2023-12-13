@@ -34,7 +34,7 @@ public class GetActivity {
         String activityId = getActivityRequest.getActivityId();
 
         Activity activity = activitiesDao.getActivityById(activityId);
-
+        log.info("Retrieved Activity ={}", activity);
 
         ActivityModel activityModel = new ModelConverter().toActivityModel(activity);
 

@@ -33,7 +33,7 @@ public class GetCity {
     public GetCityResult handleRequest(final GetCityRequest getCityRequest) {
         log.info("Received GetCityRequest = {}.", getCityRequest);
         City city = citiesDao.getCityById(getCityRequest.getCityId());
-
+        log.info("City Retrieved ={}", city);
         CityModel cityModel = new ModelConverter().toCityModel(city);
 
         return GetCityResult.builder()

@@ -19,7 +19,7 @@ public class EditActivityRequest {
      * @param updatedDescription updated String.
      * @param updatedPosterExperience updated String.
      */
-    public EditActivityRequest(String activityId, String userId,
+    private EditActivityRequest(String activityId, String userId,
                                String updatedActivityName, String updatedDescription,
                                String updatedPosterExperience) {
         this.activityId = activityId;

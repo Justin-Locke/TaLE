@@ -1,9 +1,11 @@
 package com.nashss.se.tale.dynamodb;
 
+import com.amazonaws.services.cloudwatch.model.StandardUnit;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
 import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import com.nashss.se.tale.dynamodb.models.Activity;
+import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -80,7 +82,19 @@ public class ActivitiesDaoTest {
         //When
         when(mapper.load(any(), anyString())).thenReturn(ACTIVITY_1);
         Activity result = activitiesDao.getActivityById("1234");
-         assertEquals(ACTIVITY_1, result);
+        assertEquals(ACTIVITY_1, result);
+        verify(metricsPublisher, times(1)).addCount(MetricsConstants.ACTIVITY_NULL_COUNT, 0);
+    }
+
+    @Test
+    void getActivityById_nullActivityReturned_addsMetricCountAndReturnsNullActivity() {
+        //Given
+        //When
+        when(mapper.load(any(), anyString())).thenReturn(null);
+        Activity result = activitiesDao.getActivityById("04f");
+        //Then
+        assertEquals(null, result);
+        verify(metricsPublisher, times(1)).addCount(MetricsConstants.ACTIVITY_NULL_COUNT, 1);
     }
 
     @Test
@@ -93,6 +107,7 @@ public class ActivitiesDaoTest {
         //Then
         assertNotNull(results);
         assertEquals(paginatedQueryList, results);
+        verify(metricsPublisher, times(1)).addMetric(anyString(), anyDouble(), any());
     }
 
     @Test

@@ -7,7 +7,7 @@ public class GetActivityRequest {
      * Constructor for GetActivityRequest.
      * @param activityId to create Request.
      */
-    public GetActivityRequest(String activityId) {
+    private GetActivityRequest(String activityId) {
         this.activityId = activityId;
     }
 

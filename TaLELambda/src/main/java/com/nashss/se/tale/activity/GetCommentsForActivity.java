@@ -32,8 +32,9 @@ public class GetCommentsForActivity {
      * @return a GetCommentsForActivityResult from a list of Comment Models.
      */
     public GetCommentsForActivityResult handleRequest(final GetCommentsForActivityRequest request) {
+        log.info("GetCommentsForActivity Request ={}", request);
         List<Comment> commentList = commentsDao.getCommentsByActivityId(request.getActivityId());
-
+        log.info("List of comments retrieved ={}", commentList);
         List<CommentModel> commentModelList =
                 commentList.stream()
                 .map(comment -> new ModelConverter().toCommentModel(comment))

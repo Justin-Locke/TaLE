@@ -3,35 +3,27 @@ import Header from '../components/header';
 import BindingClass from "../util/bindingClass";
 import DataStore from "../util/DataStore";
 import Authenticator from '../api/authenticator';
+import LoadingSpinner from '../components/loadingSpinner';
+import Footer from '../components/footer';
+import NavBar from '../components/navBar';
 
 class ViewCity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'submitNewActivity', 'redirectToCreateNewActivity', 'addActivitiesToPage', 'loginOrOut'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'submitNewActivity', 'redirectToCreateNewActivity', 'addActivitiesToPage'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCityToPage);
         this.dataStore.addChangeListener(this.addActivitiesToPage);
-        this.authenticator = new Authenticator();;
+        this.authenticator = new Authenticator();
+        this.loadingSpinner = new LoadingSpinner();
 
+        this.footer = new Footer();
         this.header = new Header(this.dataStore);
+        this.navbar = new NavBar();
     }
 
     async clientLoaded() {
-        const userLoggedIn = await this.authenticator.isUserLoggedIn();
-        if (userLoggedIn) {
-            const user = await this.client.getIdentity();
-            const personalBttn = document.getElementById('personalPage');
-            personalBttn.classList.remove('subnavbtn.hidden');
-            personalBttn.classList.add('subnavbtn');
-            personalBttn.removeAttribute('hidden');
-            document.getElementById('loginButton').innerText = `Logout: ${user.name}`;
-            document.getElementById('loginButton').addEventListener('click', this.createLogoutButton(user));
-            document.getElementById('createNewActivityButton').removeAttribute("hidden");
-        }
-        if (!userLoggedIn) {
-            document.getElementById('loginButton').innerText = `Login`;
-            document.getElementById('loginButton').addEventListener('click', this.createLoginButton());
-        }
+        
         const urlParams = new URLSearchParams(window.location.search);
         const cityId = urlParams.get('cityId');
         this.dataStore.set('cityId', cityId);
@@ -73,24 +65,14 @@ class ViewCity extends BindingClass {
                 document.getElementById("postNewActivityButton").click();
             }
         })
-        
-        // const navbar = document.getElementById("navbar");
-        // const sticky = navbar.offsetTop;
-
-        // window.onscroll = function() {
-
-        //     if (window.scrollY >= sticky) {
-        //         navbar.classList.add('sticky');
-        //       } else {
-        //         navbar.classList.remove('sticky');
-        //       }
-        // }
 
     }
     
 
     mount() {
         this.header.addHeaderToPage();
+        this.navbar.addNavBarToPage();
+        this.footer.addFooterToPage();
         this.client = new TaLEClient();
         
         this.clientLoaded();
@@ -99,6 +81,7 @@ class ViewCity extends BindingClass {
     }
 
     async submitNewActivity(evt) {
+        this.loadingSpinner.showLoadingSpinner();
         const cityId = this.dataStore.get('cityId');
         evt.preventDefault();
 
@@ -118,15 +101,15 @@ class ViewCity extends BindingClass {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
+            this.loadingSpinner.hideLoadingSpinner();
 
         });
-        if (activity != null) {
-            this.redirectToViewActivity(activity);
-        }
-
+        this.dataStore.set('activity', activity);
+        this.redirectToViewActivity(activity);
     }
 
     addCityToPage() {
+        this.loadingSpinner.showLoadingSpinner("Getting Information...");
         const city = this.dataStore.get('city');
         if (city == null) {
             return;
@@ -163,7 +146,7 @@ class ViewCity extends BindingClass {
             activityDiv.appendChild(line);
             activitiesContainer.appendChild(activityDiv);
         })
-        
+        this.loadingSpinner.hideLoadingSpinner();
     }
 
     redirectToViewActivity(activity) {
@@ -181,52 +164,7 @@ class ViewCity extends BindingClass {
         }
     }
 
-    async loginOrOut() {
-        const user = await this.client.getIdentity();
-        if (user != null) {
-            return this.client.logout;
-        } else {
-            return this.client.login;
-        }
-
-    }
-
-    createLoginButton() {
-        return this.createButton('Login', this.client.login);
-    }
-
-    createLogoutButton(currentUser) {
-        return this.createButton(`Logout: ${currentUser.name}`, this.client.logout);
-    }
-
-    createButton(text, clickHandler) {
-        
-        const button = document.getElementById('loginButton');
-        button.href = '#';
-        button.innerText = text;
-
-        button.addEventListener('click', async () => {
-            if ('caches' in window) {
-                caches.open("my-cache").then(async (cache) => {
-                    cache
-                    .add(window.location.href)
-                    .then(() => console.log("Data added to cache."))
-                    .catch((error) => console.error("Error adding data to cache:", error));
-                })
-                caches.open("my-cache").then(async (cache) => {
-                    const cachedData = await cache.match(window.location.href);
-                    console.log(cachedData.url + "IS THE CACHED DATA");
-                })
-            } else {
-                console.log("Caches not supported");
-            }
-            
-            await clickHandler();
-        });
-
-        return button;
-
-    }
+    
 }
 
     const main = async () => {

@@ -11,7 +11,7 @@ public class DeleteCommentRequest {
      * @param userId Verify User.
      * @param activityId for Hash Key.
      */
-    public DeleteCommentRequest(String commentId, String userId, String activityId) {
+    private DeleteCommentRequest(String commentId, String userId, String activityId) {
         this.commentId = commentId;
         this.userId = userId;
         this.activityId = activityId;

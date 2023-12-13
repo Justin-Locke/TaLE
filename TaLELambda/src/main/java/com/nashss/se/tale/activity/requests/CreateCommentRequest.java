@@ -16,7 +16,7 @@ public class CreateCommentRequest {
      * @param message for new Comment.
      * @param userId to associate comment with User.
      */
-    public CreateCommentRequest(String activityId, String title, String message, String userId) {
+    private CreateCommentRequest(String activityId, String title, String message, String userId) {
         this.activityId = activityId;
         this.title = title;
         this.message = message;

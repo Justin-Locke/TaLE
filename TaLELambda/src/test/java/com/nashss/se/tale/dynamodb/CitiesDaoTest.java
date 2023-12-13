@@ -2,6 +2,7 @@ package com.nashss.se.tale.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
 import com.nashss.se.tale.dynamodb.models.City;
+import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,6 +69,19 @@ public class CitiesDaoTest {
         System.out.println(city);
         assertEquals(city, result);
         verify(mapper, times(1)).load(any(), anyString());
+        verify(metricsPublisher, times(1)).addCount(MetricsConstants.CITY_NULL_COUNT, 0);
+    }
+
+    @Test
+    void getCityById_withInvalidId_returnsNull() {
+        //Given
+        String cityId = "e2e";
+        //When
+        when(mapper.load(City.class, cityId)).thenReturn(null);
+        City result = citiesDao.getCityById(cityId);
+        //Then
+        assertEquals(null, result);
+        verify(metricsPublisher, times(1)).addCount(MetricsConstants.CITY_NULL_COUNT, 1);
     }
 
     @Test
@@ -81,6 +95,6 @@ public class CitiesDaoTest {
         assertNotNull(results);
         assertEquals(paginatedScanList, results);
         verify(mapper, times(1)).scan(eq(City.class), scanCaptor.capture());
-
+        verify(metricsPublisher, times(1)).addMetric(anyString(), anyDouble(), any());
     }
 }

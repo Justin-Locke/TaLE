@@ -33,12 +33,14 @@ public class GetPersonalActivities {
      * @return List of Activities from USER.
      */
     public GetPersonalActivitiesResult handleRequest(final GetPersonalActivitiesRequest request) {
+        log.info("GetPersonalActivities Request ={}", request);
         List<Activity> activityList = activitiesDao.getAllPersonalActivities(request.getUserId());
-
+        log.info("Personal Activity List ={}", activityList);
         List<ActivityModel> activityModelList = new ArrayList<>();
 
         for (Activity activity : activityList) {
             if (activity == null) {
+                log.warn("Null Activity Found");
                 continue;
             }
             ActivityModel activityModel = new ModelConverter().toActivityModel(activity);

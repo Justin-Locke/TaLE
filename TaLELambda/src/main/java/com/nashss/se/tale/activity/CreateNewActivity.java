@@ -40,10 +40,12 @@ public class CreateNewActivity {
      */
     public CreateNewActivityResult handleRequest(final CreateNewActivityRequest request) {
         if (request.getActivityName().isEmpty()) {
+            log.warn("Request Activity Name is Empty");
             throw new EmptyFieldInRequestException("Your activity must contain a name");
         }
 
         if (request.getDescription().isEmpty() && request.getPosterExperience().isEmpty()) {
+            log.warn("Request Description and Request Poster Experience are Empty");
             throw new EmptyFieldInRequestException("You must fill out at least ONE" +
                     " of these fields. Description/Experience");
         }
@@ -58,10 +60,12 @@ public class CreateNewActivity {
         newActivity.setPosterExperience(request.getPosterExperience());
 
         activitiesDao.saveActivity(newActivity);
+        log.info("Saved Activity");
 
         City cityToUpdate = citiesDao.getCityById(request.getCityId());
         cityToUpdate.getActivityList().add(newActivity.getActivityId());
         citiesDao.saveCity(cityToUpdate);
+        log.info("Added Activity Id to City {}", cityToUpdate);
 
         ActivityModel activityModel = new ModelConverter().toActivityModel(newActivity);
         return CreateNewActivityResult.builder()

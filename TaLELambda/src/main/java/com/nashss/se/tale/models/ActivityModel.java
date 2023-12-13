@@ -22,7 +22,7 @@ public class ActivityModel {
      * @param edited from activity.
      * @param posterExperience from activity.
      */
-    public ActivityModel(String activityId, String userId,
+    private ActivityModel(String activityId, String userId,
                          String activityName, String description,
                          LocalDate datePosted, Boolean edited,
                          String posterExperience) {

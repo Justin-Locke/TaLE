@@ -35,8 +35,7 @@ public class GetAllCities {
     public GetAllCitiesResult handleRequest(final GetAllCitiesRequest getAllCitiesRequest) {
         log.info("Received GetAllCitiesRequest = {}.", getAllCitiesRequest);
         List<City> cities = citiesDao.getAllCities();
-        System.out.println("List of cities = " + cities);
-
+        log.info("List of Cities ={}", cities);
         List<CityModel> cityModelList = new ArrayList<>();
 
         for (City city : cities) {

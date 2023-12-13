@@ -9,7 +9,7 @@ public class DeleteActivityRequest {
      * @param activityId to find the activity to delete.
      * @param userId to verify user.
      */
-    public DeleteActivityRequest(String activityId, String userId) {
+    private DeleteActivityRequest(String activityId, String userId) {
         this.activityId = activityId;
         this.userId = userId;
     }

@@ -4,7 +4,7 @@ public class GetAllCitiesRequest {
     /**
      * Constructor for GetAllCitiesRequest.
      */
-    public GetAllCitiesRequest() {
+    private GetAllCitiesRequest() {
 
     }
 
