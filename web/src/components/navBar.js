@@ -16,6 +16,10 @@ export default class NavBar {
             personalBttn.classList.remove('subnavbtn.hidden');
             personalBttn.classList.add('subnavbtn');
             personalBttn.removeAttribute('hidden');
+            const myActivitiesButton = document.getElementById('my-activities-button');
+            const myCommentsButton = document.getElementById("my-comments-button");
+            myActivitiesButton.classList.add('my-activities-button');
+            myCommentsButton.classList.add('my-comments-button');
             const logoutButton = document.getElementById('loginButton');
             logoutButton.innerText = `Logout: ${user.name}`;
             logoutButton.addEventListener('click', this.createLogoutButton(user));

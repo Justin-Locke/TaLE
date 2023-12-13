@@ -351,6 +351,14 @@ ul {
     overflow: scroll;
 }
 
+.intro-card {
+    text-align: center;
+    padding-left: 20%;
+    padding-right: 20%;
+    margin: auto;
+    display: flex;
+}
+
 .comment-card {
     max-height: 500px;
     overflow-y: auto;
@@ -611,7 +619,6 @@ a {
 }
 
 .newCommentButton {
-    
     background-color: slategrey;
     border: none;
     border-radius: 15px;
@@ -619,7 +626,7 @@ a {
     color: var(--secondary-color);
     padding: 6px 8px 4px 8px;
     text-align: center;
-    font-weight: bold;
+    font-weight: none;
     text-decoration: none;
     cursor: pointer;
 
@@ -638,6 +645,33 @@ a {
     text-decoration: none;
     cursor: pointer;
 }
+
+.my-activities-button {
+    background-color: var(--lightcolor-4);
+    border: none;
+    border-radius: 15px;
+    border-width: 25px;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    font-weight: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.my-comments-button {
+    background-color: var(--lightcolor-4);
+    border: none;
+    border-radius: 15px;
+    border-width: 25px;
+    color: var(--secondary-color);
+    padding: 6px 8px 4px 8px;
+    text-align: center;
+    font-weight: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 
 h3 {
     font-size: 20px;
@@ -705,6 +739,8 @@ p {
     background-color: inherit;
     font-family: inherit;
     margin: 0;
+    border-radius: 15px;
+    border-width: 25px;
 }
 
 .subnav .subnavbtn2 {
@@ -793,8 +829,6 @@ p {
     border-style: inset;
     border-width: 4px;
     border-color: black;
-    max-height: 600px;
-    max-width: 1000px;
 }
 
 /* Next & previous buttons */
@@ -904,6 +938,8 @@ instead of horizontally on screens less than 500 pixels */
         float: none;
         display: block;
         width: 100%;
+        border-radius: 15px;
+        border-width: 25px;
     }
 
     .subnavbtn2 {

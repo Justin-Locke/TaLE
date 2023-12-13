@@ -18,8 +18,8 @@
     <div class="subnav">
         <button class="subnavbtn.hidden" id="personalPage" hidden="hidden"><i class="fa fa-fw fa-caret-down"></i> My Stuff</button>
         <div class="subnav-content">
-            <a href="personalActivities.html">My Activities</a>
-            <a href="personalComments.html">My Comments</a>
+          <a id="my-activities-button" href="personalActivities.html">My Activities</a>
+          <a id="my-comments-button" href="personalComments.html">My Comments</a>
         </div>
     </div>
     <a id="loginButton" class="split"><i class="fa fa-fw fa-user"></i></a>
@@ -29,8 +29,21 @@
   <div id="loading-message" class="fast-appear"></div>
   <div id="loading-message-sub" class="slow-appear"></div>
 </div>
+<div class="intro-card">
+
+    <p>
+      "Welcome to TaLE – your gateway to vibrant local experiences!
+      Discover the heartbeat of cities through shared activities. 
+      Post your favorite moments, share the joy, and connect with a community passionate about exploring the best each city has to offer.
+      Dive into a world of shared adventures and engage with fellow enthusiasts. Ready to unlock the essence of your city?
+      Let TaLE be your guide – here's how to embark on a journey of unforgettable local discovery."
+    </p>
+</div>
+
 <!-- Slideshow container -->
 <div class="slideshow-container">
+
+  
 
     <!-- Full-width images with number and caption text -->
     <div class="mySlides fade">
@@ -39,7 +52,7 @@
       <div class="text"></div>
     </div>
   
-    <div class="mySlides fade">
+    <!-- <div class="mySlides fade">
       <div class="numbertext"></div>
       <img src="photos/pexels-cesar-g-15267002.jpg" style="width:100%;">
       <div class="text"></div>
@@ -49,20 +62,20 @@
       <div class="numbertext"></div>
       <img src="photos/pexels-ushindi-namegabe-10111511.jpg" style="width:100%;">
       <div class="text"></div>
-    </div>
+    </div> -->
   
     <!-- Next and previous buttons -->
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <!-- <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
   </div>
-  <br>
+  <br> -->
   
   <!-- The dots/circles -->
-  <div style="text-align:center">
+  <!-- <div style="text-align:center">
     <span class="dot" onclick="currentSlide(1)"></span>
     <span class="dot" onclick="currentSlide(2)"></span>
     <span class="dot" onclick="currentSlide(3)"></span>
-  </div>
+  </div> -->
   <footer id="footer"> </footer>
   <p class="copyright">Copyright &#169TaLE 2023</p>
 
