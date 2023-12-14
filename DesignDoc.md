@@ -75,8 +75,7 @@ String description
 String website
 String Location
 LocalDate postedDate
-
-List<Comments> comments
+Boolean edited
 
 ```
 
@@ -85,7 +84,7 @@ List<Comments> comments
 
 String cityId
 String cityName
-List<ActivityId> String
+List<String> activityIdList
 
 ```
 
@@ -93,11 +92,12 @@ List<ActivityId> String
 // CommentModel
 
 String activityId
-String userId
 String commentId
+String userId
 String title
 String message
 LocalDate datePosted
+Boolean edited
 
 ```
 
@@ -112,7 +112,7 @@ List<CityIds>
 
 ### 6.2 Endpoints
 
-#### 6.2.0 Create Activity Endpoint
+#### 6.2.0 Create New Activity Endpoint
 - Accepts ```POST``` requests to ```
   /cities/{cityId}/activities```
 - UserId from Cognito.
@@ -139,7 +139,7 @@ List<CityIds>
 - Accepts data to update an Activity including an updated Overview, WebsiteAddress, etc... returns the updated Activity.
 - Throws ```UnauthorizedUserException``` if attempted to be updated by an unauthorized User.
 
-#### 6.2.5 Add Comment Endpoint
+#### 6.2.5 Create Comment Endpoint
 - Accepts ```POST``` request to ```/activities/{activityId}/comments```
 - Takes ```UserId``` from cognito
 - Accepts data to add a comment on an Activity. Returns the Comment.
@@ -166,9 +166,21 @@ List<CityIds>
 - Deletes associated comment with commentID
 
 ### 6.2.10 Get All Activities For City Endpoint
--Accepts ```GET``` request to ```/cities/{cityId}```
+-Accepts ```GET``` request to ```/cities/{cityId}/activities```
 - Accepts the cityId and returns all Associated Activity Names with City.
 - Throw ```InvalidActivityIdException``` if the called activity Id does not exist.
+
+### 6.2.11 Get Single City Endpoint
+- Accepts ```GET``` request to ```/cities/{cityId}```
+- Accepts the cityId and returns the specific city
+
+### 6.2.12 Get All Cities Endpoint
+- Accepts ```GET``` request to ```/cities```
+- returns every city in the cities Table from cities dao
+
+### 6.2.13 Get Comments For Activity Endpoint
+- Accepts ```Get``` request to ```/activities/{activityId}/comments```
+- returns a list of comments that are associated with this activityId
 
 ## 7.  Tables
 
