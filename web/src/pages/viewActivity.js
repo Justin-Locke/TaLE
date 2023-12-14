@@ -61,6 +61,7 @@ class ViewActivity extends BindingClass {
             editActivityModal.style.display = "none";
         }
 
+
         window.onclick = function(event) {
             if (event.target == commentModal) {
                 commentModal.style.display = "none";

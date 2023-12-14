@@ -54,7 +54,24 @@ ul {
     color: #666;
 }
 
-
+.split-screen-container-left {
+    float: left;
+    display: block;
+    overflow: scroll;
+    width: 50%;
+    border: #000;
+    border-width: 5px;
+    border-style: solid;
+}
+.split-screen-container-right {
+    float: left;
+    display: block;
+    overflow: scroll;
+    width: 50%;
+    border: #000;
+    border-width: 5px;
+    border-style: solid;
+}
 
 .spinner-container {
     position: fixed;
@@ -377,7 +394,7 @@ ul {
 }
 
 .vl {
-    border-left: 6px solid var(--color-4);
+    border: 6px solid var(--color-4);
     height: 500px;
 }
 

@@ -1,4 +1,5 @@
 package com.nashss.se.tale.dynamodb;
+import com.nashss.se.tale.dynamodb.indexes.DynamoDBIndexConstants;
 import com.nashss.se.tale.dynamodb.models.Comment;
 import com.nashss.se.tale.metrics.MetricsConstants;
 import com.nashss.se.tale.metrics.MetricsPublisher;
@@ -98,7 +99,7 @@ public class CommentsDao {
         Map<String, AttributeValue> valueMap = new HashMap<>();
         valueMap.put(":userId", new AttributeValue().withS(userId));
         DynamoDBQueryExpression<Comment> queryExpression = new DynamoDBQueryExpression<Comment>()
-                .withIndexName("CommentsByUserIndex")
+                .withIndexName(DynamoDBIndexConstants.COMMENTS_BY_USER_INDEX)
                 .withConsistentRead(false)
                 .withKeyConditionExpression("userId = :userId")
                 .withExpressionAttributeValues(valueMap);

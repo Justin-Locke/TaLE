@@ -1,5 +1,6 @@
 package com.nashss.se.tale.dynamodb.models;
 import com.nashss.se.tale.converters.LocalDateConverter;
+import com.nashss.se.tale.dynamodb.indexes.DynamoDBIndexConstants;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
@@ -15,7 +16,6 @@ import java.util.Objects;
 
 @DynamoDBTable(tableName = "activities")
 public class Activity {
-    private static final String ACTIVITIES_BY_USER_INDEX = "ActivitiesByUserIndex";
     private String activityId;
     private String userId;
     private String activityName;
@@ -25,7 +25,7 @@ public class Activity {
     private String posterExperience;
 
     @DynamoDBHashKey(attributeName = "activityId")
-    @DynamoDBIndexRangeKey(globalSecondaryIndexName = ACTIVITIES_BY_USER_INDEX)
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = DynamoDBIndexConstants.ACTIVITIES_BY_USER_INDEX)
     public String getActivityId() {
         return activityId;
     }
@@ -34,7 +34,8 @@ public class Activity {
         this.activityId = activityId;
     }
 
-    @DynamoDBIndexHashKey(globalSecondaryIndexName = ACTIVITIES_BY_USER_INDEX, attributeName = "userId")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = DynamoDBIndexConstants.ACTIVITIES_BY_USER_INDEX,
+            attributeName = "userId")
     public String getUserId() {
         return userId;
     }
