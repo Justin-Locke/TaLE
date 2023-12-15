@@ -1,0 +1,260 @@
+{
+    "Items": [
+        {
+            "commentId": {
+                "S": "CM80085"
+            },
+            "userId": {
+                "S": "JL2012"
+            },
+            "edited": {
+                "N": "1"
+            },
+            "datePosted": {
+                "S": "2023-10-10"
+            },
+            "message": {
+                "S": "We had a great time here!"
+            },
+            "activityId": {
+                "S": "AT40923"
+            },
+            "title": {
+                "S": "A Blast"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CM90210"
+            },
+            "userId": {
+                "S": "SG2345"
+            },
+            "edited": {
+                "N": "0"
+            },
+            "datePosted": {
+                "S": "2023-11-10"
+            },
+            "message": {
+                "S": "We had a great time here!"
+            },
+            "activityId": {
+                "S": "AT1011"
+            },
+            "title": {
+                "S": "Great Food"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CMNlV7evNaT"
+            },
+            "userId": {
+                "S": "mirvin338+JLtest@gmail.com"
+            },
+            "datePosted": {
+                "S": "2023-12-11"
+            },
+            "edited": {
+                "BOOL": false
+            },
+            "message": {
+                "S": " A must stop for top dining in Nashville."
+            },
+            "activityId": {
+                "S": "AT1011"
+            },
+            "title": {
+                "S": "Great Atmosphere and Food!"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CMmTW2smFvT"
+            },
+            "userId": {
+                "S": "justindeanlocke+u5Test@gmail.com"
+            },
+            "datePosted": {
+                "S": "2023-12-11"
+            },
+            "edited": {
+                "BOOL": false
+            },
+            "message": {
+                "S": "Love everything from the food to the staff! If you are looking to impress... "
+            },
+            "activityId": {
+                "S": "AT1011"
+            },
+            "title": {
+                "S": "Top Class!"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CMkkxqLs3CT"
+            },
+            "userId": {
+                "S": "justindeanlocke+u5Test@gmail.com"
+            },
+            "datePosted": {
+                "S": "2023-12-11"
+            },
+            "edited": {
+                "BOOL": false
+            },
+            "message": {
+                "S": "I couldn't believe Grandma was absolutely hucking these things! We had such a GREAT TIME! "
+            },
+            "activityId": {
+                "S": "NVrCloZyQU"
+            },
+            "title": {
+                "S": "Family Fun?!"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CMtQjxcjSvT"
+            },
+            "userId": {
+                "S": "justindeanlocke+u5Test@gmail.com"
+            },
+            "datePosted": {
+                "S": "2023-12-11"
+            },
+            "edited": {
+                "BOOL": false
+            },
+            "message": {
+                "S": " I absolutely LOVE it here!"
+            },
+            "activityId": {
+                "S": "NVinPAFo12"
+            },
+            "title": {
+                "S": "TIGER BAR!"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CMRgUsyaTxT"
+            },
+            "userId": {
+                "S": "jean.soderkvist+taLe@nashvillesoftwareschool.com"
+            },
+            "datePosted": {
+                "S": "2023-12-12"
+            },
+            "edited": {
+                "BOOL": false
+            },
+            "message": {
+                "S": "What is it going to be a comment on? "
+            },
+            "activityId": {
+                "S": "NVVyqG7IQK"
+            },
+            "title": {
+                "S": "Here's my comment"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CMfnuR5RLiT"
+            },
+            "userId": {
+                "S": "jean.soderkvist+anotherTaLe@nashvillesoftwareschool.com"
+            },
+            "datePosted": {
+                "S": "2023-12-12"
+            },
+            "edited": {
+                "BOOL": false
+            },
+            "message": {
+                "S": " Tip: Ask for extra hot sauce"
+            },
+            "activityId": {
+                "S": "NVVyqG7IQK"
+            },
+            "title": {
+                "S": "They have bibimpap, too!"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CMhZp5fbqpT"
+            },
+            "userId": {
+                "S": "justindeanlocke+u5Test@gmail.com"
+            },
+            "datePosted": {
+                "S": "2023-12-12"
+            },
+            "edited": {
+                "BOOL": false
+            },
+            "message": {
+                "S": "Can't express how well put together this always is. "
+            },
+            "activityId": {
+                "S": "NVVyqG7IQK"
+            },
+            "title": {
+                "S": "Farmer Market Is The Future"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CMwcM5jCQTT"
+            },
+            "userId": {
+                "S": "justindeanlocke+u5Test@gmail.com"
+            },
+            "datePosted": {
+                "S": "2023-12-14"
+            },
+            "edited": {
+                "BOOL": true
+            },
+            "message": {
+                "S": "Nashville is truly better to have this bar!"
+            },
+            "activityId": {
+                "S": "NVzdgFwER8"
+            },
+            "title": {
+                "S": "Nashville's Best Tiki Bar"
+            }
+        },
+        {
+            "commentId": {
+                "S": "CMfAoO6wQwT"
+            },
+            "userId": {
+                "S": "justindeanlocke+u5Test@gmail.com"
+            },
+            "datePosted": {
+                "S": "2023-12-13"
+            },
+            "edited": {
+                "BOOL": false
+            },
+            "message": {
+                "S": "Super fun pool and the DJ's are always awesome! "
+            },
+            "activityId": {
+                "S": "NVbud2IbtJ"
+            },
+            "title": {
+                "S": "A Sweet Motel!"
+            }
+        }
+    ],
+    "Count": 11,
+    "ScannedCount": 11,
+    "ConsumedCapacity": null
+}
