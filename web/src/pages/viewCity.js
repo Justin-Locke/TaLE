@@ -104,8 +104,11 @@ class ViewCity extends BindingClass {
             this.loadingSpinner.hideLoadingSpinner();
 
         });
-        this.dataStore.set('activity', activity);
-        this.redirectToViewActivity(activity);
+        if (activity != null) {
+            this.dataStore.set('activity', activity);
+            this.redirectToViewActivity(activity);
+        }
+
     }
 
     addCityToPage() {
