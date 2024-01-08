@@ -52,6 +52,7 @@ ul {
     text-align: center;
     margin-top: 20px;
     color: #666;
+    font-size: smaller;
 }
 
 .split-screen-container-left {
@@ -843,7 +844,7 @@ p {
 /* Hide the images by default */
 .mySlides {
     display: none;
-    border-style: inset;
+    border-style: solid;
     border-width: 4px;
     border-color: black;
 }

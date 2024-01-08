@@ -33,7 +33,7 @@
 
     <p>
       "Welcome to TaLE – your gateway to vibrant local experiences!
-      Discover the heartbeat of cities through shared activities. 
+      Discover the heartbeat of cities through shared activities.
       Post your favorite moments, share the joy, and connect with a community passionate about exploring the best each city has to offer.
       Dive into a world of shared adventures and engage with fellow enthusiasts. Ready to unlock the essence of your city?
       Let TaLE be your guide – here's how to embark on a journey of unforgettable local discovery."
@@ -51,7 +51,8 @@
       <img src="photos/pexels-isaac-loredo-vargas-17715307.jpg" style="width:100%;">
       <div class="text"></div>
     </div>
-  
+</div>
+
     <!-- <div class="mySlides fade">
       <div class="numbertext"></div>
       <img src="photos/pexels-cesar-g-15267002.jpg" style="width:100%;">
@@ -82,29 +83,29 @@
   <script>
     let slideIndex = 1;
     showSlides(slideIndex);
-    
+
     function plusSlides(n) {
       showSlides(slideIndex += n);
     }
-    
+
     function currentSlide(n) {
       showSlides(slideIndex = n);
     }
-    
+
     function showSlides(n) {
       let i;
       let slides = document.getElementsByClassName("mySlides");
       let dots = document.getElementsByClassName("dot");
-      if (n > slides.length) {slideIndex = 1}    
+      if (n > slides.length) {slideIndex = 1}
       if (n < 1) {slideIndex = slides.length}
       for (i = 0; i < slides.length; i++) {
-        slides[i].style.display = "none";  
+        slides[i].style.display = "none";
       }
       for (i = 0; i < dots.length; i++) {
         dots[i].className = dots[i].className.replace(" active", "");
       }
-      slides[slideIndex-1].style.display = "block";  
-      dots[slideIndex-1].className += " active";
+      slides[slideIndex-1].style.display = "block";
+      dots[slideIndex-1].className += "active";
     }
 
     </script>
