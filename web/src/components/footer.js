@@ -3,6 +3,10 @@ export default class Footer {
     addFooterToPage() {
         const footerDiv = document.getElementById('footer');
         footerDiv.classList.add('footer');
+        const footerHover = document.createElement('span');
+        footerHover.classList.add('footertext');
+        footerHover.innerText="COMING SOON";
+        footerDiv.appendChild(footerHover);
         const infoColumn = this.createColumn('Information', ['About us', 'Customer Service', 'Privacy Policy', 'Sitemap']);
         footerDiv.appendChild(infoColumn);
         const accountColumn = this.createColumn('My Account', ['Sign In/Out', 'My Wishlist', 'Help']);
