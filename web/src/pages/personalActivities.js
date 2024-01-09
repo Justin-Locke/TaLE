@@ -50,7 +50,7 @@ class PersonalActivities extends BindingClass {
 
         activities.forEach(activity => {
             const activityDiv = document.createElement('div');
-            activityDiv.classList.add('activity');
+            activityDiv.classList.add('personal-comments');
 
             const activityName = document.createElement('h3');
             activityName.textContent = activity.activityName;

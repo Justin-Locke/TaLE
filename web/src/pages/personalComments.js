@@ -57,8 +57,6 @@ class PersonalComments extends BindingClass {
             commentMessage.textContent = comment.message;
             commentDiv.appendChild(commentMessage);
 
-
-
             commentsContainer.appendChild(commentDiv);
         })
 

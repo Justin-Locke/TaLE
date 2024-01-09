@@ -31,14 +31,21 @@ export default class Header extends BindingClass {
     }
 
     createSiteTitle() {
+        const logoButton = document.createElement('a');
+        const logo = document.createElement('img');
+        logo.src = '/photos/TaLE (1).png';
+        logo.width = 125;
+        logo.height = 125;
         const homeButton = document.createElement('a');
-        homeButton.classList.add('header_home');
-        homeButton.href = '/';
-        homeButton.innerText = 'TaLE \n  (Travel: a Local Experience)';
+        logoButton.classList.add('header_home');
+        logoButton.href = '/';
+//        homeButton.innerText = 'TaLE \n  (Travel: a Local Experience)';
 
         const siteTitle = document.createElement('div');
-        siteTitle.classList.add('site-title');
+        logoButton.appendChild(logo);
         siteTitle.appendChild(homeButton);
+        siteTitle.appendChild(logoButton);
+
 
         return siteTitle;
     }

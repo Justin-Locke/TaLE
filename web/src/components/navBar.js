@@ -66,8 +66,9 @@ export default class NavBar {
 
         }
         if (!userLoggedIn) {
-            logoutButton.innerText = `Login`;
-            logoutButton.addEventListener('click', this.createLoginButton());
+            const loginButton = document.getElementById('loginButton');
+            loginButton.innerText = `Login`;
+            loginButton.addEventListener('click', this.createLoginButton());
         }
 
     }
