@@ -371,7 +371,7 @@ ul {
     background-color: var(--secondary-color);
     padding: 10px 20px;
     overflow: scroll;
-    margin: 20px;
+    margin: 10px;
     transition: all ease 0.2s;
     justify-content: center;
     align-items: center;
