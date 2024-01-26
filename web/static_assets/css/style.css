@@ -371,7 +371,7 @@ ul {
     background-color: var(--secondary-color);
     padding: 10px 20px;
     overflow: scroll;
-    
+    margin: 25px;
 }
 
 .activity-card {
@@ -379,7 +379,7 @@ ul {
     padding: 1%;
     border-radius: 20px;
     text-align: center;
-    width: 30%;
+    width: 48%;
     margin-bottom: 20px;
     cursor: pointer;
     display: inline-block;
@@ -1011,5 +1011,15 @@ instead of horizontally on screens less than 500 pixels */
         z-index: 1;
     } */
 
+    .activity-card {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .activitiesContainer {
+        color: var(--primary-color);
+        background-color: var(--secondary-color);
+        overflow: scroll;
+    }
 }
 
