@@ -389,14 +389,10 @@ ul {
     text-align: center;
     padding-left: 10%;
     padding-right: 10%;
-    margin: auto;
-    margin-bottom: 50%;
-    display: flex;
+    display: inline-flexbox;
     border: solid;
     color: #000;
     background-color: rgba(255, 255, 255, 0.5);
-    
-    
 }
 
 .comment-card {
@@ -859,10 +855,7 @@ p {
 .slideshow-container {
     max-width: 1000px;
     position: relative;
-    margin: auto;
-    
-
-    
+    margin: auto;    
 }
 
 /* Hide the images by default */
@@ -870,6 +863,7 @@ p {
     border-style: solid;
     border-width: 4px;
     border-color: black;
+    
 }
 
 /* Next & previous buttons */

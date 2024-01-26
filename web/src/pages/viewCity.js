@@ -6,6 +6,7 @@ import Authenticator from '../api/authenticator';
 import LoadingSpinner from '../components/loadingSpinner';
 import Footer from '../components/footer';
 import NavBar from '../components/navBar';
+import ActivityCard from '../components/activityCard';
 
 class ViewCity extends BindingClass {
     constructor() {
@@ -20,6 +21,7 @@ class ViewCity extends BindingClass {
         this.footer = new Footer();
         this.header = new Header(this.dataStore);
         this.navbar = new NavBar();
+        this.activityCard = new ActivityCard();
     }
 
     async clientLoaded() {
@@ -132,31 +134,18 @@ class ViewCity extends BindingClass {
         }
 
         activityList.forEach(activity => {
-            const activityDiv = document.createElement('div');
-            activityDiv.classList.add('personal-comments');
-
-            const activityName = document.createElement('h3');
-            if (activity.activityName == null) {
-                activityName.textContent = "*ACTIVITY NAME NOT FOUND*"
-            } else {
-                activityName.textContent = activity.activityName;
-            }
-
-            activityName.addEventListener('click', () => {this.redirectToViewActivity(activity)});
-            activityDiv.appendChild(activityName);
-        
-            const line = document.createElement('hr');
-            activityDiv.appendChild(line);
-            activitiesContainer.appendChild(activityDiv);
+            const activityCard = this.activityCard.CreateActivityCard(activity);
+            activitiesContainer.appendChild(activityCard);
         })
+
         this.loadingSpinner.hideLoadingSpinner();
     }
 
-    redirectToViewActivity(activity) {
-            if (activity != null) {
-            window.location.href = `/viewActivity.html?activityId=${activity.activityId}`
-        }
-    }
+    // redirectToViewActivity(activity) {
+    //         if (activity != null) {
+    //         window.location.href = `/viewActivity.html?activityId=${activity.activityId}`
+    //     }
+    // }
 
 
 
