@@ -141,13 +141,6 @@ class ViewCity extends BindingClass {
         this.loadingSpinner.hideLoadingSpinner();
     }
 
-    // redirectToViewActivity(activity) {
-    //         if (activity != null) {
-    //         window.location.href = `/viewActivity.html?activityId=${activity.activityId}`
-    //     }
-    // }
-
-
 
      redirectToCreateNewActivity() {
         const city = this.dataStore.get('city');

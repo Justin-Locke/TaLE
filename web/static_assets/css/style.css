@@ -371,6 +371,19 @@ ul {
     background-color: var(--secondary-color);
     padding: 10px 20px;
     overflow: scroll;
+    
+}
+
+.activity-card {
+    border: 3px solid var(--color-4);
+    padding: 1%;
+    border-radius: 20px;
+    text-align: center;
+    width: 30%;
+    margin-bottom: 20px;
+    cursor: pointer;
+    display: inline-block;
+    
 }
 
 
@@ -650,8 +663,6 @@ a {
     width: 50%;
     margin: auto;
     cursor: pointer;
-    
-    
 }
 
 .newCommentButton {

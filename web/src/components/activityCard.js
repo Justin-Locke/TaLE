@@ -2,7 +2,7 @@ export default class ActivityCard {
     // Create Activity Card
     CreateActivityCard(activity) {
         const activityDiv = document.createElement('div');
-            activityDiv.classList.add('personal-comments');
+            activityDiv.classList.add('activity-card');
 
             const activityName = document.createElement('h3');
             if (activity.activityName == null) {
