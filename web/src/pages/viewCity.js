@@ -6,11 +6,13 @@ import Authenticator from '../api/authenticator';
 import LoadingSpinner from '../components/loadingSpinner';
 import Footer from '../components/footer';
 import NavBar from '../components/navBar';
+import ActivityCard from '../components/activityCard';
+import ActivityModal from '../components/activityModal';
 
 class ViewCity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'submitNewActivity', 'redirectToCreateNewActivity', 'addActivitiesToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'submitNewActivity', 'redirectToViewActivity', 'addActivitiesToPage'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCityToPage);
         this.dataStore.addChangeListener(this.addActivitiesToPage);
@@ -20,6 +22,8 @@ class ViewCity extends BindingClass {
         this.footer = new Footer();
         this.header = new Header(this.dataStore);
         this.navbar = new NavBar();
+        this.activityCard = new ActivityCard();
+        this.activityModal = new ActivityModal();
     }
 
     async clientLoaded() {
@@ -35,37 +39,8 @@ class ViewCity extends BindingClass {
         this.dataStore.set('allActivities', allActivities);
 
         const newActivityButton = document.getElementById('createNewActivityButton');
-        const activityModal = document.getElementById('activityModal');
-        activityModal.classList.add('activityModal');
-        const span = document.getElementsByClassName("close")[0];
-        newActivityButton.onclick = function() {
-            activityModal.style.display = "block";
-        }
-        span.onclick = function() {
-            activityModal.style.display = "none";
-            document.getElementById('activityName').value = '';
-            document.getElementById('description').value = '';
-            document.getElementById('posterExperience').value = '';
-            const errorMessageDisplay = document.getElementById('error-message');
-            errorMessageDisplay.innerText = '';
-            errorMessageDisplay.classList.add('hidden');
-            
-        }
-        window.onclick = function(event) {
-            if (event.target == activityModal) {
-                
-            activityModal.style.display = "none";
-            const errorMessageDisplay = document.getElementById('error-message');
-            errorMessageDisplay.innerText = '';
-            errorMessageDisplay.classList.add('hidden');
-            }
-        } 
-        document.getElementById('posterExperience').addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                document.getElementById("postNewActivityButton").click();
-            }
-        })
-
+        newActivityButton.onclick = () => this.activityModal.show();
+    
     }
     
 
@@ -93,9 +68,9 @@ class ViewCity extends BindingClass {
         const origButtonText = createButton.innerText;
         createButton.innerText = 'Creating..';
 
-        const activityName = document.getElementById('activityName').value;
-        const description = document.getElementById('description').value;
-        const posterExperience = document.getElementById('posterExperience').value;
+        const activityName = document.getElementById('activityName').value.trim();
+        const description = document.getElementById('description').value.trim();
+        const posterExperience = document.getElementById('posterExperience').value.trim();
 
         const activity = await this.client.createNewActivity(cityId, activityName, description, posterExperience, (error) => {
             createButton.innerText = origButtonText;
@@ -107,6 +82,9 @@ class ViewCity extends BindingClass {
         if (activity != null) {
             this.dataStore.set('activity', activity);
             this.redirectToViewActivity(activity);
+
+            // Close modal after a successful activity creation
+            this.activityModal.hide();
         }
 
     }
@@ -132,38 +110,16 @@ class ViewCity extends BindingClass {
         }
 
         activityList.forEach(activity => {
-            const activityDiv = document.createElement('div');
-            activityDiv.classList.add('personal-comments');
-
-            const activityName = document.createElement('h3');
-            if (activity.activityName == null) {
-                activityName.textContent = "*ACTIVITY NAME NOT FOUND*"
-            } else {
-                activityName.textContent = activity.activityName;
-            }
-
-            activityName.addEventListener('click', () => {this.redirectToViewActivity(activity)});
-            activityDiv.appendChild(activityName);
-        
-            const line = document.createElement('hr');
-            activityDiv.appendChild(line);
-            activitiesContainer.appendChild(activityDiv);
+            const activityCard = this.activityCard.CreateActivityCard(activity);
+            activitiesContainer.appendChild(activityCard);
         })
+
         this.loadingSpinner.hideLoadingSpinner();
     }
 
     redirectToViewActivity(activity) {
-            if (activity != null) {
+        if (activity != null) {
             window.location.href = `/viewActivity.html?activityId=${activity.activityId}`
-        }
-    }
-
-
-
-     redirectToCreateNewActivity() {
-        const city = this.dataStore.get('city');
-        if (city != null) {
-            window.location.href = `/createNewActivity.html?cityId=${city.cityId}`;
         }
     }
 

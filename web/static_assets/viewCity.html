@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <script type="text/javascript" src="assets/viewCity.js"></script>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/activities.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="icon" type="image/x-icon" href="photos/TaLE (1).ico">
     <title>City</title>
@@ -35,9 +36,7 @@
     </div>
     
     <div id="Modal-Container">
-    <div class="activitiesContainer" id="activitiesContainer">
         <div id="activityModal" class="modal">
-
             <div class="activity-modal-content">
                 <span class="close">&times;</span>
                 <h2 style="text-align: center;">Creating a New Activity</h2>
@@ -49,7 +48,6 @@
                         <input type="text" placeholder="Fun Thing In Nashville" autofocus
                         name="activityName" id="activityName" required>
                         </div>
-
                     </p>
                         <div>
                         <label for="description"><b>Description</b></label>
@@ -69,7 +67,11 @@
             </div>
         </div>
     </div>
+    
+    <div class="activitiesContainer" id="activitiesContainer"></div>
+    
     <div id="loader"></div>
+    
     <footer id="footer"> </footer>
   <p class="copyright">&#169TaLE 2023</p>
 </body>

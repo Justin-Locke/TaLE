@@ -39,25 +39,30 @@ public class CreateNewActivity {
      * @return created Activity.
      */
     public CreateNewActivityResult handleRequest(final CreateNewActivityRequest request) {
-        if (request.getActivityName().isEmpty()) {
+        String activityName = request.getActivityName();
+        String activityDescription = request.getDescription();
+        String activityPosterExperience = request.getPosterExperience();
+
+        if (activityName.isEmpty()) {
             log.warn("Request Activity Name is Empty");
             throw new EmptyFieldInRequestException("Your activity must contain a name");
         }
 
-        if (request.getDescription().isEmpty() && request.getPosterExperience().isEmpty()) {
+        if (activityDescription.isEmpty() && activityPosterExperience.isEmpty()) {
             log.warn("Request Description and Request Poster Experience are Empty");
             throw new EmptyFieldInRequestException("You must fill out at least ONE" +
                     " of these fields. Description/Experience");
         }
 
+
         Activity newActivity = new Activity();
         newActivity.setActivityId(IdUtils.generateActivityId());
         newActivity.setUserId(request.getUserId());
-        newActivity.setActivityName(request.getActivityName());
-        newActivity.setDescription(request.getDescription());
+        newActivity.setActivityName(activityName);
+        newActivity.setDescription(activityDescription);
         newActivity.setDatePosted(LocalDate.now());
         newActivity.setEdited(false);
-        newActivity.setPosterExperience(request.getPosterExperience());
+        newActivity.setPosterExperience(activityPosterExperience);
 
         activitiesDao.saveActivity(newActivity);
         log.info("Saved Activity");

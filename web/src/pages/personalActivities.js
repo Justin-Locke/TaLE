@@ -6,6 +6,7 @@ import DataStore from "../util/DataStore";
 import LoadingSpinner from '../components/loadingSpinner';
 import Footer from '../components/footer';
 import NavBar from '../components/navBar';
+import ActivityCard from '../components/activityCard';
 
 class PersonalActivities extends BindingClass {
     constructor() {
@@ -15,6 +16,7 @@ class PersonalActivities extends BindingClass {
         this.header = new Header(this.dataStore);
         this.navbar = new NavBar();
         this.footer = new Footer();
+        this.activityCard = new ActivityCard();
         this.loadingSpinner = new LoadingSpinner();
         this.authenticator = new Authenticator();
         this.dataStore.addChangeListener(this.addActivitiesToPage);
@@ -22,7 +24,7 @@ class PersonalActivities extends BindingClass {
     }
 
     async clientLoaded() {
-        this.loadingSpinner.showLoadingSpinner();
+        this.loadingSpinner.showLoadingSpinner("Loading Your Personal Activities...");
 
         const activities = await this.client.viewPersonalActivities();
         this.dataStore.set('activities', activities);        
@@ -49,24 +51,8 @@ class PersonalActivities extends BindingClass {
         const activitiesContainer = document.getElementById('activitiesContainer');
 
         activities.forEach(activity => {
-            const activityDiv = document.createElement('div');
-            activityDiv.classList.add('personal-comments');
-
-            const activityName = document.createElement('h3');
-            activityName.textContent = activity.activityName;
-            activityName.addEventListener('click', () => this.redirectToViewActivity(activity.activityId));
-            activityDiv.appendChild(activityName);
-
-            const line = document.createElement('hr');
-            activityDiv.appendChild(line);
-
-            const activityPostDate = document.createElement('p');
-            activityPostDate.textContent = activity.datePosted;
-            activityDiv.appendChild(activityPostDate);
-            
-            activitiesContainer.appendChild(activityDiv);
-            
-            
+            const activityCard = this.activityCard.CreateActivityCard(activity);
+            activitiesContainer.appendChild(activityCard);
         })
 
         this.loadingSpinner.hideLoadingSpinner();

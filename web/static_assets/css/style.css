@@ -150,7 +150,7 @@ ul {
   
   .slow-appear {
     opacity: 0;
-    animation: slowAppear 5s ease-in-out forwards;
+    animation: slowAppear 8s ease-in-out forwards;
   }
   
   @keyframes fastAppear {
@@ -345,16 +345,6 @@ ul {
     text-decoration: none;
     color: var(--secondary-color);
 }
-.activity {
-    text-align: center;
-    cursor: pointer;
-    color: var(--primary-color);
-    text-shadow: #000;
-    margin: 0 auto;
-    width: 50%;
-    height: 50%;
-    
-}
 
 .cities {
     text-align: center;
@@ -364,18 +354,6 @@ ul {
     margin: 0 auto;
     width: 50%;
     height: 50%;
-}
-
-.activitiesContainer {
-    color: var(--primary-color);
-    background-color: var(--secondary-color);
-    padding: 10px 20px;
-    overflow: scroll;
-}
-
-
-.activity:hover, .cities:hover {
-    color: lightblue;
 }
 
 .card {
@@ -389,14 +367,10 @@ ul {
     text-align: center;
     padding-left: 10%;
     padding-right: 10%;
-    margin: auto;
-    margin-bottom: 50%;
-    display: flex;
+    display: inline-flexbox;
     border: solid;
     color: #000;
     background-color: rgba(255, 255, 255, 0.5);
-    
-    
 }
 
 .comment-card {
@@ -488,10 +462,6 @@ textarea:focus {
     width: 400px;
 }
 
-.comment-div {
-
-}
-
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -557,10 +527,6 @@ textarea:focus {
 .modal-body {
     text-align: center;
     justify-self: center;
-}
-
-.modal-footer {
-
 }
 
 .modal-submit-button {
@@ -654,8 +620,6 @@ a {
     width: 50%;
     margin: auto;
     cursor: pointer;
-    
-    
 }
 
 .newCommentButton {
@@ -859,10 +823,7 @@ p {
 .slideshow-container {
     max-width: 1000px;
     position: relative;
-    margin: auto;
-    
-
-    
+    margin: auto;    
 }
 
 /* Hide the images by default */
@@ -870,6 +831,7 @@ p {
     border-style: solid;
     border-width: 4px;
     border-color: black;
+    
 }
 
 /* Next & previous buttons */
