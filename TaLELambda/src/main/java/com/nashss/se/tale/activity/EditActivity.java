@@ -32,20 +32,24 @@ public class EditActivity {
      * @return updated Activity Model.
      */
     public EditActivityResult handleRequest(final EditActivityRequest request) {
-        if (request.getUpdatedActivityName().isEmpty()) {
+        String updatedActivityName = request.getUpdatedActivityName().trim();
+        String updatedActivityDescription = request.getUpdatedDescription().trim();
+        String updatedActivityPosterExperience = request.getUpdatedPosterExperience().trim();
+
+        if (updatedActivityName.isEmpty()) {
             log.warn("Request Activity Name is Empty");
             throw new EmptyFieldInRequestException("Your activity must have a name");
         }
 
         Activity activityToUpdate = activitiesDao.getActivityById(request.getActivityId());
         log.info("Getting activity to update {}", activityToUpdate);
-        if (!(activityToUpdate.getDescription().isEmpty()) && request.getUpdatedDescription().isEmpty()) {
+        if (!(activityToUpdate.getDescription().isEmpty()) && updatedActivityDescription.isEmpty()) {
             log.warn("Trying to delete Existing Activity Description");
             throw new EmptyFieldInRequestException("You can update your description but you cannot delete it.");
         }
 
         if (!(activityToUpdate.getPosterExperience() == null ||
-                activityToUpdate.getPosterExperience().isEmpty()) && request.getUpdatedPosterExperience().isEmpty()) {
+                activityToUpdate.getPosterExperience().isEmpty()) && updatedActivityPosterExperience.isEmpty()) {
             log.warn("Trying to delete Existing Poster Experience");
             throw new EmptyFieldInRequestException("You can update your experience but you cannot delete it.");
         }
@@ -56,9 +60,9 @@ public class EditActivity {
         }
 
 
-        activityToUpdate.setActivityName(request.getUpdatedActivityName());
-        activityToUpdate.setDescription(request.getUpdatedDescription());
-        activityToUpdate.setPosterExperience(request.getUpdatedPosterExperience());
+        activityToUpdate.setActivityName(updatedActivityName);
+        activityToUpdate.setDescription(updatedActivityDescription);
+        activityToUpdate.setPosterExperience(updatedActivityPosterExperience);
         activityToUpdate.setEdited(true);
 
         activitiesDao.saveActivity(activityToUpdate);

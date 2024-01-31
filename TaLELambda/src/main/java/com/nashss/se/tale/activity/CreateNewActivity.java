@@ -7,11 +7,9 @@ import com.nashss.se.tale.dynamodb.CitiesDao;
 import com.nashss.se.tale.dynamodb.models.Activity;
 import com.nashss.se.tale.dynamodb.models.City;
 import com.nashss.se.tale.exceptions.EmptyFieldInRequestException;
-import com.nashss.se.tale.exceptions.InvalidFieldInRequestException;
 import com.nashss.se.tale.models.ActivityModel;
 import com.nashss.se.tale.utils.IdUtils;
 
-import com.nashss.se.tale.utils.StringValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -54,24 +52,6 @@ public class CreateNewActivity {
             log.warn("Request Description and Request Poster Experience are Empty");
             throw new EmptyFieldInRequestException("You must fill out at least ONE" +
                     " of these fields. Description/Experience");
-        }
-
-        
-        StringValidator validator = new StringValidator();
-
-        if (!validator.validateString(activityName)) {
-            log.warn("Invalid characters in Request Name.");
-            throw new InvalidFieldInRequestException("Invalid characters in Name field.");
-        }
-
-        if (!validator.validateString(activityDescription)) {
-            log.warn("Invalid characters in Request Description.");
-            throw new InvalidFieldInRequestException("Invalid characters in Description field.");
-        }
-
-        if (!validator.validateString(activityPosterExperience)) {
-            log.warn("Invalid characters in Request Experience.");
-            throw new InvalidFieldInRequestException("Invalid characters in Experience field.");
         }
 
 
