@@ -7,9 +7,11 @@ import com.nashss.se.tale.dynamodb.CitiesDao;
 import com.nashss.se.tale.dynamodb.models.Activity;
 import com.nashss.se.tale.dynamodb.models.City;
 import com.nashss.se.tale.exceptions.EmptyFieldInRequestException;
+import com.nashss.se.tale.exceptions.InvalidFieldInRequestException;
 import com.nashss.se.tale.models.ActivityModel;
 import com.nashss.se.tale.utils.IdUtils;
 
+import com.nashss.se.tale.utils.StringValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,25 +41,48 @@ public class CreateNewActivity {
      * @return created Activity.
      */
     public CreateNewActivityResult handleRequest(final CreateNewActivityRequest request) {
-        if (request.getActivityName().isEmpty()) {
+        String activityName = request.getActivityName().trim();
+        String activityDescription = request.getDescription().trim();
+        String activityPosterExperience = request.getPosterExperience().trim();
+
+        if (activityName.isEmpty()) {
             log.warn("Request Activity Name is Empty");
             throw new EmptyFieldInRequestException("Your activity must contain a name");
         }
 
-        if (request.getDescription().isEmpty() && request.getPosterExperience().isEmpty()) {
+        if (activityDescription.isEmpty() && activityPosterExperience.isEmpty()) {
             log.warn("Request Description and Request Poster Experience are Empty");
             throw new EmptyFieldInRequestException("You must fill out at least ONE" +
                     " of these fields. Description/Experience");
         }
 
+        
+        StringValidator validator = new StringValidator();
+
+        if (!validator.validateString(activityName)) {
+            log.warn("Invalid characters in Request Name.");
+            throw new InvalidFieldInRequestException("Invalid characters in Name field.");
+        }
+
+        if (!validator.validateString(activityDescription)) {
+            log.warn("Invalid characters in Request Description.");
+            throw new InvalidFieldInRequestException("Invalid characters in Description field.");
+        }
+
+        if (!validator.validateString(activityPosterExperience)) {
+            log.warn("Invalid characters in Request Experience.");
+            throw new InvalidFieldInRequestException("Invalid characters in Experience field.");
+        }
+
+
         Activity newActivity = new Activity();
         newActivity.setActivityId(IdUtils.generateActivityId());
         newActivity.setUserId(request.getUserId());
-        newActivity.setActivityName(request.getActivityName());
-        newActivity.setDescription(request.getDescription());
+        newActivity.setActivityName(activityName);
+        newActivity.setDescription(activityDescription);
         newActivity.setDatePosted(LocalDate.now());
         newActivity.setEdited(false);
-        newActivity.setPosterExperience(request.getPosterExperience());
+        newActivity.setPosterExperience(activityPosterExperience);
 
         activitiesDao.saveActivity(newActivity);
         log.info("Saved Activity");
