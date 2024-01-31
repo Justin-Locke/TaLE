@@ -68,9 +68,9 @@ class ViewCity extends BindingClass {
         const origButtonText = createButton.innerText;
         createButton.innerText = 'Creating..';
 
-        const activityName = document.getElementById('activityName').value;
-        const description = document.getElementById('description').value;
-        const posterExperience = document.getElementById('posterExperience').value;
+        const activityName = document.getElementById('activityName').value.trim();
+        const description = document.getElementById('description').value.trim();
+        const posterExperience = document.getElementById('posterExperience').value.trim();
 
         const activity = await this.client.createNewActivity(cityId, activityName, description, posterExperience, (error) => {
             createButton.innerText = origButtonText;

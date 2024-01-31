@@ -39,9 +39,9 @@ public class CreateNewActivity {
      * @return created Activity.
      */
     public CreateNewActivityResult handleRequest(final CreateNewActivityRequest request) {
-        String activityName = request.getActivityName().trim();
-        String activityDescription = request.getDescription().trim();
-        String activityPosterExperience = request.getPosterExperience().trim();
+        String activityName = request.getActivityName();
+        String activityDescription = request.getDescription();
+        String activityPosterExperience = request.getPosterExperience();
 
         if (activityName.isEmpty()) {
             log.warn("Request Activity Name is Empty");

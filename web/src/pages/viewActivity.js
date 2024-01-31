@@ -357,9 +357,9 @@ class ViewActivity extends BindingClass {
         const origButtonText = createButton.innerText;
         createButton.innerText = 'Updating..';
 
-        const activityName = document.getElementById('editActivityName').value;
-        const description = document.getElementById('editActivityDescription').value;
-        const posterExperience = document.getElementById('editPosterExperience').value;
+        const activityName = document.getElementById('editActivityName').value.trim();
+        const description = document.getElementById('editActivityDescription').value.trim();
+        const posterExperience = document.getElementById('editPosterExperience').value.trim();
 
         const updatedActivity = await this.client.editActivity(activityId, activityName, description, posterExperience, (error) => {
             createButton.innerText = origButtonText;

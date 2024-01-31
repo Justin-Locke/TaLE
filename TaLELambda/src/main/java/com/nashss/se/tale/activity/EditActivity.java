@@ -32,9 +32,9 @@ public class EditActivity {
      * @return updated Activity Model.
      */
     public EditActivityResult handleRequest(final EditActivityRequest request) {
-        String updatedActivityName = request.getUpdatedActivityName().trim();
-        String updatedActivityDescription = request.getUpdatedDescription().trim();
-        String updatedActivityPosterExperience = request.getUpdatedPosterExperience().trim();
+        String updatedActivityName = request.getUpdatedActivityName();
+        String updatedActivityDescription = request.getUpdatedDescription();
+        String updatedActivityPosterExperience = request.getUpdatedPosterExperience();
 
         if (updatedActivityName.isEmpty()) {
             log.warn("Request Activity Name is Empty");
