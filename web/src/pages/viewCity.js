@@ -7,6 +7,7 @@ import LoadingSpinner from '../components/loadingSpinner';
 import Footer from '../components/footer';
 import NavBar from '../components/navBar';
 import ActivityCard from '../components/activityCard';
+import ActivityModal from '../components/activityModal';
 
 class ViewCity extends BindingClass {
     constructor() {
@@ -22,6 +23,7 @@ class ViewCity extends BindingClass {
         this.header = new Header(this.dataStore);
         this.navbar = new NavBar();
         this.activityCard = new ActivityCard();
+        this.activityModal = new ActivityModal();
     }
 
     async clientLoaded() {
@@ -37,36 +39,8 @@ class ViewCity extends BindingClass {
         this.dataStore.set('allActivities', allActivities);
 
         const newActivityButton = document.getElementById('createNewActivityButton');
-        const activityModal = document.getElementById('activityModal');
-        activityModal.classList.add('activityModal');
-        const span = document.getElementsByClassName("close")[0];
-        newActivityButton.onclick = function() {
-            activityModal.style.display = "block";
-        }
-        span.onclick = function() {
-            activityModal.style.display = "none";
-            document.getElementById('activityName').value = '';
-            document.getElementById('description').value = '';
-            document.getElementById('posterExperience').value = '';
-            const errorMessageDisplay = document.getElementById('error-message');
-            errorMessageDisplay.innerText = '';
-            errorMessageDisplay.classList.add('hidden');
-            
-        }
-        window.onclick = function(event) {
-            if (event.target == activityModal) {
-                
-            activityModal.style.display = "none";
-            const errorMessageDisplay = document.getElementById('error-message');
-            errorMessageDisplay.innerText = '';
-            errorMessageDisplay.classList.add('hidden');
-            }
-        } 
-        document.getElementById('posterExperience').addEventListener("keypress", function(event) {
-            if (event.key === "Enter") {
-                document.getElementById("postNewActivityButton").click();
-            }
-        })
+        newActivityButton.onclick = () => this.activityModal.show();
+    
 
     }
     
