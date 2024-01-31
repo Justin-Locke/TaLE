@@ -24,7 +24,7 @@ class PersonalActivities extends BindingClass {
     }
 
     async clientLoaded() {
-        this.loadingSpinner.showLoadingSpinner();
+        this.loadingSpinner.showLoadingSpinner("Loading Your Personal Activities...");
 
         const activities = await this.client.viewPersonalActivities();
         this.dataStore.set('activities', activities);        

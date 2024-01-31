@@ -462,10 +462,6 @@ textarea:focus {
     width: 400px;
 }
 
-.comment-div {
-
-}
-
 .modal {
   display: none; /* Hidden by default */
   position: fixed; /* Stay in place */
@@ -531,10 +527,6 @@ textarea:focus {
 .modal-body {
     text-align: center;
     justify-self: center;
-}
-
-.modal-footer {
-
 }
 
 .modal-submit-button {
