@@ -12,7 +12,7 @@ import ActivityModal from '../components/activityModal';
 class ViewCity extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'submitNewActivity', 'redirectToCreateNewActivity', 'addActivitiesToPage'], this);
+        this.bindClassMethods(['clientLoaded', 'mount', 'addCityToPage', 'submitNewActivity', 'redirectToViewActivity', 'addActivitiesToPage'], this);
         this.dataStore = new DataStore();
         this.dataStore.addChangeListener(this.addCityToPage);
         this.dataStore.addChangeListener(this.addActivitiesToPage);
@@ -41,7 +41,6 @@ class ViewCity extends BindingClass {
         const newActivityButton = document.getElementById('createNewActivityButton');
         newActivityButton.onclick = () => this.activityModal.show();
     
-
     }
     
 
@@ -83,6 +82,9 @@ class ViewCity extends BindingClass {
         if (activity != null) {
             this.dataStore.set('activity', activity);
             this.redirectToViewActivity(activity);
+
+            // Close modal after a successful activity creation
+            this.activityModal.hide();
         }
 
     }
@@ -115,11 +117,9 @@ class ViewCity extends BindingClass {
         this.loadingSpinner.hideLoadingSpinner();
     }
 
-
-     redirectToCreateNewActivity() {
-        const city = this.dataStore.get('city');
-        if (city != null) {
-            window.location.href = `/createNewActivity.html?cityId=${city.cityId}`;
+    redirectToViewActivity(activity) {
+        if (activity != null) {
+            window.location.href = `/viewActivity.html?activityId=${activity.activityId}`
         }
     }
 
