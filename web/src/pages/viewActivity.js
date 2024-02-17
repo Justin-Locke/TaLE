@@ -6,6 +6,7 @@ import DataStore from "../util/DataStore";
 import LoadingSpinner from '../components/loadingSpinner';
 import Footer from '../components/footer';
 import NavBar from '../components/navBar';
+import EditActivityModal from '../components/editActivityModa';
 
 class ViewActivity extends BindingClass {
     constructor() {
@@ -21,6 +22,7 @@ class ViewActivity extends BindingClass {
         this.header = new Header(this.dataStore);
         this.navbar = new NavBar();
         this.footer = new Footer();
+        this.editActivityModal = null;
     }
 
     async clientLoaded() {
@@ -28,16 +30,10 @@ class ViewActivity extends BindingClass {
         const newCommentButton = document.getElementById('createCommentButton');
         const commentModal = document.getElementById("commentModal");
         const editCommentModal = document.getElementById('editCommentModal');
-        const editActivityButton = document.getElementById('editActivityButton');
-        const editActivityModal = document.getElementById('editActivityModal');
         const newCommentspan = document.getElementsByClassName("close")[0];
         const editCommentspan = document.getElementsByClassName("close")[1];
-        const editActivityspan = document.getElementsByClassName("close")[2];
         newCommentButton.onclick = function() {
             commentModal.style.display = "block";
-        }
-        editActivityButton.onclick = function() {
-            editActivityModal.style.display = "block";
         }
 
         newCommentspan.onclick = function() {
@@ -54,14 +50,6 @@ class ViewActivity extends BindingClass {
 
         }
 
-        editActivityspan.onclick = function() {
-            const errorMessageDisplay = document.getElementById('edit-error-message');
-            errorMessageDisplay.innerText = ``;
-            errorMessageDisplay.classList.add('hidden');
-            editActivityModal.style.display = "none";
-        }
-
-
         window.onclick = function(event) {
             if (event.target == commentModal) {
                 commentModal.style.display = "none";
@@ -73,13 +61,6 @@ class ViewActivity extends BindingClass {
 
             if (event.target == editCommentModal) {
                 editCommentModal.style.display = "none";
-            }
-
-            if (event.target == editActivityModal) {
-                const errorMessageDisplay = document.getElementById('edit-activity-error-message');
-                errorMessageDisplay.innerText = ``;
-                errorMessageDisplay.classList.add('hidden');
-                editActivityModal.style.display = "none";
             }
         }
         
@@ -93,11 +74,11 @@ class ViewActivity extends BindingClass {
             document.getElementById('description').innerText = "DELETED BY ORIGINAL AUTHOR";
             document.getElementById('posterExperience').innerText = "DELETED BY ORIGINAL AUTHOR";
         }
+        this.editActivityModal = new EditActivityModal(activity);
+        this.editActivityModal.populateModalFields();
         this.dataStore.set('activity', activity);
         const comments = await this.client.viewCommentsForActivity(activityId);
-        this.dataStore.set('comments', comments);
-        this.addActivityToModal(activity);
-        
+        this.dataStore.set('comments', comments);        
     }
 
     mount() {  
