@@ -24,6 +24,7 @@ class ViewActivity extends BindingClass {
         this.navbar = new NavBar();
         this.footer = new Footer();
         this.editActivityModal = null;
+        this.editCommentModal = null;
         this.commentModal = new CommentModal();
         
     }
@@ -55,7 +56,6 @@ class ViewActivity extends BindingClass {
             document.getElementById('posterExperience').innerText = "DELETED BY ORIGINAL AUTHOR";
         }
         this.editActivityModal = new EditActivityModal(activity);
-        this.editActivityModal.populateModalFields();
         this.dataStore.set('activity', activity);
         const comments = await this.client.viewCommentsForActivity(activityId);
         this.dataStore.set('comments', comments);        
