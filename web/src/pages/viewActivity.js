@@ -6,7 +6,8 @@ import DataStore from "../util/DataStore";
 import LoadingSpinner from '../components/loadingSpinner';
 import Footer from '../components/footer';
 import NavBar from '../components/navBar';
-import EditActivityModal from '../components/editActivityModa';
+import EditActivityModal from '../components/editActivityModal';
+import CommentModal from '../components/commentModal';
 
 class ViewActivity extends BindingClass {
     constructor() {
@@ -23,27 +24,14 @@ class ViewActivity extends BindingClass {
         this.navbar = new NavBar();
         this.footer = new Footer();
         this.editActivityModal = null;
+        this.commentModal = new CommentModal();
+        
     }
 
     async clientLoaded() {
 
-        const newCommentButton = document.getElementById('createCommentButton');
-        const commentModal = document.getElementById("commentModal");
         const editCommentModal = document.getElementById('editCommentModal');
-        const newCommentspan = document.getElementsByClassName("close")[0];
         const editCommentspan = document.getElementsByClassName("close")[1];
-        newCommentButton.onclick = function() {
-            commentModal.style.display = "block";
-        }
-
-        newCommentspan.onclick = function() {
-            commentModal.style.display = "none";
-            document.getElementById('title').value = '';
-            document.getElementById('message').value = '';
-            const errorMessageDisplay = document.getElementById('error-message');
-            errorMessageDisplay.innerText = '';
-            errorMessageDisplay.classList.add('hidden');
-        }
 
         editCommentspan.onclick = function() {
             editCommentModal.style.display = "none";
@@ -51,14 +39,6 @@ class ViewActivity extends BindingClass {
         }
 
         window.onclick = function(event) {
-            if (event.target == commentModal) {
-                commentModal.style.display = "none";
-                const errorMessageDisplay = document.getElementById('error-message');
-                errorMessageDisplay.innerText = '';
-                errorMessageDisplay.classList.add('hidden');
-                
-            }
-
             if (event.target == editCommentModal) {
                 editCommentModal.style.display = "none";
             }
